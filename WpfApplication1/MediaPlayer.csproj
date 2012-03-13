@@ -151,6 +151,36 @@
   <ItemGroup>
     <Resource Include="Images\iconeWindow.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\open.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\openurl.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\playmini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\backmini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\nextmini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pausemini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\media.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\quit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

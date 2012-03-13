@@ -24,30 +24,12 @@ namespace WpfApplication1
 		public MainWindow()
 		{
 			this.InitializeComponent();
-            bool fullscreen = false;
             mediaControl.Volume = (double)volumeSlider.Value;
             _timer.Interval = TimeSpan.FromMilliseconds(900);
             _timer.Tick += new EventHandler(timer_Tick);
             _Menutimer.Interval = TimeSpan.FromMilliseconds(3000);
             _Menutimer.Tick += new EventHandler(timer_Menu);
             _timer.Start();
-            mediaControl.MouseLeftButtonDown += delegate
-            {
-                if (!fullscreen)
-                {
-                    FullScreenBehavior.SetIsFullScreen(Window, true);
-                }
-                else
-                {
-                    Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-                    _Menutimer.Stop();
-                    timerMenu = true;
-                    slider2.Height = 24;
-                    Panel.Height = 76;
-                    FullScreenBehavior.SetIsFullScreen(Window, false);
-                }
-                fullscreen = !fullscreen;
-            };
 		}
 
         TimeSpan ts2;
@@ -77,12 +59,15 @@ namespace WpfApplication1
 
         void timer_Menu(object sender, EventArgs e)
         {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
-            Panel.Height = 0;
-            slider2.Height = 0;
-            //Cursor.Hide();
-            _Menutimer.Stop();
-            timerMenu = true;
+            if (this.contextMenu.IsOpen != true)
+            {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
+                Panel.Height = 0;
+                slider2.Height = 0;
+                //Cursor.Hide();
+                _Menutimer.Stop();
+                timerMenu = true;
+            }
         }
 
         private void seekBar_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -197,8 +182,13 @@ namespace WpfApplication1
         }
 
         bool timerMenu = true;
+        double MouseX;
+        double MouseY;
         private void mediaControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            Point mousePoint = Mouse.GetPosition(this);
+            MouseX = mousePoint.X;
+            MouseY = mousePoint.Y;
             if (timerMenu && Window.Width > 500)
             {
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
@@ -227,5 +217,63 @@ namespace WpfApplication1
             mediaControl.Play();
         }
 
+        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.contextMenu.PlacementTarget = sender as UIElement;
+            this.contextMenu.IsOpen = true;
+        }
+
+        private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        bool fullscreen = false;
+        private void mediaControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (!fullscreen)
+                {
+                    FullScreenBehavior.SetIsFullScreen(Window, true);
+                }
+                else
+                {
+                    Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                    _Menutimer.Stop();
+                    timerMenu = true;
+                    slider2.Height = 24;
+                    Panel.Height = 76;
+                    FullScreenBehavior.SetIsFullScreen(Window, false);
+                }
+                fullscreen = !fullscreen;
+            }
+        }
+
+        private void OpenUrl_Click(object sender, RoutedEventArgs e)
+        {
+            System.Console.WriteLine("Open Url");
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog os = new OpenFileDialog();
+            os.AddExtension = true;
+            os.DefaultExt = "*.*";
+            os.Filter = "Media (*.*)|*.*";
+            os.ShowDialog();
+            if (os.FileName != "")
+            {
+                mediaControl.Source = new Uri(os.FileName);
+                Window.Height = 319;
+                 play = false;
+                play_Click(this, e);
+            }
+        }
+
+        private void Quit_Click(object sender, RoutedEventArgs e)
+        {
+            Window.Close();
+        }
 	}
 }

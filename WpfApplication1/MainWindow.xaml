@@ -4,14 +4,69 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	x:Class="WpfApplication1.MainWindow"
 	x:Name="Window"
-	Title="MediaPlayer" Width="399" Height="110" Icon="/MediaPlayer;component/Images/iconeWindow.gif" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow">
+	Title="MediaPlayer" Width="399" Height="110" Icon="/MediaPlayer;component/Images/iconeWindow.gif" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True">
 
-    <Grid>
+    <Grid x:Name="Grid">
+        <RichTextBox x:Name="Menu" IsEnabled="False" ContextMenuService.ShowOnDisabled="True">
+            <RichTextBox.ContextMenu>
+                <ContextMenu x:Name="contextMenu">
+                    <MenuItem x:Name="playmini" Header="Play" Click="play_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/playmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="pausemini" Header="Pause" Click="play_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/pausemini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="next" Header="Next">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/nextmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="back" Header="Back">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/backmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="audio" Header="Audio">
+                    </MenuItem>
+                    <MenuItem x:Name="video" Header="Video">
+                    </MenuItem>
+                    <MenuItem Header="Open">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/open.gif" />
+                        </MenuItem.Icon>
+                        <MenuItem  x:Name="OpenMedia" Header="Open Media" Click="Open_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/media.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="OpenUrl" Header="Open Url" Click="OpenUrl_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/openurl.gif" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    </MenuItem>
+                    <MenuItem Command="Copy">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/copy.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="Quit" Header="Quit" Click="Quit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/quit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </RichTextBox.ContextMenu>
+        </RichTextBox>
         <Viewbox Margin="0,0,0,0" Name="layoutRoot" Stretch="Fill">
-            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" />
+            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" />
 
         </Viewbox>
-        <StackPanel     x:Name="Panel" Background="White" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-2,0,0,-8" Height="76" OpacityMask="White">
+        <StackPanel x:Name="Panel" Background="White" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-2,0,0,-8" Height="76" OpacityMask="White">
             <Button x:Name="button" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="10,0,0,13" VerticalAlignment="Bottom" Width="35" Click="play_Click" IsCancel="True" Height="35">
 
                 <Grid Height="39" Width="41">
@@ -58,6 +113,5 @@
             </Grid>
             <Slider HorizontalAlignment="Left" Margin="-375,-45,0,0" Name="slider2" Width="373" Grid.ColumnSpan="2" Height="24" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" />
         </StackPanel>
-
     </Grid>
 </Window>
