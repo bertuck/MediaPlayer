@@ -42,7 +42,7 @@ namespace WpfApplication1
                     _Menutimer.Stop();
                     timerMenu = true;
                     slider2.Height = 24;
-                    Panel.Height = 73;
+                    Panel.Height = 76;
                     FullScreenBehavior.SetIsFullScreen(Window, false);
                 }
                 fullscreen = !fullscreen;
@@ -76,6 +76,7 @@ namespace WpfApplication1
 
         void timer_Menu(object sender, EventArgs e)
         {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
             Panel.Height = 0;
             slider2.Height = 0;
             //Cursor.Hide();
@@ -199,8 +200,9 @@ namespace WpfApplication1
         {
             if (timerMenu && Window.Width > 500)
             {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                 slider2.Height = 24;
-                Panel.Height = 73;
+                Panel.Height = 76;
                 timerMenu = false;
                 _Menutimer.Start();
             }
@@ -219,6 +221,7 @@ namespace WpfApplication1
             mediaControl.UnloadedBehavior = MediaState.Manual;
             mediaControl.Volume = (double)volumeSlider.Value;
             Window.Height = 319;
+            play = false;
             play_Click(this, e);
             mediaControl.Play();
         }
