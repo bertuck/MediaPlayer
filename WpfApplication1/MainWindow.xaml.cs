@@ -39,6 +39,7 @@ namespace WpfApplication1
                 }
                 else
                 {
+                    Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                     _Menutimer.Stop();
                     timerMenu = true;
                     slider2.Height = 24;
