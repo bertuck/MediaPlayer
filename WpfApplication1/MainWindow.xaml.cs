@@ -62,7 +62,7 @@ namespace WpfApplication1
         DispatcherTimer _timerOpacity = new DispatcherTimer();
         void timer_Menu(object sender, EventArgs e)
         {
-            if (this.contextMenu.IsOpen != true)
+            if (ContextMenu != true)
             {
                 //Panel.Height = 0;
                 _timerOpacity.Start();
@@ -242,6 +242,9 @@ namespace WpfApplication1
             ContextMenu = true;
             this.contextMenu.PlacementTarget = sender as UIElement;
             this.contextMenu.IsOpen = true;
+            Panel.Opacity = 1;
+            _timerOpacity.Stop();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
 
         private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -308,6 +311,7 @@ namespace WpfApplication1
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             _timerOpacity.Stop();
             Panel.Opacity = 1;
+
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
