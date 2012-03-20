@@ -27,8 +27,10 @@ namespace WpfApplication1
             mediaControl.Volume = (double)volumeSlider.Value;
             _timer.Interval = TimeSpan.FromMilliseconds(900);
             _timer.Tick += new EventHandler(timer_Tick);
-            _Menutimer.Interval = TimeSpan.FromMilliseconds(3000);
+            _Menutimer.Interval = TimeSpan.FromMilliseconds(1300);
             _Menutimer.Tick += new EventHandler(timer_Menu);
+            _timerOpacity.Interval = TimeSpan.FromMilliseconds(100);
+            _timerOpacity.Tick += new EventHandler(timer_Opacity);
             _timer.Start();
 		}
 
@@ -40,7 +42,7 @@ namespace WpfApplication1
                 ts2 = mediaControl.NaturalDuration.TimeSpan;
                 slider2.Maximum = ts2.TotalSeconds;
                 slider2.SmallChange = 1;
-                slider2.LargeChange = Math.Min(10, ts2.Seconds / 10);
+                slider2.LargeChange =  Math.Min(10, ts2.Seconds / 10);
             }
             _timer.Start();
         }
@@ -57,17 +59,29 @@ namespace WpfApplication1
             }
         }
 
+        DispatcherTimer _timerOpacity = new DispatcherTimer();
         void timer_Menu(object sender, EventArgs e)
         {
             if (this.contextMenu.IsOpen != true)
             {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
-                Panel.Height = 0;
-                slider2.Height = 0;
+                //Panel.Height = 0;
+                _timerOpacity.Start();
+                Panel.Opacity = 1;
+                //slider2.Height = 0;
                 //Cursor.Hide();
                 _Menutimer.Stop();
                 timerMenu = true;
             }
+        }
+
+        void timer_Opacity(object sender, EventArgs e)
+        {
+            if (Panel.Opacity <= 0)
+            {
+                _timerOpacity.Stop();
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
+            }
+            Panel.Opacity -= 0.05;
         }
 
         private void seekBar_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -114,6 +128,12 @@ namespace WpfApplication1
         private void stop_Click(object sender, RoutedEventArgs e)
         {
             mediaControl.Stop();
+            play = false;
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            bi3.UriSource = new Uri("/MediaPlayer;component/Images/play.png", UriKind.Relative);
+            bi3.EndInit();
+            ImagePlay.Source = bi3;
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
@@ -186,14 +206,13 @@ namespace WpfApplication1
         double MouseY;
         private void mediaControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Point mousePoint = Mouse.GetPosition(this);
-            MouseX = mousePoint.X;
-            MouseY = mousePoint.Y;
+            _timerOpacity.Stop();
+            Panel.Opacity = 1;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             if (timerMenu && Window.Width > 500)
             {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                 slider2.Height = 24;
-                Panel.Height = 76;
+                //Panel.Height = 76;
                 timerMenu = false;
                 _Menutimer.Start();
             }
@@ -217,8 +236,10 @@ namespace WpfApplication1
             mediaControl.Play();
         }
 
+        bool ContextMenu = false; 
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            ContextMenu = true;
             this.contextMenu.PlacementTarget = sender as UIElement;
             this.contextMenu.IsOpen = true;
         }
@@ -236,6 +257,7 @@ namespace WpfApplication1
                 if (!fullscreen)
                 {
                     FullScreenBehavior.SetIsFullScreen(Window, true);
+                    TopMenuPanel.Opacity = 0;
                 }
                 else
                 {
@@ -244,7 +266,11 @@ namespace WpfApplication1
                     timerMenu = true;
                     slider2.Height = 24;
                     Panel.Height = 76;
+                    Panel.Opacity = 1;
+                    _timerOpacity.Stop();
+                    _Menutimer.Stop();
                     FullScreenBehavior.SetIsFullScreen(Window, false);
+                    TopMenuPanel.Opacity = 0.9;
                 }
                 fullscreen = !fullscreen;
             }
@@ -274,6 +300,19 @@ namespace WpfApplication1
         private void Quit_Click(object sender, RoutedEventArgs e)
         {
             Window.Close();
+        }
+        int up = 0;
+        int down = 0;
+        private void Panel_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            _timerOpacity.Stop();
+            Panel.Opacity = 1;
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu = false;
         }
 	}
 }

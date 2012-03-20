@@ -149,9 +149,6 @@
     <Resource Include="Images\add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\iconeWindow.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\cut.png" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\quit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
