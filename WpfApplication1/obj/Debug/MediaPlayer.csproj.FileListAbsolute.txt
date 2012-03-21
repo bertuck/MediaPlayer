@@ -49,6 +49,9 @@ C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MainWindo
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\App.g.cs
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer_MarkupCompile.cache
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.g.resources
-C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.Properties.Resources.resources
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\GenerateResource.read.1.tlog
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\OpenUrl.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\OpenUrl.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\WpfApplication1.Properties.Resources.resources
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\MediaPlayer.exe.config

@@ -68,7 +68,7 @@
             </RichTextBox.ContextMenu>
         </RichTextBox>
         <Viewbox Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2">
-            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" />
+            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" Source="http://184.164.131.180/tt/The.Girl.With.A.Dragon.Tattoo.2011.DVDSCR.XviD.AC3-FTW/The%20Girl%20With%20A%20Dragon%20Tattoo%202011%20DVDSCR%20XviD%20AC3-FTW.avi" />
 
         </Viewbox>
         <StackPanel x:Name="Panel" Background="White" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-10,0,-8,-8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2">
@@ -107,7 +107,7 @@
                 </Grid>
             </Button>
 
-            <Slider HorizontalAlignment="Left" Margin="1,22,0,10" Name="volumeSlider" Width="80" Grid.ColumnSpan="2" Height="22"  Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged" />
+            <Slider HorizontalAlignment="Left" Margin="1,22,0,10" Name="volumeSlider" Width="80" Grid.ColumnSpan="2" Height="22"  Minimum="0" Maximum="50" Value="30" ValueChanged="volumeSlider_ValueChanged" />
             <Grid Width="156" Margin="-150,50,0,0" Height="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="16*" />
@@ -121,10 +121,10 @@
         <DockPanel Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top">
             <Menu  IsMainMenu="True" Margin="0,0,-10,43" Height="20" Opacity="0.9">
                 <MenuItem Header="_Média">
-                    <MenuItem Header="_Open file..." />
+                    <MenuItem Header="_Open File..." />
                     <MenuItem Header="_Open Disk..." />
                     <MenuItem Header="_Open Folder..." />
-                    <MenuItem Header="_Open Url..." />
+                    <MenuItem Header="_Open Url..." Click="OpenUrl_Click" />
                     <Separator />
                     <MenuItem Header="_Save" />
                     <MenuItem Header="_Save As..." />
@@ -134,10 +134,10 @@
                     <MenuItem Header="_Exit" />
                 </MenuItem>
                 <MenuItem Header="_Playback">
-                    <MenuItem Header="_Play..." />
-                    <MenuItem Header="_Pause..." />
-                    <MenuItem Header="_Next..." />
-                    <MenuItem Header="_Back..." />
+                    <MenuItem Header="_Play" />
+                    <MenuItem Header="_Pause" />
+                    <MenuItem Header="_Next" />
+                    <MenuItem Header="_Back" />
                     <Separator />
                     <MenuItem Header="_Stop" />
                     <MenuItem Header="_Reset" />
@@ -154,7 +154,7 @@
                     <MenuItem Header="_Mute" />
                 </MenuItem>
                 <MenuItem Header="_Video">
-                    <MenuItem Header="_Audio Track..." />
+                    <MenuItem Header="_Audio Track" />
                     <MenuItem Header="_Subtitle Track" />
                     <Separator />
                     <MenuItem Header="_Fullscreen" />

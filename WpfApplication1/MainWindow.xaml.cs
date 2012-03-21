@@ -24,7 +24,8 @@ namespace WpfApplication1
 		public MainWindow()
 		{
 			this.InitializeComponent();
-            mediaControl.Volume = (double)volumeSlider.Value;
+  
+            mediaControl.Volume = (double)volumeSlider.Value/50;
             _timer.Interval = TimeSpan.FromMilliseconds(900);
             _timer.Tick += new EventHandler(timer_Tick);
             _Menutimer.Interval = TimeSpan.FromMilliseconds(1300);
@@ -95,8 +96,8 @@ namespace WpfApplication1
             mediaControl.Position = TimeSpan.FromSeconds(slider2.Value);
         }
 
-        bool play = false;
-        private void play_Click(object sender, RoutedEventArgs e)
+        public bool play = false;
+        public void play_Click(object sender, RoutedEventArgs e)
         {
             if (!play)
             {
@@ -147,13 +148,14 @@ namespace WpfApplication1
             {
                 mediaControl.Source = new Uri(os.FileName);
                 Window.Height = 319;
+                play = false;
                 play_Click(this, e);
             }
         }
 
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            mediaControl.Volume = (double)volumeSlider.Value;
+            mediaControl.Volume = (double)volumeSlider.Value/50;
         }
 
         bool sound_on = false;
@@ -170,7 +172,7 @@ namespace WpfApplication1
             }
             else
             {
-                mediaControl.Volume = (double)volumeSlider.Value;
+                mediaControl.Volume = (double)volumeSlider.Value/50;
                 BitmapImage bi3 = new BitmapImage();
                 bi3.BeginInit();
                 bi3.UriSource = new Uri("/MediaPlayer;component/Images/soundon.png", UriKind.Relative);
@@ -229,7 +231,7 @@ namespace WpfApplication1
             mediaControl.Source = new Uri(filename);
             mediaControl.LoadedBehavior = MediaState.Manual;
             mediaControl.UnloadedBehavior = MediaState.Manual;
-            mediaControl.Volume = (double)volumeSlider.Value;
+            mediaControl.Volume = (double)volumeSlider.Value/50;
             Window.Height = 319;
             play = false;
             play_Click(this, e);
@@ -281,7 +283,10 @@ namespace WpfApplication1
 
         private void OpenUrl_Click(object sender, RoutedEventArgs e)
         {
-            System.Console.WriteLine("Open Url");
+            OpenUrl.IsEnabled = true;
+            Window1 WOpenUrl = new Window1(this);
+            WOpenUrl.Show();
+
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
