@@ -1,0 +1,179 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	x:Class="MediaPlayer.MainWindow"
+	x:Name="Window"
+	Title="MediaPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    
+    <Grid x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="233*" />
+            <ColumnDefinition Width="144*" />
+        </Grid.ColumnDefinitions>
+        <RichTextBox x:Name="Menu" IsEnabled="False" ContextMenuService.ShowOnDisabled="True" Grid.ColumnSpan="2">
+            <RichTextBox.ContextMenu>
+                <ContextMenu x:Name="contextMenu">
+                    <MenuItem x:Name="playmini" Header="Play" Click="play_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/playmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="pausemini" Header="Pause" Click="play_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/pausemini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="next" Header="Next">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/nextmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="back" Header="Back">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/backmini.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="audio" Header="Audio">
+                    </MenuItem>
+                    <MenuItem x:Name="video" Header="Video">
+                    </MenuItem>
+                    <MenuItem Header="Open">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/open.gif" />
+                        </MenuItem.Icon>
+                        <MenuItem  x:Name="OpenMedia" Header="Open Media" Click="Open_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/media.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="OpenUrl" Header="Open Url" Click="OpenUrl_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/openurl.gif" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    </MenuItem>
+                    <MenuItem Command="Copy">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/copy.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="Quit" Header="Quit" Click="Quit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/MediaPlayer;component/Images/quit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </RichTextBox.ContextMenu>
+        </RichTextBox>
+        <Viewbox Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2">
+            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" Source="http://184.164.131.180/tt/The.Girl.With.A.Dragon.Tattoo.2011.DVDSCR.XviD.AC3-FTW/The%20Girl%20With%20A%20Dragon%20Tattoo%202011%20DVDSCR%20XviD%20AC3-FTW.avi" />
+
+        </Viewbox>
+        <StackPanel x:Name="Panel" Background="White" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-10,0,-8,-8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2">
+            <Button x:Name="button" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="10,0,0,13" VerticalAlignment="Bottom" Width="35" Click="play_Click" IsCancel="True" Height="35">
+
+                <Grid Height="39" Width="41">
+                    <Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/play.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
+                </Grid>
+            </Button>
+            <Button x:Name="backward" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="20,0,0,13" VerticalAlignment="Bottom" Width="35" IsCancel="True" Height="35">
+
+                <Grid Height="39" Width="41">
+                    <Image Source="/MediaPlayer;component/Images/backward.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
+                </Grid>
+            </Button>
+            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="3,0,0,13" VerticalAlignment="Bottom" Width="35" Click="stop_Click">
+                <Grid Height="39" Width="41">
+                    <Image Source="/MediaPlayer;component/Images/stop.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
+                </Grid>
+
+            </Button>
+            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="3,0,0,13" VerticalAlignment="Bottom" Width="35">
+                <Grid Height="39" Width="41">
+                    <Image Source="/MediaPlayer;component/Images/foreward.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
+                </Grid>
+
+            </Button>
+            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="50,0,0,13" VerticalAlignment="Bottom" Width="35" Click="load_Click">
+                <Grid Height="39" Width="41">
+                    <Image Source="/MediaPlayer;component/Images/add.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
+                </Grid>
+            </Button>
+            <Button x:Name="sound" HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="5,0,0,13" VerticalAlignment="Bottom" Width="35" Click="sound_Click">
+                <Grid Height="39" Width="41">
+                    <Image  x:Name="ImageSound" Source="/MediaPlayer;component/Images/soundon.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
+                </Grid>
+            </Button>
+
+            <Slider HorizontalAlignment="Left" Margin="1,22,0,10" Name="volumeSlider" Width="80" Grid.ColumnSpan="2" Height="22"  Minimum="0" Maximum="50" Value="30" ValueChanged="volumeSlider_ValueChanged" />
+            <Grid Width="156" Margin="-150,50,0,0" Height="32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16*" />
+                    <RowDefinition Height="16*" />
+                </Grid.RowDefinitions>
+            
+                    <TextBlock Name="time" Margin="70,2.8,0,0"  TextWrapping="Wrap" Height="22" Width="90" />
+            </Grid>
+            <Slider HorizontalAlignment="Left" Margin="-375,-45,0,0" Name="slider2" Width="373" Grid.ColumnSpan="2" Height="24" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" />
+        </StackPanel>
+        <DockPanel Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top">
+            <Menu  IsMainMenu="True" Margin="0,0,-10,43" Height="20" Opacity="0.9">
+                <MenuItem Header="_Média">
+                    <MenuItem Header="_Open File..." />
+                    <MenuItem Header="_Open Disk..." />
+                    <MenuItem Header="_Open Folder..." />
+                    <MenuItem Header="_Open Url..." Click="OpenUrl_Click" />
+                    <Separator />
+                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_Save As..." />
+                    <Separator />
+                    <MenuItem Header="_Recent Files " />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Playback">
+                    <MenuItem Header="_Play" />
+                    <MenuItem Header="_Pause" />
+                    <MenuItem Header="_Next" />
+                    <MenuItem Header="_Back" />
+                    <Separator />
+                    <MenuItem Header="_Stop" />
+                    <MenuItem Header="_Reset" />
+                </MenuItem>
+                <MenuItem Header="_Audio">
+                    <MenuItem Header="_Audio Track..." />
+                    <MenuItem Header="_Audio Channel" />
+                    <MenuItem Header="_Audio Device" />
+                    <Separator />
+                    <MenuItem Header="_Visualizations" />
+                    <Separator />
+                    <MenuItem Header="_Increase Volume" />
+                    <MenuItem Header="_Decrease Volume" />
+                    <MenuItem Header="_Mute" />
+                </MenuItem>
+                <MenuItem Header="_Video">
+                    <MenuItem Header="_Audio Track" />
+                    <MenuItem Header="_Subtitle Track" />
+                    <Separator />
+                    <MenuItem Header="_Fullscreen" />
+                    <MenuItem Header="_Always On Top" />
+                    <Separator />
+                    <MenuItem Header="_Zoom" />
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem Header="_Effects and Filter" />
+                    <MenuItem Header="_Track Synchronization" />
+                    <Separator />
+                    <MenuItem Header="_Preferences" />
+                </MenuItem>
+                <MenuItem Header="_View">
+                    <MenuItem Header="_Playlist" />
+                    <MenuItem Header="_Custumize Interface" />
+                </MenuItem>
+                <MenuItem Header="_Help" />
+            </Menu>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,87 @@
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\Microsoft.Expression.Drawing.xml
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MainWindow.baml
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MainWindow.g.cs
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\App.g.cs
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MediaPlayer_MarkupCompile.cache
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MediaPlayer.g.resources
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MediaPlayer.Properties.Resources.resources
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\obj\Debug\App.baml
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\de\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\en\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\es\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\fr\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\it\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\ja\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\ko\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Expression\Blend 4\Projects\WpfApplication1\WpfApplication1\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\Microsoft.Expression.Drawing.xml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\de\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\en\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\es\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\fr\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\it\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\ja\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\ko\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MainWindow.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\App.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MainWindow.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\App.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer_MarkupCompile.cache
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.g.resources
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\OpenUrl.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\OpenUrl.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\bin\Debug\MediaPlayer.exe.config
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\WpfApplication1\obj\Debug\MediaPlayer.Properties.Resources.resources
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\MediaPlayer.exe.config
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\MediaPlayer.exe
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\MediaPlayer.pdb
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\Microsoft.Expression.Drawing.xml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\de\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\en\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\es\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\fr\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\it\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\ja\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\ko\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MainWindow.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\OpenUrl.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\App.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MainWindow.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\OpenUrl.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\App.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer_MarkupCompile.cache
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.g.resources
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.Properties.Resources.resources
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\GenerateResource.write.1.tlog
