@@ -6,6 +6,7 @@
     
     
 	<Application.Resources>
+
         <Style x:Key="MyFocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace MediaPlayer
 {
@@ -19,19 +20,40 @@ namespace MediaPlayer
     public partial class Window1 : Window
     {
         MainWindow _win;
+        bool SubLoaded = false;
         public Window1(MainWindow win)
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Topmost = true;
             _win = win;
             InitializeComponent();
         }
 
         private void PlayUrl_Click(object sender, RoutedEventArgs e)
         {
-            _win.mediaControl.Source = new Uri(textBox1.Text, UriKind.Absolute);
-            _win.play = false;
-            _win.Window.Height = 319;
-            _win.play_Click(this, e);
-            Close();
+            if (textBox1.Text.Length >= 1)
+            {
+                _win.mediaControl.Source = new Uri(textBox1.Text, UriKind.Absolute);
+                _win.play = false;
+                _win.Window.Height = 319;
+                _win.play_Click(this, e);
+                Close();
+            }
+        }
+
+        public void loadSubtitle_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog os = new OpenFileDialog();
+            os.AddExtension = true;
+            os.DefaultExt = "*.*";
+            os.Filter = "Media (*.*)|*.*";
+            os.ShowDialog();
+            if (os.FileName != "")
+            {
+                SubLoaded = true;
+                _win.loadSubtitle(os.FileName, true);
+                urlSubtitle.Text = os.FileName;
+            }
         }
     }
 }

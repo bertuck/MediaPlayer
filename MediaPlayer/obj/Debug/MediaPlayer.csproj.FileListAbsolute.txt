@@ -85,3 +85,8 @@ C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.g
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer.Properties.Resources.resources
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\GenerateResource.read.1.tlog
 C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\StyleSubtitle.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\StyleSubtitle.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\WPFToolkit.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\WPFToolkit.Extended.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\WPFToolkit.pdb
