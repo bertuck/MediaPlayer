@@ -49,22 +49,6 @@ namespace MediaPlayer
                 Opacity.Items.Add(x);
             PickUpColor.ItemsSource = typeof(System.Windows.Media.Colors).GetProperties();
         }
-        private void Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            if (Size.SelectedItem != null)
-                _ui.Subtitle.FontSize = int.Parse(Size.SelectedItem.ToString());
-            if (comboFonts.SelectedItem != null)
-                _ui.Subtitle.FontFamily =  new System.Windows.Media.FontFamily(comboFonts.SelectedItem.ToString());
-            if (Opacity.SelectedItem != null)
-                _ui.Subtitle.Opacity = double.Parse(Opacity.SelectedItem.ToString());
-            if (PickUpColor.SelectedItem != null)
-            {
-                char delimiterChars = ' ';
-                string[] NameColor = PickUpColor.SelectedItem.ToString().Split(delimiterChars);
-                var color = System.Drawing.Color.FromName(NameColor[1]);
-                _ui.Subtitle.Foreground = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
-            }
-        }
 
         private void MoreSynchro_Click(object sender, RoutedEventArgs e)
         {
@@ -88,6 +72,35 @@ namespace MediaPlayer
         private void Window_Closed(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Opacity_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Opacity.SelectedItem != null)
+                _ui.Subtitle.Opacity = double.Parse(Opacity.SelectedItem.ToString());
+        }
+
+        private void PickUpColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PickUpColor.SelectedItem != null)
+            {
+                char delimiterChars = ' ';
+                string[] NameColor = PickUpColor.SelectedItem.ToString().Split(delimiterChars);
+                var color = System.Drawing.Color.FromName(NameColor[1]);
+                _ui.Subtitle.Foreground = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+            }
+        }
+
+        private void comboFonts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboFonts.SelectedItem != null)
+                _ui.Subtitle.FontFamily = new System.Windows.Media.FontFamily(comboFonts.SelectedItem.ToString());
+        }
+
+        private void Size_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Size.SelectedItem != null)
+                _ui.Subtitle.FontSize = int.Parse(Size.SelectedItem.ToString());
         }
 
     }

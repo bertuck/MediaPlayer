@@ -51,7 +51,7 @@ namespace MediaPlayer
             _menutimer.Tick += new EventHandler(timer_Menu);
             _timerOpacity.Interval = TimeSpan.FromMilliseconds(100);
             _timerOpacity.Tick += new EventHandler(timer_Opacity);
-            _srtTimer.Interval = TimeSpan.FromMilliseconds(100);
+            _srtTimer.Interval = TimeSpan.FromMilliseconds(0.0001);
             _srtTimer.Tick += new EventHandler(check_Srt);
             _srtTimer.Start();
             _timer.Start();
@@ -264,11 +264,20 @@ namespace MediaPlayer
         private void check_Srt(object sender, EventArgs e)
         {
             TimeSpan ts = mediaControl.Position;
+           /* Subtitle begin =  _subtitles.Find(delegate(Subtitle p) { return Math.Round(p.Begin.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) ==  Math.Round(ts.TotalSeconds, 2); });
+            Subtitle end = _subtitles.Find(delegate(Subtitle p) { return Math.Round(p.End.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2); });
+            if (begin != null)
+               Subtitle.Text = decodeHTML(begin.text);
+            if (end != null)
+               Subtitle.Text = "";*/
             for (int x = 0; x < _subtitles.Count; x++)
             {
-                if (_subtitles[x].Begin.Hours == ts.Hours && _subtitles[x].Begin.Minutes == ts.Minutes && _subtitles[x].Begin.Seconds == ts.Seconds)
+                //Console.WriteLine("Time rouded = " + Math.Round(_subtitles[x].Begin.TotalSeconds, 2));
+                //Console.WriteLine("Time no rouded = " + (int)_subtitles[x].Begin.TotalSeconds);
+                //Console.WriteLine("POsition = " + Math.Round(ts.TotalSeconds, 2));
+                if (Math.Round(_subtitles[x].Begin.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2))
                     Subtitle.Text = decodeHTML(_subtitles[x].text);
-                else if (_subtitles[x].End.Hours == ts.Hours && _subtitles[x].End.Minutes == ts.Minutes && _subtitles[x].End.Seconds == ts.Seconds)
+                else if ((Math.Round(_subtitles[x].End.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2)))
                     Subtitle.Text = "";
             }
         }
@@ -287,7 +296,7 @@ namespace MediaPlayer
                 string text = tmp[2];
                 for (int x = 3; x < tmp.Length - 2; x++)
                 {
-                    if (tmp[x] == "/i" || tmp[x] == "/b")
+                    if (tmp[x] == "i" || tmp[x] == "/i" || tmp[x] == "/b")
                         x++;
                     text += tmp[x];
                 }
@@ -490,6 +499,7 @@ namespace MediaPlayer
         private void Window_Closed(object sender, EventArgs e)
         {
             _windowSubtitle.Close();
+            this.Close();
         }
 
 	}

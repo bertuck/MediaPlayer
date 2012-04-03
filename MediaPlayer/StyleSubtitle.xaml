@@ -1,59 +1,98 @@
 ﻿<Window x:Class="MediaPlayer.StyleSubtitle"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Subtitile Options" Height="333" Width="274" Loaded="Window_Loaded" Background="#FFDBDEE1" Closed="Window_Closed">
-    <Grid Height="302" Width="264">
+        Title="Subtitile Options" Height="194" Width="299" Loaded="Window_Loaded" Background="#FFDBDEE1" Closed="Window_Closed">
+    <Grid Height="158" Width="274">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="213*" />
             <ColumnDefinition Width="51*" />
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="comboFonts" ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}" Margin="6,33,24,240" FontSize="18">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock FontFamily="{Binding .}" Text="{Binding Source}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Rectangle Height="127" HorizontalAlignment="Left" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="258" Margin="0,1,0,0" Grid.ColumnSpan="2" />
-        <ComboBox Height="29" HorizontalAlignment="Left" Margin="201,33,0,0" Name="Size" VerticalAlignment="Top" Width="51" Grid.ColumnSpan="2" FontSize="18">
-        </ComboBox>
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,16,0,0" Name="textBlock1" Text="Family :" VerticalAlignment="Top" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="111,0,0,0" Name="textBlock2" Text="Font" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="202,16,0,0" Name="textBlock3" Text="Size :" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,66,0,0" Name="textBlock4" Text="Spacing :" VerticalAlignment="Top" />
-        <ComboBox Height="29" HorizontalAlignment="Left" Margin="6,84,0,0" Name="Spacing" VerticalAlignment="Top" Width="51" FontSize="18" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="74,66,0,0" Name="textBlock5" Text="Angle z :" VerticalAlignment="Top" />
-        <ComboBox Height="29" HorizontalAlignment="Left" Margin="74,84,0,0" Name="AngleZ" VerticalAlignment="Top" Width="51" FontSize="18" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="141,66,0,0" Name="textBlock6" Text="Scale x :" VerticalAlignment="Top" />
-        <ComboBox Height="29" HorizontalAlignment="Left" Margin="141,84,0,0" Name="ScaleX" VerticalAlignment="Top" Width="51" FontSize="18" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="201,66,0,0" Name="textBlock7" Text="Scale y :" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-        <ComboBox Height="29" HorizontalAlignment="Left" Margin="201,84,0,0" Name="ScaleY" VerticalAlignment="Top" Width="51" Grid.ColumnSpan="2" FontSize="18" />
-        <Rectangle Grid.ColumnSpan="2" Height="64" HorizontalAlignment="Left" Margin="0,134,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="258" />
-        <TextBlock FontSize="15" Height="23" HorizontalAlignment="Left" Margin="111,134,0,0" Name="textBlock8" Text="Color" VerticalAlignment="Top" FontWeight="Bold" />
-        <ComboBox Height="23" Margin="7,163,46,0" Name="PickUpColor" VerticalAlignment="Top">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Margin="5,1,10,1" Width="50" Fill="{Binding Name}" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="7,149,0,0" Name="textBlock9" Text="Pick up :" VerticalAlignment="Top" />
-        <ComboBox FontSize="12" Height="23" HorizontalAlignment="Left" Margin="192,163,0,0" Name="Opacity" VerticalAlignment="Top" Width="51" Grid.ColumnSpan="2" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="192,149,0,0" Name="textBlock10" Text="Opacity :" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-        <Button Content="Confirm" Height="23" HorizontalAlignment="Left" Margin="0,269,0,0" Name="Confirm" VerticalAlignment="Top" Width="66" Click="Confirm_Click" />
-        <Button Content="Reset" Height="23" HorizontalAlignment="Right" Margin="0,269,96,0" Name="button2" VerticalAlignment="Top" Width="51" />
-        <Rectangle Grid.ColumnSpan="2" Height="61" HorizontalAlignment="Left" Margin="0,205,0,0" Name="rectangle3" Stroke="Black" VerticalAlignment="Top" Width="258" />
-        <TextBlock FontSize="15" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Margin="109,204,0,0" Name="textBlock11" Text="Other" VerticalAlignment="Top" />
-        <TextBox Height="24" Margin="12,238,147,0" Name="Synchro" VerticalAlignment="Top" Text="0,00 s" />
-        <Button HorizontalAlignment="Left" Margin="66,238,0,52" Name="MoreSynchro" Width="25" Height="12" Click="MoreSynchro_Click" />
-        <Button HorizontalAlignment="Left" Margin="66,0,0,40" Name="LessSynchro" Width="25" Height="12" VerticalAlignment="Bottom" Click="LessSynchro_Click" />
-        <TextBlock Height="13" HorizontalAlignment="Left" Margin="9,223,0,0" Name="textBlock12" Text="Synchronisation" VerticalAlignment="Top" />
-        <TextBlock Height="13" HorizontalAlignment="Left" Margin="159,223,0,0" Name="textBlock13" Text="Speed :" VerticalAlignment="Top" Width="44" />
-        <TextBox Height="24" Margin="159,238,0,0" Name="Speed" Text="0.00 s" VerticalAlignment="Top" />
-        <Button Height="12" HorizontalAlignment="Left" Margin="0,238,0,52" Name="MoreSpeed" Width="25" Grid.Column="1" />
-        <Button Height="12" HorizontalAlignment="Left" Margin="0,0,0,40" Name="LessSpeed" VerticalAlignment="Bottom" Width="25" Grid.Column="1" />
+        <TabControl Height="154" HorizontalAlignment="Left" Margin="-1,0,0,0" Name="tabControl1" VerticalAlignment="Top" Width="272" Grid.ColumnSpan="2">
+            <TabItem Header="Font" Name="Font">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="57*" />
+                        <ColumnDefinition Width="205*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox FontSize="21" IsReadOnly="True" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" Margin="10,19,75,66" Name="comboFonts" SelectedIndex="0" Text="" Grid.ColumnSpan="2" Height="32" SelectionChanged="comboFonts_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox FontSize="16" Height="30" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="148,21,0,0" Name="Size" SelectedIndex="4" Text="" VerticalAlignment="Top" Width="51" Grid.Column="1" SelectionChanged="Size_SelectionChanged" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,2,0,0" Name="textBlock1" Text="Family :" VerticalAlignment="Top" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="149,3,0,0" Name="textBlock3" Text="Size :" VerticalAlignment="Top" Grid.Column="1" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,53,0,0" Name="textBlock4" Text="Spacing :" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                    <ComboBox FontSize="12" Height="22" HorizontalAlignment="Left" Margin="10,71,0,0" Name="Spacing" SelectedIndex="0" Text="0" VerticalAlignment="Top" Width="51" Grid.ColumnSpan="2" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="21,53,0,0" Name="textBlock5" Text="Angle z :" VerticalAlignment="Top" Grid.Column="1" />
+                    <ComboBox FontSize="12" Height="22" HorizontalAlignment="Left" Margin="21,71,0,0" Name="AngleZ" SelectedIndex="0" VerticalAlignment="Top" Width="51" Grid.Column="1" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="87,53,0,0" Name="textBlock6" Text="Scale x :" VerticalAlignment="Top" Grid.Column="1" />
+                    <ComboBox FontSize="12" Height="22" HorizontalAlignment="Left" Margin="87,71,0,0" Name="ScaleX" SelectedIndex="0" VerticalAlignment="Top" Width="51" Grid.Column="1" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="148,53,0,0" Name="textBlock7" Text="Scale y :" VerticalAlignment="Top" Grid.Column="1" />
+                    <ComboBox FontSize="12" Height="22" HorizontalAlignment="Left" Margin="148,71,0,0" Name="ScaleY" SelectedIndex="0" VerticalAlignment="Top" Width="51" Grid.Column="1" />
+                    <Rectangle Height="117" HorizontalAlignment="Left" Margin="3,1,0,0" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" />
+                    <Button Content="Reset" Height="20" HorizontalAlignment="Right" Margin="0,97,2,0" Name="button3" VerticalAlignment="Top" Width="42" Grid.Column="1" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Color/Opacity" Name="ColorOpacity">
+                <Grid>
+                    <Rectangle Height="113" HorizontalAlignment="Left" Margin="2,1,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="258" />
+                    <ComboBox Height="23" Margin="9,47,93,0" Name="PickUpColor" SelectedIndex="137" Text="" VerticalAlignment="Top" SelectionChanged="PickUpColor_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="{Binding Name}" Margin="5,1,10,1" Width="50" />
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="9,29,0,0" Name="textBlock9" Text="Pick up :" VerticalAlignment="Top" />
+                    <ComboBox FontSize="12" Height="23" HorizontalAlignment="Left" Margin="194,47,0,0" Name="Opacity" SelectedIndex="9" VerticalAlignment="Top" Width="51" SelectionChanged="Opacity_SelectionChanged" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="194,29,0,0" Name="textBlock10" Text="Opacity :" VerticalAlignment="Top" />
+                    <Button Content="Reset" Height="20" HorizontalAlignment="Right" Margin="0,93,3,0" Name="button1" VerticalAlignment="Top" Width="42" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Synchronisation" Name="tabItem1">
+                <Grid Height="118">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90*" />
+                        <ColumnDefinition Width="172*" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="118" HorizontalAlignment="Left" Margin="2,0,0,0" Name="rectangle3" Stroke="Black" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" />
+                    <TextBlock FontSize="15" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Margin="19,204,0,0" Name="textBlock11" Text="Other" VerticalAlignment="Top" Grid.Column="1" />
+                    <TextBox Height="24" Margin="10,44,26,0" Name="Synchro" VerticalAlignment="Top" Text="0,00 s" />
+                    <Button HorizontalAlignment="Left" Margin="67,42,0,59" Name="MoreSynchro" Width="26" Click="MoreSynchro_Click" Grid.ColumnSpan="2">
+                        <Grid Height="16" Width="28">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*" />
+                                <ColumnDefinition Width="18*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/icone-fleche-haut.png" Stretch="Fill" Height="10" VerticalAlignment="Bottom" Margin="4,0,11,6" Grid.ColumnSpan="2" />
+                        </Grid>
+                    </Button>
+                    <TextBlock Height="15" HorizontalAlignment="Left" Margin="9,24,0,0" Name="textBlock12" Text="Synchronisation" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="69,26,0,0" Name="textBlock13" Text="Speed :" VerticalAlignment="Top" Width="44" Grid.Column="1" />
+                    <TextBox Height="24" Margin="69,45,46,0" Name="Speed" Text="0.00 s" VerticalAlignment="Top" Grid.Column="1" />
+                    <Button Height="12" HorizontalAlignment="Left" Margin="129,45,0,57" Name="MoreSpeed" Width="25" Grid.Column="1" />
+                    <Button Height="12" HorizontalAlignment="Left" Margin="129,0,0,47" Name="LessSpeed" VerticalAlignment="Bottom" Width="25" Grid.Column="1" />
+                    <Button HorizontalAlignment="Left" Margin="67,54,0,45" Name="LessSynchro" Width="26"  Click="LessSynchro_Click" Height="15" Grid.ColumnSpan="2">
+                        <Grid Height="16" Width="28">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*" />
+                                <ColumnDefinition Width="5*" />
+                                <ColumnDefinition Width="6*" />
+                                <ColumnDefinition Width="9*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Height="19" Margin="-4,0,0,6" Name="image1" Source="/MediaPlayer;component/Images/icone-fleche-bas.png" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="4" HorizontalAlignment="Left" Width="28" />
+                        </Grid>
+                    </Button>
+                    <Button Content="Reset" Height="20" HorizontalAlignment="Right" Margin="0,95,5,0" Name="button2" VerticalAlignment="Top" Width="39" Grid.Column="1" />
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

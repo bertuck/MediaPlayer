@@ -41,8 +41,8 @@
          
                     </MenuItem>
                     <MenuItem x:Name="subtitle" Header="Subtitle">
-                        <MenuItem Header="_Open Subtitle..." Click="OpenSubtitle" />
-                        <MenuItem Header="_Style Subtitle" Click="StyleSubtitle" />
+                        <MenuItem Header="_Open" Click="OpenSubtitle" />
+                        <MenuItem Header="_Options" Click="StyleSubtitle" />
                     </MenuItem>
                     <MenuItem Header="Open">
                         <MenuItem.Icon>
@@ -268,8 +268,8 @@
                     <MenuItem Header="_Zoom" />
                 </MenuItem>
                 <MenuItem Header="_Subtitle">
-                    <MenuItem Header="_Open Subtitle..." Click="OpenSubtitle" />
-                    <MenuItem Header="_Style Subtitle" Click="StyleSubtitle" />
+                    <MenuItem Header="_Open" Click="OpenSubtitle" />
+                    <MenuItem Header="_Options" Click="StyleSubtitle" />
                 </MenuItem>
                 <MenuItem Header="_Tools">
                     <MenuItem Header="_Effects and Filter" />
