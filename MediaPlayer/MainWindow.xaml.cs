@@ -27,19 +27,36 @@ namespace MediaPlayer
     }
 
 	public partial class MainWindow : Window
-	{
+    {
+        #region Timers
+
         DispatcherTimer _timer = new DispatcherTimer();
         DispatcherTimer _menutimer = new DispatcherTimer();
         DispatcherTimer _srtTimer = new DispatcherTimer();
+        DispatcherTimer _timerOpacity = new DispatcherTimer();
+
+        #endregion
+
+        #region Variables
 
         StyleSubtitle   _windowSubtitle;
         bool            _timerMenu = true;
         String[]        _lineSubtitle = new String[10000];
         List<Subtitle>  _subtitles = new List<Subtitle>();
+        public double   currentTimeSubtitle;
+        bool            isDragging = false;
+        double          currentposition = 0;
+        TimeSpan        ts2;
+        public bool     play = false;
+        bool            sound_on = false;
+        bool            ContextMenu = false;
+        bool            fullscreen = false;
 
-        public double currentTimeSubtitle;
+        #endregion
 
-		public MainWindow()
+        #region Constructor
+
+        public MainWindow()
 		{
 			this.InitializeComponent();
             _windowSubtitle = new StyleSubtitle(this);
@@ -57,22 +74,9 @@ namespace MediaPlayer
             _timer.Start();
 		}
 
-        TimeSpan ts2;
+        #endregion
 
-        private void media_MediaOpened(object sender, RoutedEventArgs e)
-        {
-            if (mediaControl.NaturalDuration.HasTimeSpan)
-            {
-                ts2 = mediaControl.NaturalDuration.TimeSpan;
-                slider2.Maximum = ts2.TotalSeconds;
-                slider2.SmallChange = 1;
-                slider2.LargeChange =  Math.Min(10, ts2.Seconds / 10);
-            }
-            _timer.Start();
-        }
-
-        bool isDragging = false;
-        double currentposition = 0;
+        #region Functions Timer
 
         void timer_Tick(object sender, EventArgs e)
         {
@@ -83,7 +87,6 @@ namespace MediaPlayer
             }
         }
 
-        DispatcherTimer _timerOpacity = new DispatcherTimer();
         void timer_Menu(object sender, EventArgs e)
         {
             if (ContextMenu != true)
@@ -105,6 +108,10 @@ namespace MediaPlayer
             Panel.Opacity -= 0.05;
         }
 
+        #endregion
+
+        #region Slider
+
         private void seekBar_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             isDragging = true;
@@ -117,7 +124,112 @@ namespace MediaPlayer
             mediaControl.Position = TimeSpan.FromSeconds(slider2.Value);
         }
 
-        public bool play = false;
+        private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mediaControl.Volume = (double)volumeSlider.Value / 50;
+        }
+
+        private void slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TimeSpan ts = mediaControl.Position;
+            if (ts.Seconds < 10 && ts.Minutes < 10)
+                time.Text = ts.Hours + ":0" + ts.Minutes + ":0" + ts.Seconds;
+            else if (ts.Seconds < 10 && ts.Minutes >= 10)
+                time.Text = ts.Hours + ":" + ts.Minutes + ":0" + ts.Seconds;
+            else if (ts.Seconds >= 10 && ts.Minutes < 10)
+                time.Text = ts.Hours + ":0" + ts.Minutes + ":" + ts.Seconds;
+            else if (ts.Seconds >= 10 && ts.Minutes >= 10)
+                time.Text = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
+            if (ts2.Seconds < 10 && ts2.Minutes < 10)
+                timeend.Text = ts2.Hours + ":0" + ts2.Minutes + ":0" + ts2.Seconds;
+            else if (ts2.Seconds < 10 && ts2.Minutes >= 10)
+                timeend.Text = ts2.Hours + ":" + ts2.Minutes + ":0" + ts2.Seconds;
+            else if (ts2.Seconds >= 10 && ts2.Minutes < 10)
+                timeend.Text = ts2.Hours + ":0" + ts2.Minutes + ":" + ts2.Seconds;
+            else if (ts2.Seconds >= 10 && ts2.Minutes >= 10)
+                timeend.Text = ts2.Hours + ":" + ts2.Minutes + ":" + ts2.Seconds;
+        }
+
+        private void slider2_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            mediaControl.Position = TimeSpan.FromSeconds(slider2.Value);
+            Subtitle.Text = "";
+        }
+        #endregion
+
+        #region Event Mouse
+        private void mediaControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            _timerOpacity.Stop();
+            Panel.Opacity = 1;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            if (_timerMenu && Window.Width > 500)
+            {
+                slider2.Height = 24;
+                _timerMenu = false;
+                _menutimer.Start();
+            }
+        }
+
+        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu = true;
+            this.contextMenu.PlacementTarget = sender as UIElement;
+            this.contextMenu.IsOpen = true;
+            Panel.Opacity = 1;
+            _timerOpacity.Stop();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void mediaControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
+            {
+                setFullscreen();
+            }
+        }
+
+        private void Subtitle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
+            {
+                setFullscreen();
+            }
+        }
+
+        private void Panel_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            _timerOpacity.Stop();
+            Panel.Opacity = 1;
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu = false;
+        }
+
+        #endregion
+
+        #region Event Click
+
+        private void media_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (mediaControl.NaturalDuration.HasTimeSpan)
+            {
+                ts2 = mediaControl.NaturalDuration.TimeSpan;
+                slider2.Maximum = ts2.TotalSeconds;
+                slider2.SmallChange = 1;
+                slider2.LargeChange = Math.Min(10, ts2.Seconds / 10);
+            }
+            _timer.Start();
+        }
+
         public void play_Click(object sender, RoutedEventArgs e)
         {
             if (!play)
@@ -128,6 +240,7 @@ namespace MediaPlayer
                 bi3.UriSource = new Uri("/MediaPlayer;component/Images/pause.png", UriKind.Relative);
                 bi3.EndInit();
                 ImagePlay.Source = bi3;
+                Focus();
             }
             else
             {
@@ -177,6 +290,89 @@ namespace MediaPlayer
             }
         }
 
+        private void sound_Click(object sender, RoutedEventArgs e)
+        {
+            if (!sound_on)
+            {
+                mediaControl.Volume = 0;
+                BitmapImage bi3 = new BitmapImage();
+                bi3.BeginInit();
+                bi3.UriSource = new Uri("/MediaPlayer;component/Images/soundoff.png", UriKind.Relative);
+                bi3.EndInit();
+                ImageSound.Source = bi3;
+            }
+            else
+            {
+                mediaControl.Volume = (double)volumeSlider.Value / 50;
+                BitmapImage bi3 = new BitmapImage();
+                bi3.BeginInit();
+                bi3.UriSource = new Uri("/MediaPlayer;component/Images/soundon.png", UriKind.Relative);
+                bi3.EndInit();
+                ImageSound.Source = bi3;
+            }
+            sound_on = !sound_on;
+        }
+
+        private void OpenUrl_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl.IsEnabled = true;
+            Window1 WOpenUrl = new Window1(this);
+            WOpenUrl.Show();
+
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog os = new OpenFileDialog();
+            os.AddExtension = true;
+            os.DefaultExt = "*.*";
+            os.Filter = "Media (*.*)|*.*";
+            os.ShowDialog();
+            if (os.FileName != "")
+            {
+                mediaControl.Source = new Uri(os.FileName);
+                Window.Height = 319;
+                play = false;
+                play_Click(this, e);
+            }
+        }
+
+        private void Quit_Click(object sender, RoutedEventArgs e)
+        {
+            Window.Close();
+        }
+
+        private void OpenSubtitle(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog os = new OpenFileDialog();
+            os.AddExtension = true;
+            os.DefaultExt = "*.*";
+            os.Filter = "Media (*.*)|*.*";
+            os.ShowDialog();
+            if (os.FileName != "")
+                loadSubtitle(os.FileName, true);
+        }
+
+        private void MFullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            setFullscreen();
+        }
+
+        #endregion
+
+        #region Event Key
+
+        private void Check_Key_Event(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                play_Click(this, e);
+            else if (e.Key == Key.LWin && fullscreen == true)
+                setFullscreen();
+        }
+
+        #endregion
+
+        #region Subtitle
         public void loadSubtitle(String Filename, bool isSrt)
         {
             try
@@ -211,70 +407,11 @@ namespace MediaPlayer
             }
         }
 
-        private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            mediaControl.Volume = (double)volumeSlider.Value/50;
-        }
-
-        bool sound_on = false;
-        private void sound_Click(object sender, RoutedEventArgs e)
-        {
-            if (!sound_on)
-            {
-                mediaControl.Volume = 0;
-                BitmapImage bi3 = new BitmapImage();
-                bi3.BeginInit();
-                bi3.UriSource = new Uri("/MediaPlayer;component/Images/soundoff.png", UriKind.Relative);
-                bi3.EndInit();
-                ImageSound.Source = bi3;
-            }
-            else
-            {
-                mediaControl.Volume = (double)volumeSlider.Value/50;
-                BitmapImage bi3 = new BitmapImage();
-                bi3.BeginInit();
-                bi3.UriSource = new Uri("/MediaPlayer;component/Images/soundon.png", UriKind.Relative);
-                bi3.EndInit();
-                ImageSound.Source = bi3;
-            }
-            sound_on = !sound_on;
-        }
-
-        private void slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            TimeSpan ts = mediaControl.Position;
-            if (ts.Seconds < 10 && ts.Minutes < 10)
-                time.Text = ts.Hours + ":0" + ts.Minutes + ":0" + ts.Seconds;
-            else if (ts.Seconds < 10 && ts.Minutes >= 10)
-                time.Text = ts.Hours + ":" + ts.Minutes + ":0" + ts.Seconds;
-            else if (ts.Seconds >= 10 && ts.Minutes < 10)
-                time.Text = ts.Hours + ":0" + ts.Minutes + ":" + ts.Seconds;
-            else if (ts.Seconds >= 10 && ts.Minutes >= 10)
-                time.Text = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
-            if (ts2.Seconds < 10 && ts2.Minutes < 10)
-                timeend.Text = ts2.Hours + ":0" + ts2.Minutes + ":0" + ts2.Seconds;
-            else if (ts2.Seconds < 10 && ts2.Minutes >= 10)
-                timeend.Text = ts2.Hours + ":" + ts2.Minutes + ":0" + ts2.Seconds;
-            else if (ts2.Seconds >= 10 && ts2.Minutes < 10)
-                timeend.Text = ts2.Hours + ":0" + ts2.Minutes + ":" + ts2.Seconds;
-            else if (ts2.Seconds >= 10 && ts2.Minutes >= 10)
-                timeend.Text = ts2.Hours + ":" + ts2.Minutes + ":" + ts2.Seconds;
-        }
-
         private void check_Srt(object sender, EventArgs e)
         {
             TimeSpan ts = mediaControl.Position;
-           /* Subtitle begin =  _subtitles.Find(delegate(Subtitle p) { return Math.Round(p.Begin.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) ==  Math.Round(ts.TotalSeconds, 2); });
-            Subtitle end = _subtitles.Find(delegate(Subtitle p) { return Math.Round(p.End.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2); });
-            if (begin != null)
-               Subtitle.Text = decodeHTML(begin.text);
-            if (end != null)
-               Subtitle.Text = "";*/
             for (int x = 0; x < _subtitles.Count; x++)
             {
-                //Console.WriteLine("Time rouded = " + Math.Round(_subtitles[x].Begin.TotalSeconds, 2));
-                //Console.WriteLine("Time no rouded = " + (int)_subtitles[x].Begin.TotalSeconds);
-                //Console.WriteLine("POsition = " + Math.Round(ts.TotalSeconds, 2));
                 if (Math.Round(_subtitles[x].Begin.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2))
                     Subtitle.Text = decodeHTML(_subtitles[x].text);
                 else if ((Math.Round(_subtitles[x].End.TotalSeconds, 2) - Math.Round(currentTimeSubtitle, 2) == Math.Round(ts.TotalSeconds, 2)))
@@ -282,10 +419,9 @@ namespace MediaPlayer
             }
         }
 
-
         private String decodeHTML(String line)
         {
-            char[] delimiterChars = { '>' , '<' };
+            char[] delimiterChars = { '>', '<' };
             string[] tmp = line.Split(delimiterChars);
             if (tmp.Length > 1)
             {
@@ -308,6 +444,7 @@ namespace MediaPlayer
                 return line;
             }
         }
+
         private void parse_Srt(String[] text)
         {
             int currentLineTime = 1;
@@ -323,7 +460,7 @@ namespace MediaPlayer
                 sub.text = text[currentLineText];
                 if (_lineSubtitle[currentLineText + 1].Length >= 2)
                 {
-                    sub.text += "\n" + text[currentLineText+1];
+                    sub.text += "\n" + text[currentLineText + 1];
                     currentLineTime++;
                     currentLineText++;
                 }
@@ -332,25 +469,17 @@ namespace MediaPlayer
             }
         }
 
-        private void mediaControl_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void StyleSubtitle(object sender, RoutedEventArgs e)
         {
-            _timerOpacity.Stop();
-            Panel.Opacity = 1;
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-            if (_timerMenu && Window.Width > 500)
+            if (!_windowSubtitle.IsVisible)
             {
-                slider2.Height = 24;
-                _timerMenu = false;
-                _menutimer.Start();
+                _windowSubtitle = new StyleSubtitle(this);
+                _windowSubtitle.Show();
             }
         }
+        #endregion
 
-        private void slider2_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            mediaControl.Position = TimeSpan.FromSeconds(slider2.Value);
-            Subtitle.Text = "";
-        }
-
+        #region Event Window
         private void Window_Drop(object sender, System.Windows.DragEventArgs e)
         {
             string filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[0];
@@ -368,22 +497,6 @@ namespace MediaPlayer
                 play_Click(this, e);
                 mediaControl.Play();
             }
-        }
-
-        bool ContextMenu = false;
-        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ContextMenu = true;
-            this.contextMenu.PlacementTarget = sender as UIElement;
-            this.contextMenu.IsOpen = true;
-            Panel.Opacity = 1;
-            _timerOpacity.Stop();
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-        }
-
-        private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
         }
 
         public void setFullscreen()
@@ -413,94 +526,12 @@ namespace MediaPlayer
             fullscreen = !fullscreen;
         }
 
-        bool fullscreen = false;
-        private void mediaControl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
-            {
-                setFullscreen();
-            }
-        }
-
-        private void Subtitle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
-            {
-                setFullscreen();
-            }
-        }
-
-        private void OpenUrl_Click(object sender, RoutedEventArgs e)
-        {
-            OpenUrl.IsEnabled = true;
-            Window1 WOpenUrl = new Window1(this);
-            WOpenUrl.Show();
-
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog os = new OpenFileDialog();
-            os.AddExtension = true;
-            os.DefaultExt = "*.*";
-            os.Filter = "Media (*.*)|*.*";
-            os.ShowDialog();
-            if (os.FileName != "")
-            {
-                mediaControl.Source = new Uri(os.FileName);
-                Window.Height = 319;
-                 play = false;
-                play_Click(this, e);
-            }
-        }
-
-        private void Quit_Click(object sender, RoutedEventArgs e)
-        {
-            Window.Close();
-        }
-
-        private void Panel_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-            _timerOpacity.Stop();
-            Panel.Opacity = 1;
-        }
-
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ContextMenu = false;
-        }
-
-        private void OpenSubtitle(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog os = new OpenFileDialog();
-            os.AddExtension = true;
-            os.DefaultExt = "*.*";
-            os.Filter = "Media (*.*)|*.*";
-            os.ShowDialog();
-            if (os.FileName != "")
-               loadSubtitle(os.FileName, true);
-        }
-
-        private void StyleSubtitle(object sender, RoutedEventArgs e)
-        {
-            if (!_windowSubtitle.IsVisible)
-            {
-                _windowSubtitle = new StyleSubtitle(this);
-                _windowSubtitle.Show();
-            }
-        }
-
-        private void MFullscreen_Click(object sender, RoutedEventArgs e)
-        {
-            setFullscreen();
-        }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             _windowSubtitle.Close();
             this.Close();
         }
 
+        #endregion
 	}
 }

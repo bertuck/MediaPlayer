@@ -4,7 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	x:Class="MediaPlayer.MainWindow"
 	x:Name="Window"
-	Title="MediaPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed">
+	Title="MediaPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event">
 
     
     <Grid x:Name="Grid">
@@ -73,9 +73,9 @@
             </RichTextBox.ContextMenu>
         </RichTextBox>
         <Viewbox Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,-9,0">
-            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" />
+            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" KeyDown="Check_Key_Event" KeyUp="Check_Key_Event" />
         </Viewbox>
-        <StackPanel x:Name="Panel" Background="White" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-10,0,-8,-8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2">
+        <StackPanel x:Name="Panel" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-10,0,-8,-8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2" Background="White">
             <Button x:Name="button" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="10,0,0,13" VerticalAlignment="Bottom" Width="35" Click="play_Click" IsCancel="True" Height="35">
 
                 <Grid Height="39" Width="41">
@@ -221,7 +221,6 @@
             </Slider>
             <TextBlock Name="timeend" TextWrapping="Wrap" Height="22" Width="50" Margin="-43,0,0,48" VerticalAlignment="Bottom" Text="   --:--" />
             <TextBlock Name="time" TextWrapping="Wrap" Height="22" Width="48" Margin="-708,0,0,48" VerticalAlignment="Bottom" Text="  --:--" />
-          
         </StackPanel>
         <TextBlock Name="Subtitle" Height="60" Margin="-10,0,-10,60" Text="" VerticalAlignment="Bottom" MouseDown="Subtitle_MouseDown" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="12" FontFamily="Arial"/>
         <DockPanel Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65">
