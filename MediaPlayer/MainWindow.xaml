@@ -4,7 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	x:Class="MediaPlayer.MainWindow"
 	x:Name="Window"
-	Title="MediaPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event">
+	Title="CloudPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event">
 
     
     <Grid x:Name="Grid">
