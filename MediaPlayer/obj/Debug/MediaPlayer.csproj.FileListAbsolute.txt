@@ -216,3 +216,10 @@ I:\MediaPlayer\obj\Debug\MediaPlayer.g.resources
 I:\MediaPlayer\obj\Debug\MediaPlayer.Properties.Resources.resources
 I:\MediaPlayer\obj\Debug\GenerateResource.read.1.tlog
 I:\MediaPlayer\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\taglib-sharp.dll
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\bin\Debug\policy.2.0.taglib-sharp.config
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\Playlist.baml
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\Playlist.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\bertuc_k\Documents\Work\MediaPlayer\MediaPlayer\obj\Debug\MediaPlayer_MarkupCompile.lref

@@ -97,15 +97,13 @@ namespace MediaPlayer
             if (ContextMenu != true)
             {
                 _timerOpacity.Start();
-                if (!fullscreen)
-                    playlist.Opacity = 1;
+                expander1.Opacity = 1;
                 border.Opacity = 0.6;
                 time.Opacity = 1;
                 timeend.Opacity = 1;
                 slider2.Opacity = 1;
-               
-                Panel.Opacity = 1;
-               
+                expander1.Opacity = 1;
+                Panel.Opacity = 1;  
                 _menutimer.Stop();
                 _timerMenu = true;
             }
@@ -125,7 +123,8 @@ namespace MediaPlayer
             timeend.Opacity -= 0.05;
             border.Opacity -= 0.05;
             BorderTextBegin.Opacity -= 0.05;
-            BorderTextEnd.Opacity -= 0.05;
+            BorderTextEnd.Opacity -= 0.05; 
+            expander1.Opacity -= 0.05;
         }
 
         #endregion
@@ -182,8 +181,6 @@ namespace MediaPlayer
         {
             _timerOpacity.Stop();
             Panel.Opacity = 1;
-            if (!fullscreen)
-                playlist.Opacity = 1;
             border.Opacity = 0.6;
             time.Opacity = 1;
             timeend.Opacity = 1;
@@ -191,6 +188,7 @@ namespace MediaPlayer
             TopMenu.Opacity = 1;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
+            expander1.Opacity = 1;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             if (_timerMenu && Window.Width > 738)
             {
@@ -213,6 +211,7 @@ namespace MediaPlayer
             TopMenu.Opacity = 1;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
+            expander1.Opacity = 1;
             _timerOpacity.Stop();
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
@@ -250,6 +249,14 @@ namespace MediaPlayer
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        private void Playlist_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2 && e.LeftButton == MouseButtonState.Pressed)
+            {
+                setFullscreen();
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -445,6 +452,32 @@ namespace MediaPlayer
 
         #endregion
 
+        #region Event Others
+        private void SelectedEvent(object sender, RoutedEventArgs e)
+        {
+            SoundInfo s = (SoundInfo)playlist.liste.SelectedItem;
+            mediaControl.Source = new Uri(s.FileName);
+            _subtitles.Clear();
+            Subtitle.Text = "";
+            loadSubtitle(s.FileName, false);
+            play = false;
+            play_Click(this, e);
+        }
+        private void Expanded(object sender, RoutedEventArgs e)
+        {
+            _timerOpacity.Stop();
+            Panel.Opacity = 1;
+            border.Opacity = 0.6;
+            time.Opacity = 1;
+            timeend.Opacity = 1;
+            slider2.Opacity = 1;
+            TopMenu.Opacity = 1;
+            BorderTextBegin.Opacity = 0.6;
+            BorderTextEnd.Opacity = 0.6;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+        #endregion
+
         #region Subtitle
         public void loadSubtitle(String Filename, bool isSrt)
         {
@@ -596,6 +629,7 @@ namespace MediaPlayer
                 _menutimer.Stop();
                 _timerMenu = true;
                 Panel.Opacity = 1;
+                expander1.Opacity = 1;
                 BorderTextBegin.Opacity = 0.6;
                 BorderTextEnd.Opacity = 0.6;
                 _timerOpacity.Stop();
@@ -615,30 +649,13 @@ namespace MediaPlayer
         }
         
         #endregion
-        private void SelectedEvent(object sender, RoutedEventArgs e)
-        {
-            SoundInfo s = (SoundInfo)playlist.liste.SelectedItem;
-            mediaControl.Source = new Uri(s.FileName);
-            _subtitles.Clear();
-            Subtitle.Text = "";
-            loadSubtitle(s.FileName, false);
-            play = false;
-            play_Click(this, e);
-        }
-          private void Expanded(object sender, RoutedEventArgs e)
-         {
-             _timerOpacity.Stop();
-             Panel.Opacity = 1;
-             border.Opacity = 0.6;
-             time.Opacity = 1;
-             timeend.Opacity = 1;
-             slider2.Opacity = 1;
-             TopMenu.Opacity = 1;
-             BorderTextBegin.Opacity = 0.6;
-             BorderTextEnd.Opacity = 0.6;
-             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-         }
 
+        #region Visualizer
+
+        public void Visualizer_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        #endregion
 
     }
 }
