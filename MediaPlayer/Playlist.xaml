@@ -5,65 +5,294 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             d:DesignHeight="384" d:DesignWidth="252">
-    <Grid Width="251">
-        <Border BorderBrush="Black" BorderThickness="1" Margin="1,62,0,35">
-        	<Border.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF707A9F" Offset="0"/>
-        			<GradientStop Color="#FF33394E" Offset="0.466"/>
-        			<GradientStop Color="#FF6D7AA7" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Border.Background>
+             d:DesignHeight="328" d:DesignWidth="503">
+    <UserControl.Resources>
+        <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="19"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="-90"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="180"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="19"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="90"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderHeaderFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Expander}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3" SnapsToDevicePixels="true">
+                            <DockPanel Margin="0,0,-1,0">
+                                <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,1,1,1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Right" Width="25" Height="21"/>
+                                <ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="true">
+                                <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Right">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderRightHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Up">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderUpHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Left">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderLeftHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Width="500">
+        <Border BorderBrush="Black" BorderThickness="1" Margin="0,61,0,36" HorizontalAlignment="Right" Width="252">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF707A9F" Offset="0"/>
+                    <GradientStop Color="#FF33394E" Offset="0.466"/>
+                    <GradientStop Color="#FF6D7AA7" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
         </Border>
-        <ListView x:Name="liste"  Margin="0,42,0,24"  BorderBrush="{x:Null}" Foreground="White" OpacityMask="#FFFFF9F9" MouseDoubleClick="liste_MouseDoubleClick" MouseRightButtonDown="liste_MouseRightButtonDown" Background="{x:Null}">
+        <ListView x:Name="liste" BorderBrush="{x:Null}" Foreground="White" OpacityMask="#FFFFF9F9" MouseDoubleClick="liste_MouseDoubleClick" MouseRightButtonDown="liste_MouseRightButtonDown" Background="{x:Null}" Margin="249,41,0,41">
             <ListView.View>
-                
                 <GridView>
                     <GridViewColumn Width="205" Header="Title">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="10" Height="10" Source="{Binding Icone}"/>
-                                    <TextBlock Text="{Binding SoundName}"/>
+                                    <Image Width="10" Height="10" Source="{Binding Icone}" />
+                                    <TextBlock Text="{Binding SoundName}" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                    <GridViewColumn Width="40" Header="Time"
-             DisplayMemberBinding="{Binding Time}"  />
-            
+                    <GridViewColumn Width="40" Header="Time" DisplayMemberBinding="{Binding Time}" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border BorderThickness="1" Height="34" Margin="0,31,-1,0" VerticalAlignment="Top">
-    		<Border.Background>
-    			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-    				<GradientStop Color="#FF4A4E64" Offset="0"/>
-    				<GradientStop Color="White" Offset="0.134"/>
-    				<GradientStop Color="#FF545768" Offset="0.224"/>
-    				<GradientStop Color="#FFF5F6FD" Offset="0.828"/>
-    				<GradientStop Color="#FF9AA2CC" Offset="0.897"/>
-    				<GradientStop Color="#FF1F2543" Offset="1"/>
-    				<GradientStop Color="#FFA6A7B1" Offset="0.789"/>
-    				<GradientStop Color="#FFD2D4DC" Offset="0.513"/>
-    			</LinearGradientBrush>
-    		</Border.Background>
+        <Border BorderThickness="1" Height="34" Margin="0,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="252">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF4A4E64" Offset="0"/>
+                    <GradientStop Color="White" Offset="0.134"/>
+                    <GradientStop Color="#FF545768" Offset="0.224"/>
+                    <GradientStop Color="#FFF5F6FD" Offset="0.828"/>
+                    <GradientStop Color="#FF9AA2CC" Offset="0.897"/>
+                    <GradientStop Color="#FF1F2543" Offset="1"/>
+                    <GradientStop Color="#FFA6A7B1" Offset="0.789"/>
+                    <GradientStop Color="#FFD2D4DC" Offset="0.513"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Label Content="                  Title                                                        Time" Height="23" Foreground="#FFFDF7F7" FontFamily="Segoe WP Black" FontSize="9.333" Width="251">
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFDFDFF" Offset="0" />
+                        <GradientStop Color="#FF5F6383" Offset="0.862" />
+                        <GradientStop Color="#FF374478" Offset="0.009" />
+                        <GradientStop Color="#FF6D707E" />
+                        <GradientStop Color="#FF7D7F8F" Offset="0.866" />
+                        <GradientStop Color="#FFF9F9FF" Offset="1" />
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
         </Border>
-        <Label Height="40" VerticalAlignment="Bottom" Foreground="#FF413D3D" Margin="1,0,0,0">
-        	<Label.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF323C4B" Offset="0.017"/>
-        			<GradientStop Color="White" Offset="0.121"/>
-        			<GradientStop Color="#FF505156" Offset="0.134"/>
-        			<GradientStop Color="#FF142245" Offset="0.974"/>
-        			<GradientStop Color="#FF0F0F10" Offset="0.996"/>
-        			<GradientStop Color="#FFF5F8FB" Offset="0.315"/>
-        		</LinearGradientBrush>
-        	</Label.Background>
+        <Label Height="40" VerticalAlignment="Bottom" Foreground="#FF413D3D" HorizontalAlignment="Right" Width="249" Margin="0,0,2,1">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="0.974"/>
+                    <GradientStop Color="#FF0F0F10" Offset="0.996"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </LinearGradientBrush>
+            </Label.Background>
         </Label>
-        <Label Content="" Height="38" Margin="1,0,0,0" VerticalAlignment="Top" Foreground="#FF333131">
+        <Label Content="" Height="38" VerticalAlignment="Top" Foreground="#FF333131" HorizontalAlignment="Right" Width="251" Margin="0,-1,0,0">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF0A0E4E" Offset="0"/>
@@ -76,51 +305,83 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
-        <Button x:Name="prev" Content="Prev" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="53.5" Click="prev_Click" Foreground="#FFF5EDED" BorderBrush="#FF01030A" FontFamily="Segoe WP Black" BorderThickness="1,1,1,5">
-        	<Button.Background>
-        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-        			<GradientStop Color="#FF091366" Offset="0"/>
-        			<GradientStop Color="#FFA2B7D2" Offset="0.31"/>
-        			<GradientStop Color="#FF729CE2" Offset="0.634"/>
-        			<GradientStop Color="#FF383B58" Offset="0.996"/>
-        			<GradientStop Color="#FFEBEBEB" Offset="0.142"/>
-        		</LinearGradientBrush>
-        	</Button.Background>
-        </Button>
-        <Button x:Name="next" Content="Next" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Click="next_Click" Foreground="#FFF9F1F1" FontFamily="Segoe WP Black">
-        	<Button.Background>
-        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-        			<GradientStop Color="#FF121D74" Offset="0"/>
-        			<GradientStop Color="#FFEBEBEB" Offset="0.138"/>
-        			<GradientStop Color="#FF5F84C0" Offset="0.767"/>
-        			<GradientStop Color="#FF253D64" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Button.Background>
-        </Button>
-       
-        <Button Content="Save" x:Name="save" HorizontalAlignment="Right" Width="53" Height="29" VerticalAlignment="Bottom" Click="save_Click" FontFamily="Segoe WP Black" Foreground="#FFFBF7F7" BorderThickness="1">
-        	<Button.Background>
-        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-        			<GradientStop Color="#FF0B2972" Offset="0"/>
-        			<GradientStop Color="#FFEBEBEB" Offset="0.155"/>
-        			<GradientStop Color="#FF6386BE" Offset="0.539"/>
-        			<GradientStop Color="#FF1C3A76" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Button.Background>
-        </Button>
-        <TextBlock Height="23" Margin="54,2,53,0" x:Name="titre" Text="{Binding PlaylistName}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-        <Label x:Name="labelTotal" Content="Label" Height="28" Margin="1,0,53,0" VerticalAlignment="Bottom" Foreground="#FF313131" Opacity="0.9" />
-        <Label Content="                  Title                                                        Time" Margin="1,35,0,0" Height="23" VerticalAlignment="Top" Foreground="#FFFDF7F7" FontFamily="Segoe WP Black" FontSize="9.333">
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFFDFDFF" Offset="0" />
-                    <GradientStop Color="#FF5F6383" Offset="0.862" />
-                    <GradientStop Color="#FF374478" Offset="0.009" />
-                    <GradientStop Color="#FF6D707E"/>
-                    <GradientStop Color="#FF7D7F8F" Offset="0.866"/>
-                    <GradientStop Color="#FFF9F9FF" Offset="1"/>
+        <Button x:Name="prev" Content="Prev" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Width="53.5" Click="prev_Click" Foreground="#FFF5EDED" BorderBrush="#FF01030A" FontFamily="Segoe WP Black" BorderThickness="1,1,1,5" Margin="0,-1,198,0">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FF091366" Offset="0"/>
+                    <GradientStop Color="#FFA2B7D2" Offset="0.31"/>
+                    <GradientStop Color="#FF729CE2" Offset="0.634"/>
+                    <GradientStop Color="#FF383B58" Offset="0.996"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.142"/>
                 </LinearGradientBrush>
-            </Label.Background>
-        </Label>
+            </Button.Background>
+        </Button>
+        <Button x:Name="next" Content="Next" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Click="next_Click" Foreground="#FFF9F1F1" FontFamily="Segoe WP Black" Margin="0,-1,0,0">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FF121D74" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.138"/>
+                    <GradientStop Color="#FF5F84C0" Offset="0.767"/>
+                    <GradientStop Color="#FF253D64" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+        <Button Content="Save" x:Name="save" HorizontalAlignment="Right" Width="51" Height="29" VerticalAlignment="Bottom" Click="save_Click" FontFamily="Segoe WP Black" Foreground="#FFFBF7F7" BorderThickness="1" Margin="0,0,2,1">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FF0B2972" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.155"/>
+                    <GradientStop Color="#FF6386BE" Offset="0.539"/>
+                    <GradientStop Color="#FF1C3A76" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <TextBlock Height="23" Margin="0,-1,57,0" x:Name="titre" Text="{Binding PlaylistName}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="111"/>
+        <Label x:Name="labelTotal" Content="Label" Height="28" Margin="0,0,56,2" VerticalAlignment="Bottom" Foreground="#FF313131" Opacity="0.9" HorizontalAlignment="Right" Width="196" />
+        <Expander Header="" Margin="0,-1,168,2" Name="expander1" Background="{x:Null}" Style="{DynamicResource ExpanderStyle1}">
+            <Grid >
+                <Border BorderBrush="Black" BorderThickness="1" Height="8" Margin="0,0,81.5,0" VerticalAlignment="Bottom">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF10243B" Offset="1"/>
+                            <GradientStop Color="#FFF9FBFD" Offset="0.401"/>
+                            <GradientStop Color="#FF424549" Offset="0.315"/>
+                            <GradientStop Color="#FFB8B8B8"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <ListView x:Name="Selection" Margin="0,17,81.5,8">
+                    <ListView.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF3A3D41" Offset="0"/>
+                            <GradientStop Color="#FFA1A9B6" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ListView.Background>
+                    <ListView.View>
+                        <GridView>
+
+                            <GridViewColumn Width="205" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Width="40" Header="Time" DisplayMemberBinding="{Binding Time}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,81.5,0" Height="40" VerticalAlignment="Top">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF071F35" Offset="0"/>
+                            <GradientStop Color="White" Offset="0.216"/>
+                            <GradientStop Color="#FF898A91" Offset="0.25"/>
+                            <GradientStop Color="#FFC5C6CC" Offset="0.302"/>
+                            <GradientStop Color="#FF97989B" Offset="0.711"/>
+                            <GradientStop Color="#FF747476" Offset="0.858"/>
+                            <GradientStop Color="#FFE4E4E5" Offset="0.75"/>
+                            <GradientStop Color="#FF091D3D" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Label Content="Selections" Margin="92.003,7,84.503,7" Foreground="#FF353333"/>
+                </Border>
+            </Grid>
+        </Expander>
     </Grid>
 </UserControl>

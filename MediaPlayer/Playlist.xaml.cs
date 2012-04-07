@@ -21,10 +21,10 @@ namespace MediaPlayer
     public partial class Playlist : UserControl
     {
 
-       ObservableCollection<PlaylistInfo> PlaylistCollection =
-       new ObservableCollection<PlaylistInfo>();
+        ObservableCollection<PlaylistInfo> PlaylistCollection =
+        new ObservableCollection<PlaylistInfo>();
 
-       string _total;
+        string _total;
         TagLib.File tagFile;
         bool play = false;
         int idPlaylist;
@@ -41,15 +41,22 @@ namespace MediaPlayer
             curPlaylist = 0;
             curPlay = 0;
             InitializeComponent();
-            
+
             PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = "Current list", id = 0, cur = 0, timeInit = 0 });
             idPlaylist++;
             titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
             labelTotal.Content = Total();
             liste.ItemsSource = SoundCollection;
-            
-        }
+            Selection.ItemsSource = PlaylistCollection;
+            // SearchSelections();
 
+        }
+        /*
+        ~Playlist()
+        {
+            SaveSelections();
+        }
+        */
         public string Total()
         {
             _total = "Total: ";
@@ -84,7 +91,7 @@ namespace MediaPlayer
                     _total += "0";
                 }
                 _total += h + ":";
-                
+
             }
             if (m < 10)
             {
@@ -101,19 +108,19 @@ namespace MediaPlayer
         }
         public void SearchPlaylist(string sPath)
         {
-            
-                    PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = System.IO.Path.GetFileNameWithoutExtension(sPath), id = 0, cur = 0, timeInit = 0 });
-                    PlaylistInfo p = PlaylistCollection.ElementAt(idPlaylist);
-                    curPlaylist = idPlaylist;
-                    idPlaylist++;
-                    string[] lines = System.IO.File.ReadAllLines(System.IO.Path.GetFullPath(sPath));
-                    foreach (string line in lines)
-                    {
-                        AddSound(line);
-                    }
-                    titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
-                    liste.ItemsSource = SoundCollection;
-                    labelTotal.Content = Total(); 
+
+            PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = System.IO.Path.GetFileNameWithoutExtension(sPath), path = sPath, id = 0, cur = 0, timeInit = 0 });
+            PlaylistInfo p = PlaylistCollection.ElementAt(idPlaylist);
+            curPlaylist = idPlaylist;
+            idPlaylist++;
+            string[] lines = System.IO.File.ReadAllLines(System.IO.Path.GetFullPath(sPath));
+            foreach (string line in lines)
+            {
+                AddSound(line);
+            }
+            titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
+            liste.ItemsSource = SoundCollection;
+            labelTotal.Content = Total();
         }
         public event RoutedEventHandler Selected
         {
@@ -125,7 +132,7 @@ namespace MediaPlayer
             {
                 this.RemoveHandler(SelectedEvent, value);
             }
-        } 
+        }
 
         public ObservableCollection<SoundInfo> SoundCollection
         { get { return (PlaylistCollection.ElementAt(curPlaylist)).SoundCollection; } }
@@ -136,7 +143,7 @@ namespace MediaPlayer
             {
                 SoundName = filename,
                 FileName = filename,
-                
+
             };
             s.media = new MediaElement();
             s.media.LoadedBehavior = MediaState.Manual;
@@ -144,7 +151,7 @@ namespace MediaPlayer
             s.media.Source = new Uri(filename, UriKind.Absolute);
             s.media.Pause();
             s.media.MediaOpened += new RoutedEventHandler(Opened);
-            
+
             if ((PlaylistCollection.ElementAt(curPlaylist)).id == (PlaylistCollection.ElementAt(curPlaylist)).cur && play)
                 s.Icone = "/MediaPlayer;component/Images/playing.png";
             SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).id, s);
@@ -158,12 +165,12 @@ namespace MediaPlayer
             else
             {
                 tagFile = TagLib.File.Create(filename);
-         
+
                 string name = tagFile.Tag.Title;
                 if (tagFile.Tag.Title == null)
                 {
                     name = System.IO.Path.GetFileNameWithoutExtension(filename);
-                
+
                 }
                 SoundInfo s = new SoundInfo
                 {
@@ -187,22 +194,22 @@ namespace MediaPlayer
         }
         private void Opened(object sender, RoutedEventArgs e)
         {
-           if (((MediaElement)sender).NaturalDuration.HasTimeSpan)
+            if (((MediaElement)sender).NaturalDuration.HasTimeSpan)
             {
                 TimeSpan ts = ((MediaElement)sender).NaturalDuration.TimeSpan;
                 Debug.WriteLine((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
                 Debug.WriteLine(curPlaylist);
 
-               SoundInfo s = SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
-               SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
-               s.S = ts.Seconds;
-               s.M = ts.Minutes;
-               s.H = ts.Hours;
-               Debug.WriteLine("Time: " + ts.TotalSeconds);
-               SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).timeInit, s);
+                SoundInfo s = SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
+                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
+                s.S = ts.Seconds;
+                s.M = ts.Minutes;
+                s.H = ts.Hours;
+                Debug.WriteLine("Time: " + ts.TotalSeconds);
+                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).timeInit, s);
             }
             (PlaylistCollection.ElementAt(curPlaylist)).timeInit++;
-            labelTotal.Content = Total();         
+            labelTotal.Content = Total();
         }
 
         public void NextSound()
@@ -251,7 +258,7 @@ namespace MediaPlayer
                 titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
                 liste.ItemsSource = SoundCollection;
                 labelTotal.Content = Total();
-                
+
                 liste.SelectedItem = s;
                 RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
                 RaiseEvent(newEventArgs);
@@ -284,24 +291,24 @@ namespace MediaPlayer
 
         private void liste_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           
-                SoundInfo s = (SoundInfo)liste.SelectedItem;
-                if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
-                {
-                    SoundInfo p = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
-                    p.Icone = "";
-                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
-                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p);
-                    (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
-                }
-                curPlay = curPlaylist;
-                if (play)
-                    s.Icone = "/MediaPlayer;component/Images/playing.png";
-                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
-                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
-                liste.SelectedItem = s;
-                RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
-                RaiseEvent(newEventArgs);          
+
+            SoundInfo s = (SoundInfo)liste.SelectedItem;
+            if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+            {
+                SoundInfo p = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                p.Icone = "";
+                (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p);
+                (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+            }
+            curPlay = curPlaylist;
+            if (play)
+                s.Icone = "/MediaPlayer;component/Images/playing.png";
+            SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+            SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+            liste.SelectedItem = s;
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+            RaiseEvent(newEventArgs);
         }
 
         public void refreshIcon(string filename)
@@ -339,6 +346,33 @@ namespace MediaPlayer
 
         }
 
+        private void SearchSelections()
+        {
+            if (System.IO.File.Exists("Playlist.plt"))
+            {
+                System.IO.StreamReader file =
+                new System.IO.StreamReader("Playlist.plt");
+                string line;
+                int counter = 0;
+                while ((line = file.ReadLine()) != null)
+                {
+                    SearchPlaylist(line);
+                    counter++;
+                }
+
+                file.Close();
+            }
+        }
+        private void SaveSelections()
+        {
+            string text = "";
+            foreach (PlaylistInfo p in PlaylistCollection)
+            {
+                text += p.path + "\n";
+            }
+            System.IO.File.WriteAllText("Playlist.plt", text);
+
+        }
         private void save_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
@@ -354,7 +388,7 @@ namespace MediaPlayer
             {
                 // Save document
                 string filename = dlg.FileName;
-                string text ="";
+                string text = "";
                 foreach (SoundInfo sound in SoundCollection)
                 {
                     text += sound.FileName;
@@ -362,7 +396,7 @@ namespace MediaPlayer
                 }
                 System.IO.File.WriteAllText(filename, text);
             }
-            
+
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
@@ -379,7 +413,7 @@ namespace MediaPlayer
         {
             curPlaylist--;
             if (curPlaylist < 0)
-                curPlaylist = idPlaylist -1;
+                curPlaylist = idPlaylist - 1;
             titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
             liste.ItemsSource = SoundCollection;
             labelTotal.Content = Total();
@@ -390,7 +424,7 @@ namespace MediaPlayer
 
         }
 
-    
+
     }
 
     public class PlaylistInfo
@@ -400,10 +434,11 @@ namespace MediaPlayer
         public ObservableCollection<SoundInfo> SoundCollection
         { get { return _SoundCollection; } }
         public string Name { get; set; }
+        public string path { get; set; }
         public int id;
         public int cur;
         public int timeInit;
-       
+
     }
     public class SoundInfo
     {
@@ -414,25 +449,28 @@ namespace MediaPlayer
         public double M { get; set; }
         public double S { get; set; }
         public string Icone { get; set; }
-        public string Time { get
-                                {
-                                    string ret = "";
-                                    if (H > 0)
-                                    {
-                                        if (H < 10)
-                                            ret = "0";
-                                        ret += H + ":";
-                                    }
-                                    if (M < 10)
-                                        ret += "0";
-                                    ret += M + ":";
-                                    if (S < 10)
-                                        ret += "0";
-                                    ret += S ;
+        public string Time
+        {
+            get
+            {
+                string ret = "";
+                if (H > 0)
+                {
+                    if (H < 10)
+                        ret = "0";
+                    ret += H + ":";
+                }
+                if (M < 10)
+                    ret += "0";
+                ret += M + ":";
+                if (S < 10)
+                    ret += "0";
+                ret += S;
 
-                                    return ret;
-                                } }
-                            
+                return ret;
+            }
+        }
+
         public MediaElement media { get; set; }
     }
 
