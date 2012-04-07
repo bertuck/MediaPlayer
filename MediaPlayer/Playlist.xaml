@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="MediaPlayer.Playlist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="384" d:DesignWidth="252">
+    <Grid Width="251">
+        <Border BorderBrush="Black" BorderThickness="1" Margin="1,62,0,35">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF707A9F" Offset="0"/>
+        			<GradientStop Color="#FF33394E" Offset="0.466"/>
+        			<GradientStop Color="#FF6D7AA7" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+        </Border>
+        <ListView x:Name="liste"  Margin="0,42,0,24"  BorderBrush="{x:Null}" Foreground="White" OpacityMask="#FFFFF9F9" MouseDoubleClick="liste_MouseDoubleClick" MouseRightButtonDown="liste_MouseRightButtonDown" Background="{x:Null}">
+            <ListView.View>
+                
+                <GridView>
+                    <GridViewColumn Width="205" Header="Title">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="10" Height="10" Source="{Binding Icone}"/>
+                                    <TextBlock Text="{Binding SoundName}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="40" Header="Time"
+             DisplayMemberBinding="{Binding Time}"  />
+            
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Border BorderThickness="1" Height="34" Margin="0,31,-1,0" VerticalAlignment="Top">
+    		<Border.Background>
+    			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    				<GradientStop Color="#FF4A4E64" Offset="0"/>
+    				<GradientStop Color="White" Offset="0.134"/>
+    				<GradientStop Color="#FF545768" Offset="0.224"/>
+    				<GradientStop Color="#FFF5F6FD" Offset="0.828"/>
+    				<GradientStop Color="#FF9AA2CC" Offset="0.897"/>
+    				<GradientStop Color="#FF1F2543" Offset="1"/>
+    				<GradientStop Color="#FFA6A7B1" Offset="0.789"/>
+    				<GradientStop Color="#FFD2D4DC" Offset="0.513"/>
+    			</LinearGradientBrush>
+    		</Border.Background>
+        </Border>
+        <Label Height="40" VerticalAlignment="Bottom" Foreground="#FF413D3D" Margin="1,0,0,0">
+        	<Label.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF323C4B" Offset="0.017"/>
+        			<GradientStop Color="White" Offset="0.121"/>
+        			<GradientStop Color="#FF505156" Offset="0.134"/>
+        			<GradientStop Color="#FF142245" Offset="0.974"/>
+        			<GradientStop Color="#FF0F0F10" Offset="0.996"/>
+        			<GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+        		</LinearGradientBrush>
+        	</Label.Background>
+        </Label>
+        <Label Content="" Height="38" Margin="1,0,0,0" VerticalAlignment="Top" Foreground="#FF333131">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF0A0E4E" Offset="0"/>
+                    <GradientStop Color="#FF404047" Offset="1"/>
+                    <GradientStop Color="#FF222F47" Offset="0.659"/>
+                    <GradientStop Color="#FF3B3C41" Offset="1"/>
+                    <GradientStop Color="#FFF7FAFD"/>
+                    <GradientStop Color="#FF7F8187" Offset="0.823"/>
+                    <GradientStop Color="#FFF7F8FD" Offset="0.746"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <Button x:Name="prev" Content="Prev" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="53.5" Click="prev_Click" Foreground="#FFF5EDED" BorderBrush="#FF01030A" FontFamily="Segoe WP Black" BorderThickness="1,1,1,5">
+        	<Button.Background>
+        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+        			<GradientStop Color="#FF091366" Offset="0"/>
+        			<GradientStop Color="#FFA2B7D2" Offset="0.31"/>
+        			<GradientStop Color="#FF729CE2" Offset="0.634"/>
+        			<GradientStop Color="#FF383B58" Offset="0.996"/>
+        			<GradientStop Color="#FFEBEBEB" Offset="0.142"/>
+        		</LinearGradientBrush>
+        	</Button.Background>
+        </Button>
+        <Button x:Name="next" Content="Next" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Click="next_Click" Foreground="#FFF9F1F1" FontFamily="Segoe WP Black">
+        	<Button.Background>
+        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+        			<GradientStop Color="#FF121D74" Offset="0"/>
+        			<GradientStop Color="#FFEBEBEB" Offset="0.138"/>
+        			<GradientStop Color="#FF5F84C0" Offset="0.767"/>
+        			<GradientStop Color="#FF253D64" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Button.Background>
+        </Button>
+       
+        <Button Content="Save" x:Name="save" HorizontalAlignment="Right" Width="53" Height="29" VerticalAlignment="Bottom" Click="save_Click" FontFamily="Segoe WP Black" Foreground="#FFFBF7F7" BorderThickness="1">
+        	<Button.Background>
+        		<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+        			<GradientStop Color="#FF0B2972" Offset="0"/>
+        			<GradientStop Color="#FFEBEBEB" Offset="0.155"/>
+        			<GradientStop Color="#FF6386BE" Offset="0.539"/>
+        			<GradientStop Color="#FF1C3A76" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Button.Background>
+        </Button>
+        <TextBlock Height="23" Margin="54,2,53,0" x:Name="titre" Text="{Binding PlaylistName}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <Label x:Name="labelTotal" Content="Label" Height="28" Margin="1,0,53,0" VerticalAlignment="Bottom" Foreground="#FF313131" Opacity="0.9" />
+        <Label Content="                  Title                                                        Time" Margin="1,35,0,0" Height="23" VerticalAlignment="Top" Foreground="#FFFDF7F7" FontFamily="Segoe WP Black" FontSize="9.333">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFDFDFF" Offset="0" />
+                    <GradientStop Color="#FF5F6383" Offset="0.862" />
+                    <GradientStop Color="#FF374478" Offset="0.009" />
+                    <GradientStop Color="#FF6D707E"/>
+                    <GradientStop Color="#FF7D7F8F" Offset="0.866"/>
+                    <GradientStop Color="#FFF9F9FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+    </Grid>
+</UserControl>

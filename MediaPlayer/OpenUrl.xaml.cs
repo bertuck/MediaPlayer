@@ -34,9 +34,11 @@ namespace MediaPlayer
             if (textBox1.Text.Length >= 1)
             {
                 _win.mediaControl.Source = new Uri(textBox1.Text, UriKind.Absolute);
+                _win.playlist.AddUrl(textBox1.Text);
                 _win.play = false;
                 _win.Window.Height = 319;
                 _win.play_Click(this, e);
+                
                 Close();
             }
         }

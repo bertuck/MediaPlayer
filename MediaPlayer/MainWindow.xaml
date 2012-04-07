@@ -4,10 +4,140 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	x:Class="MediaPlayer.MainWindow"
 	x:Name="Window"
-	Title="CloudPlayer" Width="399" Height="128" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event">
+	Title="CloudPlayer" Width="738" Height="380" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event" xmlns:my="clr-namespace:MediaPlayer" Background="#FF0A0A0A">
+	<Window.Resources>
+		<ControlTemplate x:Key="SliderControlTemplate" TargetType="{x:Type Slider}">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="#FFC68B8B" Height="4" Visibility="Collapsed" />
+				<Border x:Name="TrackBackground" Margin="0" CornerRadius="4" Height="6" Grid.Row="1" BorderBrush="#FF0B0C0B" BorderThickness="1" Opacity="0.9" >
+					<Border.Background>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+							<GradientStop Color="#FF0D1949"/>
+							<GradientStop Color="#FFA0B1F7" Offset="1"/>
+							<GradientStop Color="#FF50527A" Offset="0.474"/>
+						</LinearGradientBrush>
+					</Border.Background>
+				</Border>
+				<Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
+					<Track.DecreaseRepeatButton>
+						<RepeatButton>
+							<RepeatButton.Template>
+								<ControlTemplate TargetType="{x:Type RepeatButton}">
+									<Border Background="Transparent" />
+								</ControlTemplate>
+							</RepeatButton.Template>
+						</RepeatButton>
+					</Track.DecreaseRepeatButton>
+					<Track.Thumb>
+						<Thumb Foreground="#FFD44242" Width="3" BorderBrush="White" BorderThickness="0" Opacity="0.9">
+							<Thumb.Background>
+								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+									<GradientStop Color="#FFF5F6FB" Offset="0"/>
+									<GradientStop Color="#FF6772AF" Offset="0.138"/>
+									<GradientStop Color="#FF6772AF" Offset="0.875"/>
+									<GradientStop Color="#FFF3F4FB" Offset="0.978"/>
+									<GradientStop Color="#FF485078" Offset="0.509"/>
+								</LinearGradientBrush>
+							</Thumb.Background>
+							<Thumb.Template>
+								<ControlTemplate>
+									<Grid>
+										<Ellipse Width="5" Height="5" Fill="Red" />
+										<Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
+									</Grid>
+								</ControlTemplate>
+							</Thumb.Template>
+						</Thumb>
+					</Track.Thumb>
+					<Track.IncreaseRepeatButton>
+						<RepeatButton Command="Slider.IncreaseLarge" Foreground="#FF9F5858">
+							<RepeatButton.Background>
+								<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+									<GradientStop Color="#FFF3F3F3" Offset="0"/>
+									<GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+									<GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+									<GradientStop Color="#FFCE2D2D" Offset="1"/>
+								</LinearGradientBrush>
+							</RepeatButton.Background>
+							<RepeatButton.Template>
+								<ControlTemplate>
+									<Border Background="Transparent" />
+								</ControlTemplate>
+							</RepeatButton.Template>
+						</RepeatButton>
+					</Track.IncreaseRepeatButton>
+				</Track>
+			</Grid>
+		</ControlTemplate>
+		<ControlTemplate x:Key="SliderControlTemplate1" TargetType="{x:Type Slider}">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Height="4" Visibility="Collapsed" >
+					<TickBar.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+							<GradientStop Color="Black" Offset="0"/>
+							<GradientStop Color="White" Offset="1"/>
+						</LinearGradientBrush>
+					</TickBar.Fill>
+				</TickBar>
+				<Border x:Name="TrackBackground" Margin="0,0,0,8" CornerRadius="2" Height="Auto" Grid.Row="1" BorderBrush="{x:Null}" BorderThickness="1" >
+					<Border.Background>
+						<ImageBrush ImageSource="SliderSon.png" Stretch="Uniform"/>
+					</Border.Background>
+				</Border>
+				<Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
+					<Track.DecreaseRepeatButton>
+						<RepeatButton>
+							<RepeatButton.Template>
+								<ControlTemplate TargetType="{x:Type RepeatButton}">
+									<Border Background="Transparent" />
+								</ControlTemplate>
+							</RepeatButton.Template>
+						</RepeatButton>
+					</Track.DecreaseRepeatButton>
+					<Track.Thumb>
+						<Thumb Width="5" Margin="0,-33.5,0,-24.5" RenderTransformOrigin="0.2,0.438">
+							<Thumb.Template>
+								<ControlTemplate>
+									<Grid>
+										<Ellipse Width="5" Height="5" Fill="Red" />
+										<Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
+									</Grid>
+								</ControlTemplate>
+							</Thumb.Template>
+						</Thumb>
+					</Track.Thumb>
+					<Track.IncreaseRepeatButton>
+						<RepeatButton Command="Slider.IncreaseLarge">
+							<RepeatButton.Template>
+								<ControlTemplate>
+									<Border Background="Transparent" />
+								</ControlTemplate>
+							</RepeatButton.Template>
+						</RepeatButton>
+					</Track.IncreaseRepeatButton>
+				</Track>
+			</Grid>
+		</ControlTemplate>
+	</Window.Resources>
 
-    
+
     <Grid x:Name="Grid">
+    	<Grid.Background>
+    		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    			<GradientStop Color="Black" Offset="0"/>
+    			<GradientStop Color="#FFDAC2C2" Offset="1"/>
+    		</LinearGradientBrush>
+    	</Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="233*" />
             <ColumnDefinition Width="144*" />
@@ -35,11 +165,8 @@
                             <Image Source="/MediaPlayer;component/Images/backmini.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="audio" Header="Audio">
-                    </MenuItem>
-                    <MenuItem x:Name="video" Header="Video">
-         
-                    </MenuItem>
+                    <MenuItem x:Name="audio" Header="Audio"/>
+                    <MenuItem x:Name="video" Header="Video"/>
                     <MenuItem x:Name="subtitle" Header="Subtitle">
                         <MenuItem Header="_Open" Click="OpenSubtitle" />
                         <MenuItem Header="_Options" Click="StyleSubtitle" />
@@ -49,15 +176,15 @@
                             <Image Source="/MediaPlayer;component/Images/open.gif" />
                         </MenuItem.Icon>
                         <MenuItem  x:Name="OpenMedia" Header="Open Media" Click="Open_Click">
-                        <MenuItem.Icon>
-                            <Image Source="/MediaPlayer;component/Images/media.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem x:Name="OpenUrl" Header="Open Url" Click="OpenUrl_Click">
-                        <MenuItem.Icon>
-                            <Image Source="/MediaPlayer;component/Images/openurl.gif" />
-                        </MenuItem.Icon>
-                    </MenuItem>
+                            <MenuItem.Icon>
+                                <Image Source="/MediaPlayer;component/Images/media.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="OpenUrl" Header="Open Url" Click="OpenUrl_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/MediaPlayer;component/Images/openurl.gif" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Command="Copy">
                         <MenuItem.Icon>
@@ -72,216 +199,184 @@
                 </ContextMenu>
             </RichTextBox.ContextMenu>
         </RichTextBox>
-        <Viewbox Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,-9,0">
-            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Path=Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" KeyDown="Check_Key_Event" KeyUp="Check_Key_Event" />
+        <Border BorderThickness="1" Grid.ColumnSpan="2" Margin="0,21,0,74">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FFB5C0DA" Offset="1"/>
+        			<GradientStop Color="#FF515968" Offset="0.491"/>
+        			<GradientStop Color="#FFB7BECC" Offset="0.987"/>
+        			<GradientStop Color="#FFEFF1F9"/>
+        			<GradientStop Color="#FFD3E1FD"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+        </Border>
+        <Viewbox x:Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2">
+            <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" KeyDown="Check_Key_Event" KeyUp="Check_Key_Event" />
         </Viewbox>
-        <StackPanel x:Name="Panel" HorizontalAlignment="Center" Width="396" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="-10,0,-8,-8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2" Background="White">
-            <Button x:Name="button" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="10,0,0,13" VerticalAlignment="Bottom" Width="35" Click="play_Click" IsCancel="True" Height="35">
-
-                <Grid Height="39" Width="41">
-                    <Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/play.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
-                </Grid>
-            </Button>
-            <Button x:Name="backward" Style="{StaticResource CircleButton}" HorizontalAlignment="Left" Margin="20,0,0,13" VerticalAlignment="Bottom" Width="35" IsCancel="True" Height="35">
-
-                <Grid Height="39" Width="41">
-                    <Image Source="/MediaPlayer;component/Images/backward.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
-                </Grid>
-            </Button>
-            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="3,0,0,13" VerticalAlignment="Bottom" Width="35" Click="stop_Click">
-                <Grid Height="39" Width="41">
-                    <Image Source="/MediaPlayer;component/Images/stop.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
-                </Grid>
-
-            </Button>
-            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="3,0,0,13" VerticalAlignment="Bottom" Width="35">
-                <Grid Height="39" Width="41">
-                    <Image Source="/MediaPlayer;component/Images/foreward.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
-                </Grid>
-
-            </Button>
-            <Button HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="50,0,0,13" VerticalAlignment="Bottom" Width="35" Click="load_Click">
-                <Grid Height="39" Width="41">
-                    <Image Source="/MediaPlayer;component/Images/add.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0"/>
-                </Grid>
-            </Button>
-            <Button x:Name="sound" HorizontalAlignment="Left"  Style="{StaticResource CircleButton}" Height="35" Margin="5,0,0,13" VerticalAlignment="Bottom" Width="35" Click="sound_Click">
-                <Grid Height="39" Width="41">
-                    <Image  x:Name="ImageSound" Source="/MediaPlayer;component/Images/soundon.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
-                </Grid>
-            </Button>
-
-            <Slider HorizontalAlignment="Left" Margin="1,22,0,10" Name="volumeSlider" Width="80" Grid.ColumnSpan="2" Height="22"  Minimum="0" Maximum="50" Value="30" ValueChanged="volumeSlider_ValueChanged">
-                <Slider.Template>
-                    <ControlTemplate >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TickBar Grid.Row="0" Name="TopTick"
-                           SnapsToDevicePixels="True"  Placement="Top" Fill="Red"  Height="4" Visibility="Collapsed" />
-                            <Border Name="TrackBackground"
-                             Margin="0"  CornerRadius="2"   Height="4" Grid.Row="1"  Background="Blue"   BorderBrush="Green"   BorderThickness="1" />
-                            <Track 
-                            Height="{TemplateBinding Height}"
-                            Grid.Row="1" Name="PART_Track">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton>
-                                        <RepeatButton.Template>
-                                            <ControlTemplate TargetType="{x:Type RepeatButton}">
-                                                <Border Background="Transparent"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.DecreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb>
-                                        <Thumb.Template>
-                                            <ControlTemplate >
-                                                <Grid>
-                                                    <Ellipse Width="5" Height="5" Fill="Red"></Ellipse>
-                                                    <Label Width="10" Height="10" Background="Black" Content ="{Binding ElementName=rr , Path=Value}" />
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="Slider.IncreaseLarge">
-                                        <RepeatButton.Template>
-                                            <ControlTemplate>
-                                                <Border Background="Transparent"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.IncreaseRepeatButton>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Slider.Template>
-            </Slider>
-            <Grid Width="156" Margin="-150,50,0,0" Height="32">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="16*" />
-                    <RowDefinition Height="16*" />
-                </Grid.RowDefinitions>
-            </Grid>
-            <Slider HorizontalAlignment="Left" Margin="-327,-45,0,0" Name="slider2" Width="277" Grid.ColumnSpan="2" Height="24" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" >
-                <Slider.Template>
-                    <ControlTemplate >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TickBar Grid.Row="0" Name="TopTick"
-                           SnapsToDevicePixels="True"  Placement="Top" Fill="Red"  Height="4" Visibility="Collapsed" />
-                            <Border Name="TrackBackground"
-                             Margin="0"  CornerRadius="2"   Height="4" Grid.Row="1"  Background="Blue"   BorderBrush="Green"   BorderThickness="1" />
-                            <Track 
-                            Height="{TemplateBinding Height}"
-                            Grid.Row="1" Name="PART_Track">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton>
-                                        <RepeatButton.Template>
-                                            <ControlTemplate TargetType="{x:Type RepeatButton}">
-                                                <Border Background="Transparent"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.DecreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb>
-                                        <Thumb.Template>
-                                            <ControlTemplate >
-                                                <Grid>
-                                                    <Ellipse Width="5" Height="5" Fill="Red"></Ellipse>
-                                                    <Label Width="10" Height="10" Background="Black" Content ="{Binding ElementName=rr , Path=Value}" />
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="Slider.IncreaseLarge">
-                                        <RepeatButton.Template>
-                                            <ControlTemplate>
-                                                <Border Background="Transparent"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.IncreaseRepeatButton>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Slider.Template>
-            </Slider>
-            <TextBlock Name="timeend" TextWrapping="Wrap" Height="22" Width="50" Margin="-43,0,0,48" VerticalAlignment="Bottom" Text="   --:--" />
-            <TextBlock Name="time" TextWrapping="Wrap" Height="22" Width="48" Margin="-708,0,0,48" VerticalAlignment="Bottom" Text="  --:--" />
+        <Border Name="border" BorderThickness="1" Height="90" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,-6" MouseMove="Panel_MouseMove" Opacity="0.6">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF979AA5" Offset="0"/>
+        			<GradientStop Color="White" Offset="0.086"/>
+        			<GradientStop Color="#FFF7F7FB" Offset="0.263"/>
+        			<GradientStop Color="#FFB3B4B6" Offset="0.302"/>
+        			<GradientStop Color="#FFE7E8E9" Offset="0.431"/>
+        			<GradientStop Color="#FF8C8E9D" Offset="0.116"/>
+        			<GradientStop Color="#FF888F97" Offset="0.651"/>
+        			<GradientStop Color="#FF354258" Offset="0.866"/>
+        			<GradientStop Color="#FF010B10" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+        </Border>
+        <Border x:Name="BorderTextBegin" BorderThickness="1" HorizontalAlignment="Left" Height="22" Margin="12,0,0,26" VerticalAlignment="Bottom" Width="58" BorderBrush="Black" Opacity="0.6">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        			<GradientStop Color="#FF3B3B41"/>
+        			<GradientStop Color="#FF7C90C2" Offset="0.207"/>
+        			<GradientStop Color="#FF34353B" Offset="0.022"/>
+        			<GradientStop Color="#FF0D0D0E"/>
+        			<GradientStop Color="#FF202A50" Offset="0.996"/>
+        			<GradientStop Color="#FF020D3D" Offset="0.978"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+            <TextBlock x:Name="time" TextWrapping="Wrap" Height="19" Width="58" Text="  --:--" Foreground="#FFFDFBFB" />
+        </Border>
+        <Border  x:Name="BorderTextEnd" BorderThickness="1" HorizontalAlignment="Right" Height="22" Margin="0,0,12,26" VerticalAlignment="Bottom" Width="58" BorderBrush="Black" Opacity="0.6" Grid.Column="1">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        			<GradientStop Color="#FF3B3B41"/>
+        			<GradientStop Color="#FF7C90C2" Offset="0.207"/>
+        			<GradientStop Color="#FF34353B" Offset="0.022"/>
+        			<GradientStop Color="#FF0D0D0E"/>
+        			<GradientStop Color="#FF202A50" Offset="0.996"/>
+        			<GradientStop Color="#FF020D3D" Offset="0.978"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+            <TextBlock x:Name="timeend" TextWrapping="Wrap" Height="22" Width="60" Text="   --:--" Foreground="#FFF7F8FD" />
+        </Border>
+        <Slider x:Name="slider2" Height="26" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" VerticalAlignment="Bottom" Margin="12,0,12,54" Grid.ColumnSpan="2" Foreground="#FF918484" BorderBrush="#FF7E3B3B" Template="{DynamicResource SliderControlTemplate}">
+        	<Slider.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="Black" Offset="0"/>
+        			<GradientStop Color="#FF933B3B" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Slider.Background>
+        	<Slider.OpacityMask>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="Black" Offset="0"/>
+        			<GradientStop Color="#FF854A4A" Offset="1"/>
+        		</LinearGradientBrush>
+        	</Slider.OpacityMask>
+        </Slider>
+        <StackPanel x:Name="Panel" HorizontalAlignment="Center" Width="486" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="117,0,113,8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2">
+            <Canvas Height="91" x:Name="canvas1" Width="376" Margin="0,5.5">
+            	<Button x:Name="button" Style="{StaticResource CircleButton}" Width="50" Click="play_Click" IsCancel="True" Height="50" Canvas.Left="52" Canvas.Top="19" Margin="0">
+            		<Grid Height="53" Width="50">
+            			<Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/play.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="-8.667,0,-9,0" Width="50" />
+            		</Grid>
+            	</Button>
+            	<Button x:Name="backward" Style="{StaticResource CircleButton}" Width="50" IsCancel="True" Height="50" Click="Prev" Canvas.Left="106" Canvas.Top="19" Margin="0">
+            		<Grid Height="50" Width="55">
+            			<Image Source="/MediaPlayer;component/Images/backward.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
+            		</Grid>
+            	</Button>
+            	<Button Style="{StaticResource CircleButton}" Height="50" Width="50" Click="stop_Click" Canvas.Left="160" Canvas.Top="19" Margin="0">
+            		<Grid Height="50" Width="55.5">
+            			<Image Source="/MediaPlayer;component/Images/stop.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
+            		</Grid>
+            	</Button>
+            	<Button Style="{StaticResource CircleButton}" Height="50" Width="50" Click="Next" Canvas.Left="214" Canvas.Top="19" Margin="0">
+            		<Grid Height="50" Width="55.667">
+            			<Image Source="/MediaPlayer;component/Images/foreward.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
+            		</Grid>
+            	</Button>
+            	<Button Style="{StaticResource CircleButton}" Height="35" Width="35" Click="load_Click" Canvas.Left="288" Canvas.Top="26">
+            		<Grid Height="39" Width="41">
+            			<Image Source="/MediaPlayer;component/Images/add.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
+            		</Grid>
+            	</Button>
+            	<Button x:Name="sound" Style="{StaticResource CircleButton}" Height="35" Width="35" Click="sound_Click" Canvas.Left="328" Canvas.Top="26">
+            		<Grid Height="39" Width="41">
+            			<Image x:Name="ImageSound" Source="/MediaPlayer;component/Images/soundon.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
+            		</Grid>
+            	</Button>
+            </Canvas>
+            <Slider x:Name="volumeSlider" Width="86" Height="42" Minimum="0" Maximum="50" Value="30" ValueChanged="volumeSlider_ValueChanged" Template="{DynamicResource SliderControlTemplate1}" VerticalAlignment="Bottom" />
         </StackPanel>
-        <TextBlock Name="Subtitle" Height="60" Margin="-10,0,-10,60" Text="" VerticalAlignment="Bottom" MouseDown="Subtitle_MouseDown" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="12" FontFamily="Arial"/>
-        <DockPanel Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65">
-            <Menu  IsMainMenu="True" Margin="0,0,-10,43" Height="20" Opacity="0.9">
-                <MenuItem Header="_Média">
-                    <MenuItem Header="_Open File..." Click="load_Click" />
-                    <MenuItem Header="_Open Playlist..." />
-                    <MenuItem Header="_Open Url" Click="OpenUrl_Click" />
-                    <Separator />
-                    <MenuItem Header="_Save" />
-                    <MenuItem Header="_Save As..." />
-                    <Separator />
-                    <MenuItem Header="_Recent Files " />
-                    <Separator />
-                    <MenuItem Header="_Exit" Click="Quit_Click"/>
-                </MenuItem>
-                <MenuItem Header="_Playback">
-                    <MenuItem Header="_Play" Click="play_Click" />
-                    <MenuItem Header="_Pause" Click="pause_Click"/>
-                    <MenuItem Header="_Next" />
-                    <MenuItem Header="_Back" />
-                    <Separator />
-                    <MenuItem Header="_Stop" Click="stop_Click"/>
-                    <MenuItem Header="_Reset" />
-                </MenuItem>
-                <MenuItem Header="_Audio">
-                    <MenuItem Header="_Audio Track" />
-                    <MenuItem Header="_Audio Channel" />
-                    <MenuItem Header="_Audio Device" />
-                    <Separator />
-                    <MenuItem Header="_Visualizations" />
-                    <Separator />
-                    <MenuItem Header="_Increase Volume" />
-                    <MenuItem Header="_Decrease Volume" />
-                    <MenuItem Header="_Mute" />
-                </MenuItem>
-                <MenuItem Header="_Video">
-                    <MenuItem Header="_Video Track" />
-                    <MenuItem Header="_Subtitle Track" Click="OpenSubtitle"/>
-                    <Separator />
-                    <MenuItem Header="_Fullscreen" Click="MFullscreen_Click"/>
-                    <MenuItem Header="_Always On Top" />
-                    <Separator />
-                    <MenuItem Header="_Zoom" />
-                </MenuItem>
-                <MenuItem Header="_Subtitle">
-                    <MenuItem Header="_Open" Click="OpenSubtitle" />
-                    <MenuItem Header="_Options" Click="StyleSubtitle" />
-                </MenuItem>
-                <MenuItem Header="_Tools">
-                    <MenuItem Header="_Effects and Filter" />
-                    <MenuItem Header="_Track Synchronization" />
-                    <Separator />
-                    <MenuItem Header="_Preferences" />
-                </MenuItem>
-                <MenuItem Header="_View">
-                    <MenuItem Header="_Playlist" />
-                    <MenuItem Header="_Custumize Interface" />
-                </MenuItem>
-                <MenuItem Header="_Help" />
-            </Menu>
-        </DockPanel>
+        <TextBlock x:Name="Subtitle" Height="82" Margin="0,0,0,74" Text="" VerticalAlignment="Bottom" MouseDown="Subtitle_MouseDown" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="12" FontFamily="Arial"/>
+        <DockPanel x:Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65"></DockPanel>
+        <Menu x:Name="TopMenu" IsMainMenu="True" Opacity="0.9" Grid.ColumnSpan="2" Height="21" VerticalAlignment="Top" MouseMove="Panel_MouseMove">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF6F6F6" Offset="0.25" />
+                    <GradientStop Color="#FFC0D7F5" Offset="0.25" />
+                    <GradientStop Color="#FFCAD9E7" Offset="0.8" />
+                    <GradientStop Color="#FF337ABC" Offset="0.991" />
+                    <GradientStop Color="#FFB7D8F7" />
+                </LinearGradientBrush>
+            </Menu.Background>
+            <MenuItem Header="_Média">
+                <MenuItem Header="_Open File..." Click="load_Click" />
+                <MenuItem Header="_Open Playlist..." Click="searchPlaylist" />
+                <MenuItem Header="_Open Url" Click="OpenUrl_Click" />
+                <Separator />
+                <MenuItem Header="_Save" />
+                <MenuItem Header="_Save As..." />
+                <Separator />
+                <MenuItem Header="_Recent Files " />
+                <Separator />
+                <MenuItem Header="_Exit" Click="Quit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Playback">
+                <MenuItem Header="_Play" Click="play_Click" />
+                <MenuItem Header="_Pause" Click="pause_Click" />
+                <MenuItem Header="_Next" Click="Next" />
+                <MenuItem Header="_Back" Click="Prev" />
+                <Separator />
+                <MenuItem Header="_Stop" Click="stop_Click" />
+                <MenuItem Header="_Reset" />
+            </MenuItem>
+            <MenuItem Header="_Audio">
+                <MenuItem Header="_Audio Track" />
+                <MenuItem Header="_Audio Channel" />
+                <MenuItem Header="_Audio Device" />
+                <Separator />
+                <MenuItem Header="_Visualizations" />
+                <Separator />
+                <MenuItem Header="_Increase Volume" />
+                <MenuItem Header="_Decrease Volume" />
+                <MenuItem Header="_Mute" />
+            </MenuItem>
+            <MenuItem Header="_Video">
+                <MenuItem Header="_Video Track" />
+                <MenuItem Header="_Subtitle Track" Click="OpenSubtitle" />
+                <Separator />
+                <MenuItem Header="_Fullscreen" Click="MFullscreen_Click" />
+                <MenuItem Header="_Always On Top" />
+                <Separator />
+                <MenuItem Header="_Zoom" />
+            </MenuItem>
+            <MenuItem Header="_Subtitle">
+                <MenuItem Header="_Open" Click="OpenSubtitle" />
+                <MenuItem Header="_Options" Click="StyleSubtitle" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Effects and Filter" />
+                <MenuItem Header="_Track Synchronization" />
+                <Separator />
+                <MenuItem Header="_Preferences" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Playlist" />
+                <MenuItem Header="_Custumize Interface" />
+            </MenuItem>
+            <MenuItem Header="_Help" />
+        </Menu>
+        
+        <Expander  Grid.Column="1" Header="Playlist" HorizontalAlignment="Right" Margin="0,-1,0,85" Name="expander1" Width="261" Expanded="Expanded">
+            <Grid >
+                <my:Playlist x:Name="playlist" Width="250" Margin="0,-1,0,0" HorizontalAlignment="Right" Selected="SelectedEvent" MouseMove="Panel_MouseMove"/>
+            </Grid>
+        </Expander>
     </Grid>
 </Window>

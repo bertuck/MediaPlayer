@@ -10,4 +10,7 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>C:\Users\Joe\Downloads\taglib-sharp-2.0.4.0-windows\Libraries\</ReferencePath>
+  </PropertyGroup>
 </Project>

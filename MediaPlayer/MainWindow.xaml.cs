@@ -26,7 +26,7 @@ namespace MediaPlayer
         public string text;
     }
 
-	public partial class MainWindow : Window
+    public partial class MainWindow : Window
     {
         #region Timers
 
@@ -39,29 +39,29 @@ namespace MediaPlayer
 
         #region Variables
 
-        StyleSubtitle   _windowSubtitle;
-        bool            _timerMenu = true;
-        String[]        _lineSubtitle = new String[10000];
-        List<Subtitle>  _subtitles = new List<Subtitle>();
-        public double   currentTimeSubtitle;
-        bool            isDragging = false;
-        double          currentposition = 0;
-        TimeSpan        ts2;
-        public bool     play = false;
-        bool            sound_on = false;
-        bool            ContextMenu = false;
-        bool            fullscreen = false;
+        StyleSubtitle _windowSubtitle;
+        bool _timerMenu = true;
+        String[] _lineSubtitle = new String[10000];
+        List<Subtitle> _subtitles = new List<Subtitle>();
+        public double currentTimeSubtitle;
+        bool isDragging = false;
+        double currentposition = 0;
+        TimeSpan ts2;
+        public bool play = false;
+        bool sound_on = false;
+        bool ContextMenu = false;
+        bool fullscreen = false;
 
         #endregion
 
         #region Constructor
 
         public MainWindow()
-		{
-			this.InitializeComponent();
+        {
+            this.InitializeComponent();
             _windowSubtitle = new StyleSubtitle(this);
             _windowSubtitle.Hide();
-            mediaControl.Volume = (double)volumeSlider.Value/50;
+            mediaControl.Volume = (double)volumeSlider.Value / 50;
             _timer.Interval = TimeSpan.FromMilliseconds(900);
             _timer.Tick += new EventHandler(timer_Tick);
             _menutimer.Interval = TimeSpan.FromMilliseconds(1300);
@@ -72,7 +72,8 @@ namespace MediaPlayer
             _srtTimer.Tick += new EventHandler(check_Srt);
             _srtTimer.Start();
             _timer.Start();
-		}
+        }
+
 
         #endregion
 
@@ -84,6 +85,10 @@ namespace MediaPlayer
             {
                 slider2.Value = mediaControl.Position.TotalSeconds;
                 currentposition = slider2.Value;
+                if (currentposition == slider2.Maximum)
+                {
+                    playlist.NextSound();
+                }
             }
         }
 
@@ -92,7 +97,15 @@ namespace MediaPlayer
             if (ContextMenu != true)
             {
                 _timerOpacity.Start();
+                if (!fullscreen)
+                    playlist.Opacity = 1;
+                border.Opacity = 0.6;
+                time.Opacity = 1;
+                timeend.Opacity = 1;
+                slider2.Opacity = 1;
+               
                 Panel.Opacity = 1;
+               
                 _menutimer.Stop();
                 _timerMenu = true;
             }
@@ -105,7 +118,14 @@ namespace MediaPlayer
                 _timerOpacity.Stop();
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
             }
+            TopMenu.Opacity -= 0.05;
             Panel.Opacity -= 0.05;
+            slider2.Opacity -= 0.05;
+            time.Opacity -= 0.05;
+            timeend.Opacity -= 0.05;
+            border.Opacity -= 0.05;
+            BorderTextBegin.Opacity -= 0.05;
+            BorderTextEnd.Opacity -= 0.05;
         }
 
         #endregion
@@ -162,8 +182,17 @@ namespace MediaPlayer
         {
             _timerOpacity.Stop();
             Panel.Opacity = 1;
+            if (!fullscreen)
+                playlist.Opacity = 1;
+            border.Opacity = 0.6;
+            time.Opacity = 1;
+            timeend.Opacity = 1;
+            slider2.Opacity = 1;
+            TopMenu.Opacity = 1;
+            BorderTextBegin.Opacity = 0.6;
+            BorderTextEnd.Opacity = 0.6;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-            if (_timerMenu && Window.Width > 500)
+            if (_timerMenu && Window.Width > 738)
             {
                 slider2.Height = 24;
                 _timerMenu = false;
@@ -177,6 +206,13 @@ namespace MediaPlayer
             this.contextMenu.PlacementTarget = sender as UIElement;
             this.contextMenu.IsOpen = true;
             Panel.Opacity = 1;
+            border.Opacity = 0.6;
+            time.Opacity = 1;
+            timeend.Opacity = 1;
+            slider2.Opacity = 1;
+            TopMenu.Opacity = 1;
+            BorderTextBegin.Opacity = 0.6;
+            BorderTextEnd.Opacity = 0.6;
             _timerOpacity.Stop();
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
@@ -204,15 +240,23 @@ namespace MediaPlayer
 
         private void Panel_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             _timerOpacity.Stop();
             Panel.Opacity = 1;
+            border.Opacity = 0.6;
+            time.Opacity = 1;
+            timeend.Opacity = 1;
+            slider2.Opacity = 1;
+            TopMenu.Opacity = 1;
+            BorderTextBegin.Opacity = 0.6;
+            BorderTextEnd.Opacity = 0.6;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ContextMenu = false;
         }
+
 
         #endregion
 
@@ -230,11 +274,24 @@ namespace MediaPlayer
             _timer.Start();
         }
 
+        public void searchPlaylist(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog os = new OpenFileDialog();
+            os.AddExtension = true;
+            os.DefaultExt = "*.m3u";
+            os.Filter = "Media (*.m3u)|*.m3u";
+            os.ShowDialog();
+            if (os.FileName != "")
+            {
+                playlist.SearchPlaylist(os.FileName);
+            }
+        }
         public void play_Click(object sender, RoutedEventArgs e)
         {
             if (!play)
             {
                 mediaControl.Play();
+                playlist.Play();
                 BitmapImage bi3 = new BitmapImage();
                 bi3.BeginInit();
                 bi3.UriSource = new Uri("/MediaPlayer;component/Images/pause.png", UriKind.Relative);
@@ -245,6 +302,7 @@ namespace MediaPlayer
             else
             {
                 mediaControl.Pause();
+                playlist.Pause();
                 BitmapImage bi3 = new BitmapImage();
                 bi3.BeginInit();
                 bi3.UriSource = new Uri("/MediaPlayer;component/Images/play.png", UriKind.Relative);
@@ -257,12 +315,14 @@ namespace MediaPlayer
         private void pause_Click(object sender, RoutedEventArgs e)
         {
             mediaControl.Pause();
+            playlist.Pause();
             button.IsEnabled = true;
         }
 
         private void stop_Click(object sender, RoutedEventArgs e)
         {
             mediaControl.Stop();
+            playlist.Pause();
             play = false;
             BitmapImage bi3 = new BitmapImage();
             bi3.BeginInit();
@@ -270,7 +330,17 @@ namespace MediaPlayer
             bi3.EndInit();
             ImagePlay.Source = bi3;
         }
+        
+        public void Prev(object sender, RoutedEventArgs e)
+        {
+            playlist.PrevSound();
+        }
 
+        public void Next(object sender, RoutedEventArgs e)
+        {
+            playlist.NextSound();
+        }
+        
         private void load_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog os = new OpenFileDialog();
@@ -280,13 +350,15 @@ namespace MediaPlayer
             os.ShowDialog();
             if (os.FileName != "")
             {
-                mediaControl.Source = new Uri(os.FileName);
-                _subtitles.Clear();
-                Subtitle.Text = "";
-                loadSubtitle(os.FileName, false);
-                Window.Height = 319;
-                play = false;
-                play_Click(this, e);
+                playlist.AddSound(os.FileName);
+                    mediaControl.Source = new Uri(os.FileName);
+                    _subtitles.Clear();
+                    Subtitle.Text = "";
+                    loadSubtitle(os.FileName, false);
+                    Window.Height = 319;
+                    play = false;
+                    play_Click(this, e);
+                    playlist.refreshIcon(os.FileName);
             }
         }
 
@@ -331,6 +403,7 @@ namespace MediaPlayer
             if (os.FileName != "")
             {
                 mediaControl.Source = new Uri(os.FileName);
+                playlist.AddSound(os.FileName);
                 Window.Height = 319;
                 play = false;
                 play_Click(this, e);
@@ -482,20 +555,29 @@ namespace MediaPlayer
         #region Event Window
         private void Window_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            string filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[0];
+            string filename;
+            for (int i = 0; i < ((System.Windows.DataObject)e.Data).GetFileDropList().Count; i++)
+            {
+                filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[i];
+                playlist.AddSound(filename);
+            }
+            filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[0];
             string[] words = filename.Split('.');
             if (words[words.Length - 1] == "srt")
                 loadSubtitle(filename, true);
             else
             {
-                mediaControl.Source = new Uri(filename);
-                mediaControl.LoadedBehavior = MediaState.Manual;
-                mediaControl.UnloadedBehavior = MediaState.Manual;
-                mediaControl.Volume = (double)volumeSlider.Value / 50;
-                Window.Height = 319;
-                play = false;
-                play_Click(this, e);
-                mediaControl.Play();
+                if (playlist.SoundCollection.Count == ((System.Windows.DataObject)e.Data).GetFileDropList().Count)
+                {
+                    mediaControl.Source = new Uri(filename);
+                    mediaControl.LoadedBehavior = MediaState.Manual;
+                    mediaControl.UnloadedBehavior = MediaState.Manual;
+                    mediaControl.Volume = (double)volumeSlider.Value / 50;
+                    Window.Height = 319;
+                    play = false;
+                    play_Click(this, e);
+                    mediaControl.Play();
+                }
             }
         }
 
@@ -513,9 +595,9 @@ namespace MediaPlayer
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                 _menutimer.Stop();
                 _timerMenu = true;
-                slider2.Height = 24;
-                Panel.Height = 76;
                 Panel.Opacity = 1;
+                BorderTextBegin.Opacity = 0.6;
+                BorderTextEnd.Opacity = 0.6;
                 _timerOpacity.Stop();
                 _menutimer.Stop();
                 FullScreenBehavior.SetIsFullScreen(Window, false);
@@ -531,7 +613,32 @@ namespace MediaPlayer
             _windowSubtitle.Close();
             this.Close();
         }
-
+        
         #endregion
-	}
+        private void SelectedEvent(object sender, RoutedEventArgs e)
+        {
+            SoundInfo s = (SoundInfo)playlist.liste.SelectedItem;
+            mediaControl.Source = new Uri(s.FileName);
+            _subtitles.Clear();
+            Subtitle.Text = "";
+            loadSubtitle(s.FileName, false);
+            play = false;
+            play_Click(this, e);
+        }
+          private void Expanded(object sender, RoutedEventArgs e)
+         {
+             _timerOpacity.Stop();
+             Panel.Opacity = 1;
+             border.Opacity = 0.6;
+             time.Opacity = 1;
+             timeend.Opacity = 1;
+             slider2.Opacity = 1;
+             TopMenu.Opacity = 1;
+             BorderTextBegin.Opacity = 0.6;
+             BorderTextEnd.Opacity = 0.6;
+             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+         }
+
+
+    }
 }
