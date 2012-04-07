@@ -185,7 +185,7 @@ namespace MediaPlayer
             time.Opacity = 1;
             timeend.Opacity = 1;
             slider2.Opacity = 1;
-            TopMenu.Opacity = 1;
+            TopMenu.Opacity = 0.8;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
             expander1.Opacity = 1;
@@ -208,7 +208,7 @@ namespace MediaPlayer
             time.Opacity = 1;
             timeend.Opacity = 1;
             slider2.Opacity = 1;
-            TopMenu.Opacity = 1;
+            TopMenu.Opacity = 0.8;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
             expander1.Opacity = 1;
@@ -245,7 +245,7 @@ namespace MediaPlayer
             time.Opacity = 1;
             timeend.Opacity = 1;
             slider2.Opacity = 1;
-            TopMenu.Opacity = 1;
+            TopMenu.Opacity = 0.8;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
@@ -471,7 +471,7 @@ namespace MediaPlayer
             time.Opacity = 1;
             timeend.Opacity = 1;
             slider2.Opacity = 1;
-            TopMenu.Opacity = 1;
+            TopMenu.Opacity = 0.8;
             BorderTextBegin.Opacity = 0.6;
             BorderTextEnd.Opacity = 0.6;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
@@ -527,6 +527,7 @@ namespace MediaPlayer
 
         private String decodeHTML(String line)
         {
+            string text = "";
             char[] delimiterChars = { '>', '<' };
             string[] tmp = line.Split(delimiterChars);
             if (tmp.Length > 1)
@@ -535,7 +536,8 @@ namespace MediaPlayer
                     Subtitle.FontStyle = FontStyles.Italic;
                 else if (tmp[1] == "b" && tmp[tmp.Length - 2] == "/b")
                     Subtitle.FontStyle = FontStyles.Oblique;
-                string text = tmp[2];
+                if (tmp[2] != null)
+                    text = tmp[2];
                 for (int x = 3; x < tmp.Length - 2; x++)
                 {
                     if (tmp[x] == "i" || tmp[x] == "/i" || tmp[x] == "/b")

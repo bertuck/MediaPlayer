@@ -185,6 +185,8 @@
                                 <Image Source="/MediaPlayer;component/Images/openurl.gif" />
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem x:Name="OpenPlaylist" Header="Open Playlist" Click="searchPlaylist">
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Command="Copy">
                         <MenuItem.Icon>
@@ -314,7 +316,7 @@
         </StackPanel>
         <TextBlock x:Name="Subtitle" Height="82" Margin="0,0,0,74" Text="" VerticalAlignment="Bottom" MouseDown="Subtitle_MouseDown" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="12" FontFamily="Arial"/>
         <DockPanel x:Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65"></DockPanel>
-        <Menu x:Name="TopMenu" IsMainMenu="True" Opacity="0.9" Grid.ColumnSpan="2" Height="21" VerticalAlignment="Top" MouseMove="Panel_MouseMove">
+        <Menu x:Name="TopMenu" IsMainMenu="True" Opacity="0.8" Grid.ColumnSpan="2" Height="21" VerticalAlignment="Top" MouseMove="Panel_MouseMove">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FFF6F6F6" Offset="0.25" />
