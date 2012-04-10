@@ -302,22 +302,25 @@ namespace MediaPlayer
                 TimeSpan ts = ((MediaElement)sender).NaturalDuration.TimeSpan;
                 
                 SoundInfo s = null;
-                foreach (SoundInfo med in SoundCollection)
+                for (int i = 0; i < PlaylistCollection.Count; i++)
                 {
-                    if (med.media == (MediaElement)sender)
+                    foreach (SoundInfo med in PlaylistCollection[i].SoundCollection)
                     {
-                        s = med;
-                        int index = SoundCollection.IndexOf(s);
-                        SoundCollection.RemoveAt(index);
-                        s.S = ts.Seconds;
-                        s.M = ts.Minutes;
-                        s.H = ts.Hours;
-                        Debug.WriteLine("Time: " + ts.TotalSeconds);
-                        Debug.WriteLine("filename: " + s.FileName);
-                        
-                        SoundCollection.Insert(index, s);
+                        if (med.media == (MediaElement)sender)
+                        {
+                            s = med;
+                            int index = PlaylistCollection[i].SoundCollection.IndexOf(s);
+                            PlaylistCollection[i].SoundCollection.RemoveAt(index);
+                            s.S = ts.Seconds;
+                            s.M = ts.Minutes;
+                            s.H = ts.Hours;
+                            Debug.WriteLine("Time: " + ts.TotalSeconds);
+                            Debug.WriteLine("filename: " + s.FileName);
 
-                        break;
+                            PlaylistCollection[i].SoundCollection.Insert(index, s);
+
+                            break;
+                        }
                     }
                 }
             }
@@ -631,9 +634,14 @@ namespace MediaPlayer
                 {
                     text += sound.FileName;
                     text += "\n";
+
                 }
                 System.IO.File.WriteAllText(filename, text);
+                SoundCollection.Clear();
+                SearchPlaylist(filename);
+
             }
+
 
         }
 
@@ -756,6 +764,7 @@ namespace MediaPlayer
                 if (System.IO.Path.GetExtension(file) == ".m3u")
                     SearchPlaylist(file);
             }
+
         }
         private void Musique_Drop(object sender, DragEventArgs e)
         {
