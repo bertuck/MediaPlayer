@@ -51,7 +51,7 @@ namespace MediaPlayer
         bool sound_on = false;
         bool ContextMenu = false;
         bool fullscreen = false;
-
+        bool mini = false;
         #endregion
 
         #region Constructor
@@ -94,7 +94,7 @@ namespace MediaPlayer
 
         void timer_Menu(object sender, EventArgs e)
         {
-            if (ContextMenu != true)
+            if (ContextMenu != true && play == true)
             {
                 _timerOpacity.Start();
                 expander1.Opacity = 1;
@@ -103,7 +103,7 @@ namespace MediaPlayer
                 timeend.Opacity = 1;
                 slider2.Opacity = 1;
                 expander1.Opacity = 1;
-                Panel.Opacity = 1;  
+                Panel.Opacity = 1;
                 _menutimer.Stop();
                 _timerMenu = true;
             }
@@ -123,7 +123,7 @@ namespace MediaPlayer
             timeend.Opacity -= 0.05;
             border.Opacity -= 0.05;
             BorderTextBegin.Opacity -= 0.05;
-            BorderTextEnd.Opacity -= 0.05; 
+            BorderTextEnd.Opacity -= 0.05;
             expander1.Opacity -= 0.05;
         }
 
@@ -190,7 +190,7 @@ namespace MediaPlayer
             BorderTextEnd.Opacity = 0.6;
             expander1.Opacity = 1;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-            if (_timerMenu && Window.Width > 738)
+            if (_timerMenu && fullscreen)
             {
                 slider2.Height = 24;
                 _timerMenu = false;
@@ -214,6 +214,28 @@ namespace MediaPlayer
             expander1.Opacity = 1;
             _timerOpacity.Stop();
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        private void Library_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu = true;
+            this.contextMenu2.PlacementTarget = sender as UIElement;
+            this.contextMenu2.IsOpen = true;
+            Panel.Opacity = 1;
+            border.Opacity = 0.6;
+            time.Opacity = 1;
+            timeend.Opacity = 1;
+            slider2.Opacity = 1;
+            TopMenu.Opacity = 0.8;
+            BorderTextBegin.Opacity = 0.6;
+            BorderTextEnd.Opacity = 0.6;
+            expander1.Opacity = 1;
+            _timerOpacity.Stop();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+        private void Library_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -281,6 +303,20 @@ namespace MediaPlayer
             _timer.Start();
         }
 
+        public void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            if (mini)
+            {
+                Window.Height = 420;
+                Window.Width = 740;
+            }
+            else
+            {
+                Window.Height = 150;
+                Window.Width = 740;
+            }
+            mini = !mini;
+        }
         public void searchPlaylist(object sender, RoutedEventArgs e)
         {
             OpenFileDialog os = new OpenFileDialog();
@@ -337,7 +373,7 @@ namespace MediaPlayer
             bi3.EndInit();
             ImagePlay.Source = bi3;
         }
-        
+
         public void Prev(object sender, RoutedEventArgs e)
         {
             playlist.PrevSound();
@@ -347,7 +383,7 @@ namespace MediaPlayer
         {
             playlist.NextSound();
         }
-        
+
         private void load_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog os = new OpenFileDialog();
@@ -358,14 +394,14 @@ namespace MediaPlayer
             if (os.FileName != "")
             {
                 playlist.AddSound(os.FileName);
-                    mediaControl.Source = new Uri(os.FileName);
-                    _subtitles.Clear();
-                    Subtitle.Text = "";
-                    loadSubtitle(os.FileName, false);
-                    Window.Height = 319;
-                    play = false;
-                    play_Click(this, e);
-                    playlist.refreshIcon(os.FileName);
+                mediaControl.Source = new Uri(os.FileName);
+                _subtitles.Clear();
+                Subtitle.Text = "";
+                loadSubtitle(os.FileName, false);
+                Window.Height = 319;
+                play = false;
+                play_Click(this, e);
+                playlist.refreshIcon(os.FileName);
             }
         }
 
@@ -456,12 +492,15 @@ namespace MediaPlayer
         private void SelectedEvent(object sender, RoutedEventArgs e)
         {
             SoundInfo s = (SoundInfo)playlist.liste.SelectedItem;
-            mediaControl.Source = new Uri(s.FileName);
-            _subtitles.Clear();
-            Subtitle.Text = "";
-            loadSubtitle(s.FileName, false);
-            play = false;
-            play_Click(this, e);
+            if (s != null)
+            {
+                mediaControl.Source = new Uri(s.FileName);
+                _subtitles.Clear();
+                Subtitle.Text = "";
+                loadSubtitle(s.FileName, false);
+                play = false;
+                play_Click(this, e);
+            }
         }
         private void Expanded(object sender, RoutedEventArgs e)
         {
@@ -590,30 +629,7 @@ namespace MediaPlayer
         #region Event Window
         private void Window_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            string filename;
-            for (int i = 0; i < ((System.Windows.DataObject)e.Data).GetFileDropList().Count; i++)
-            {
-                filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[i];
-                playlist.AddSound(filename);
-            }
-            filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[0];
-            string[] words = filename.Split('.');
-            if (words[words.Length - 1] == "srt")
-                loadSubtitle(filename, true);
-            else
-            {
-                if (playlist.SoundCollection.Count == ((System.Windows.DataObject)e.Data).GetFileDropList().Count)
-                {
-                    mediaControl.Source = new Uri(filename);
-                    mediaControl.LoadedBehavior = MediaState.Manual;
-                    mediaControl.UnloadedBehavior = MediaState.Manual;
-                    mediaControl.Volume = (double)volumeSlider.Value / 50;
-                    Window.Height = 319;
-                    play = false;
-                    play_Click(this, e);
-                    mediaControl.Play();
-                }
-            }
+          
         }
 
         public void setFullscreen()
@@ -624,6 +640,7 @@ namespace MediaPlayer
                 TopMenuPanel.Opacity = 0;
                 Subtitle.FontSize = 21;
                 Subtitle.Margin = new Thickness(10, 0, -10, 80);
+                this.WindowStyle = System.Windows.WindowStyle.None;
             }
             else
             {
@@ -639,7 +656,8 @@ namespace MediaPlayer
                 FullScreenBehavior.SetIsFullScreen(Window, false);
                 TopMenuPanel.Opacity = 0.9;
                 Subtitle.FontSize = 12;
-                Subtitle.Margin = new Thickness(10, 0, -10, 60);
+                Subtitle.Margin = new Thickness(10, 0, 0, 80);
+                this.WindowStyle = System.Windows.WindowStyle.None;
             }
             fullscreen = !fullscreen;
         }
@@ -649,7 +667,7 @@ namespace MediaPlayer
             _windowSubtitle.Close();
             this.Close();
         }
-        
+
         #endregion
 
         #region Visualizer

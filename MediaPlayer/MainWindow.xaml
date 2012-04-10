@@ -1,362 +1,408 @@
 ﻿<Window
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:MediaPlayer" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" mc:Ignorable="d"
 	x:Class="MediaPlayer.MainWindow"
 	x:Name="Window"
-	Title="CloudPlayer" Width="738" Height="380" Icon="/MediaPlayer;component/Images/icone.png" Drop="Window_Drop" AllowDrop="True" WindowStyle="SingleBorderWindow" MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event" xmlns:my="clr-namespace:MediaPlayer" Background="#FF0A0A0A">
-	<Window.Resources>
-		<ControlTemplate x:Key="SliderControlTemplate" TargetType="{x:Type Slider}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="#FFC68B8B" Height="4" Visibility="Collapsed" />
-				<Border x:Name="TrackBackground" Margin="0" CornerRadius="4" Height="6" Grid.Row="1" BorderBrush="#FF0B0C0B" BorderThickness="1" Opacity="0.9" >
-					<Border.Background>
-						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-							<GradientStop Color="#FF0D1949"/>
-							<GradientStop Color="#FFA0B1F7" Offset="1"/>
-							<GradientStop Color="#FF50527A" Offset="0.474"/>
-						</LinearGradientBrush>
-					</Border.Background>
-				</Border>
-				<Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
-					<Track.DecreaseRepeatButton>
-						<RepeatButton>
-							<RepeatButton.Template>
-								<ControlTemplate TargetType="{x:Type RepeatButton}">
-									<Border Background="Transparent" />
-								</ControlTemplate>
-							</RepeatButton.Template>
-						</RepeatButton>
-					</Track.DecreaseRepeatButton>
-					<Track.Thumb>
-						<Thumb Foreground="#FFD44242" Width="3" BorderBrush="White" BorderThickness="0" Opacity="0.9">
-							<Thumb.Background>
-								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-									<GradientStop Color="#FFF5F6FB" Offset="0"/>
-									<GradientStop Color="#FF6772AF" Offset="0.138"/>
-									<GradientStop Color="#FF6772AF" Offset="0.875"/>
-									<GradientStop Color="#FFF3F4FB" Offset="0.978"/>
-									<GradientStop Color="#FF485078" Offset="0.509"/>
-								</LinearGradientBrush>
-							</Thumb.Background>
-							<Thumb.Template>
-								<ControlTemplate>
-									<Grid>
-										<Ellipse Width="5" Height="5" Fill="Red" />
-										<Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
-									</Grid>
-								</ControlTemplate>
-							</Thumb.Template>
-						</Thumb>
-					</Track.Thumb>
-					<Track.IncreaseRepeatButton>
-						<RepeatButton Command="Slider.IncreaseLarge" Foreground="#FF9F5858">
-							<RepeatButton.Background>
-								<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-									<GradientStop Color="#FFF3F3F3" Offset="0"/>
-									<GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-									<GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-									<GradientStop Color="#FFCE2D2D" Offset="1"/>
-								</LinearGradientBrush>
-							</RepeatButton.Background>
-							<RepeatButton.Template>
-								<ControlTemplate>
-									<Border Background="Transparent" />
-								</ControlTemplate>
-							</RepeatButton.Template>
-						</RepeatButton>
-					</Track.IncreaseRepeatButton>
-				</Track>
-			</Grid>
-		</ControlTemplate>
-		<ControlTemplate x:Key="SliderControlTemplate1" TargetType="{x:Type Slider}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Height="4" Visibility="Collapsed" >
-					<TickBar.Fill>
-						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-							<GradientStop Color="Black" Offset="0"/>
-							<GradientStop Color="White" Offset="1"/>
-						</LinearGradientBrush>
-					</TickBar.Fill>
-				</TickBar>
-				<Border x:Name="TrackBackground" Margin="0,0,0,8" CornerRadius="2" Height="Auto" Grid.Row="1" BorderBrush="{x:Null}" BorderThickness="1" >
-					<Border.Background>
-						<ImageBrush ImageSource="SliderSon.png" Stretch="Uniform"/>
-					</Border.Background>
-				</Border>
-				<Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
-					<Track.DecreaseRepeatButton>
-						<RepeatButton>
-							<RepeatButton.Template>
-								<ControlTemplate TargetType="{x:Type RepeatButton}">
-									<Border Background="Transparent" />
-								</ControlTemplate>
-							</RepeatButton.Template>
-						</RepeatButton>
-					</Track.DecreaseRepeatButton>
-					<Track.Thumb>
-						<Thumb Width="5" Margin="0,-33.5,0,-24.5" RenderTransformOrigin="0.2,0.438">
-							<Thumb.Template>
-								<ControlTemplate>
-									<Grid>
-										<Ellipse Width="5" Height="5" Fill="Red" />
-										<Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
-									</Grid>
-								</ControlTemplate>
-							</Thumb.Template>
-						</Thumb>
-					</Track.Thumb>
-					<Track.IncreaseRepeatButton>
-						<RepeatButton Command="Slider.IncreaseLarge">
-							<RepeatButton.Template>
-								<ControlTemplate>
-									<Border Background="Transparent" />
-								</ControlTemplate>
-							</RepeatButton.Template>
-						</RepeatButton>
-					</Track.IncreaseRepeatButton>
-				</Track>
-			</Grid>
-		</ControlTemplate>
-		<Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ToggleButton}">
-						<Border Padding="{TemplateBinding Padding}">
-							<Grid Background="Transparent" SnapsToDevicePixels="False">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="19"/>
-									<RowDefinition Height="*"/>
-								</Grid.RowDefinitions>
-								<Grid>
-									<Grid.LayoutTransform>
-										<TransformGroup>
-											<TransformGroup.Children>
-												<TransformCollection>
-													<RotateTransform Angle="-90"/>
-												</TransformCollection>
-											</TransformGroup.Children>
-										</TransformGroup>
-									</Grid.LayoutTransform>
-									<Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
-									<Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
-								</Grid>
-								<ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="true">
-								<Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#222"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
-								<Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ToggleButton}">
-						<Border Padding="{TemplateBinding Padding}">
-							<Grid Background="Transparent" SnapsToDevicePixels="False">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="19"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-								<Grid>
-									<Grid.LayoutTransform>
-										<TransformGroup>
-											<TransformGroup.Children>
-												<TransformCollection>
-													<RotateTransform Angle="180"/>
-												</TransformCollection>
-											</TransformGroup.Children>
-										</TransformGroup>
-									</Grid.LayoutTransform>
-									<Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
-									<Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
-								</Grid>
-								<ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="true">
-								<Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#222"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
-								<Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ToggleButton}">
-						<Border Padding="{TemplateBinding Padding}">
-							<Grid Background="Transparent" SnapsToDevicePixels="False">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="19"/>
-									<RowDefinition Height="*"/>
-								</Grid.RowDefinitions>
-								<Grid>
-									<Grid.LayoutTransform>
-										<TransformGroup>
-											<TransformGroup.Children>
-												<TransformCollection>
-													<RotateTransform Angle="90"/>
-												</TransformCollection>
-											</TransformGroup.Children>
-										</TransformGroup>
-									</Grid.LayoutTransform>
-									<Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
-									<Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
-								</Grid>
-								<ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="true">
-								<Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#222"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
-								<Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style x:Key="ExpanderHeaderFocusVisual">
-			<Setter Property="Control.Template">
-				<Setter.Value>
-					<ControlTemplate>
-						<Border>
-							<Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ToggleButton}">
-						<Border Padding="{TemplateBinding Padding}">
-							<Grid Background="Transparent" SnapsToDevicePixels="False">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="19"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-								<Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
-								<Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
-								<ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="true">
-								<Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#222"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
-								<Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
-								<Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
-			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-			<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type Expander}">
-						<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3" SnapsToDevicePixels="true">
-							<DockPanel>
-								<ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,1,1,1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Right" Width="72"/>
-								<ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-							</DockPanel>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsExpanded" Value="true">
-								<Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
-							</Trigger>
-							<Trigger Property="ExpandDirection" Value="Right">
-								<Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
-								<Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
-								<Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderRightHeaderStyle}"/>
-							</Trigger>
-							<Trigger Property="ExpandDirection" Value="Up">
-								<Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
-								<Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
-								<Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderUpHeaderStyle}"/>
-							</Trigger>
-							<Trigger Property="ExpandDirection" Value="Left">
-								<Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
-								<Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
-								<Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderLeftHeaderStyle}"/>
-							</Trigger>
-							<Trigger Property="IsEnabled" Value="false">
-								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</Window.Resources>
+	Title="CloudPlayer" Width="738" Height="376" Icon="/MediaPlayer;component/Images/icone.png" MouseDown="mediaControl_MouseDown" Drop="Window_Drop" AllowDrop="True" WindowStyle="None"  MouseRightButtonDown="Window_MouseRightButtonDown" MouseRightButtonUp="Window_MouseRightButtonUp" IsManipulationEnabled="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="Window_Closed" KeyDown="Check_Key_Event" Background="#FF0A0A0A">
+    <Window.Resources>
+        <ControlTemplate x:Key="SliderControlTemplate" TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="#FFC68B8B" Height="4" Visibility="Collapsed" />
+                <Border x:Name="TrackBackground" Margin="0" CornerRadius="4" Height="6" Grid.Row="1" BorderBrush="#FF0B0C0B" BorderThickness="1" Opacity="0.9" >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0D1949"/>
+                            <GradientStop Color="#FFA0B1F7" Offset="1"/>
+                            <GradientStop Color="#FF50527A" Offset="0.474"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton>
+                            <RepeatButton.Template>
+                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Foreground="#FFD44242" Width="3" BorderBrush="White" BorderThickness="0" Opacity="0.9">
+                            <Thumb.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFF5F6FB" Offset="0"/>
+                                    <GradientStop Color="#FF6772AF" Offset="0.138"/>
+                                    <GradientStop Color="#FF6772AF" Offset="0.875"/>
+                                    <GradientStop Color="#FFF3F4FB" Offset="0.978"/>
+                                    <GradientStop Color="#FF485078" Offset="0.509"/>
+                                </LinearGradientBrush>
+                            </Thumb.Background>
+                            <Thumb.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Ellipse Width="5" Height="5" Fill="Red" />
+                                        <Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Thumb.Template>
+                        </Thumb>
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="Slider.IncreaseLarge" Foreground="#FF9F5858">
+                            <RepeatButton.Background>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                    <GradientStop Color="#FFCE2D2D" Offset="1"/>
+                                </LinearGradientBrush>
+                            </RepeatButton.Background>
+                            <RepeatButton.Template>
+                                <ControlTemplate>
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderControlTemplate1" TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TickBar Grid.Row="0" x:Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Height="4" Visibility="Collapsed" >
+                    <TickBar.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TickBar.Fill>
+                </TickBar>
+                <Border x:Name="TrackBackground" Margin="0,0,0,8" CornerRadius="2" Height="Auto" Grid.Row="1" BorderBrush="{x:Null}" BorderThickness="1" >
+                    <Border.Background>
+                        <ImageBrush ImageSource="SliderSon.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+                <Track Height="{TemplateBinding Height}" Grid.Row="1" x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton>
+                            <RepeatButton.Template>
+                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Width="5" Margin="0,-33.5,0,-24.5" RenderTransformOrigin="0.2,0.438">
+                            <Thumb.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Ellipse Width="5" Height="5" Fill="Red" />
+                                        <Label Width="10" Height="10" Background="Black" Content="{Binding Value, ElementName=rr}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Thumb.Template>
+                        </Thumb>
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="Slider.IncreaseLarge">
+                            <RepeatButton.Template>
+                                <ControlTemplate>
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="19"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="-90"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="180"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="19"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <TransformCollection>
+                                                    <RotateTransform Angle="90"/>
+                                                </TransformCollection>
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                    <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ContentPresenter HorizontalAlignment="Center" Margin="0,4,0,0" Grid.Row="1" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderHeaderFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Ellipse x:Name="circle" HorizontalAlignment="Center" Height="19" Stroke="DarkGray" VerticalAlignment="Center" Width="19"/>
+                                <Path x:Name="arrow" Data="M 1,1.5 L 4.5,5 L 8,1.5" HorizontalAlignment="Center" SnapsToDevicePixels="false" Stroke="#666" StrokeThickness="2" VerticalAlignment="Center"/>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF3C7FB1"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#222"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Stroke" TargetName="circle" Value="#FF526C7B"/>
+                                <Setter Property="StrokeThickness" TargetName="circle" Value="1.5"/>
+                                <Setter Property="Stroke" TargetName="arrow" Value="#FF003366"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Expander}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3" SnapsToDevicePixels="true">
+                            <DockPanel>
+                                <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,1,1,1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Right" Width="72"/>
+                                <ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="true">
+                                <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Right">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderRightHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Up">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderUpHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="ExpandDirection" Value="Left">
+                                <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
+                                <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
+                                <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderLeftHeaderStyle}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    	<Style x:Key="ButtonFocusVisual">
+    		<Setter Property="Control.Template">
+    			<Setter.Value>
+    				<ControlTemplate>
+    					<Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
+    	<LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+    		<GradientStop Color="#F3F3F3" Offset="0"/>
+    		<GradientStop Color="#EBEBEB" Offset="0.5"/>
+    		<GradientStop Color="#DDDDDD" Offset="0.5"/>
+    		<GradientStop Color="#CDCDCD" Offset="1"/>
+    	</LinearGradientBrush>
+    	<SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+    	<Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+    		<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+    		<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+    		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+    		<Setter Property="BorderThickness" Value="1"/>
+    		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+    		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+    		<Setter Property="VerticalContentAlignment" Value="Center"/>
+    		<Setter Property="Padding" Value="1"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="{x:Type Button}">
+    					<Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RenderDefaulted="{TemplateBinding IsDefaulted}" SnapsToDevicePixels="true">
+    						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Height="25" Width="9.99"/>
+    					</Microsoft_Windows_Themes:ButtonChrome>
+    					<ControlTemplate.Triggers>
+    						<Trigger Property="IsKeyboardFocused" Value="true">
+    							<Setter Property="RenderDefaulted" TargetName="Chrome" Value="true"/>
+    						</Trigger>
+    						<Trigger Property="ToggleButton.IsChecked" Value="true">
+    							<Setter Property="RenderPressed" TargetName="Chrome" Value="true"/>
+    						</Trigger>
+    						<Trigger Property="IsEnabled" Value="false">
+    							<Setter Property="Foreground" Value="#ADADAD"/>
+    						</Trigger>
+    					</ControlTemplate.Triggers>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
+    </Window.Resources>
 
 
     <Grid x:Name="Grid">
-    	<Grid.Background>
-    		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-    			<GradientStop Color="Black" Offset="0"/>
-    			<GradientStop Color="#FFDAC2C2" Offset="1"/>
-    		</LinearGradientBrush>
-    	</Grid.Background>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FFDAC2C2" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.194*" />
             <ColumnDefinition Width="0.806*" />
@@ -404,8 +450,7 @@
                                 <Image Source="/MediaPlayer;component/Images/openurl.gif" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem x:Name="OpenPlaylist" Header="Open Playlist" Click="searchPlaylist">
-                        </MenuItem>
+                        <MenuItem x:Name="OpenPlaylist" Header="Open Playlist" Click="searchPlaylist"/>
                     </MenuItem>
                     <MenuItem Command="Copy">
                         <MenuItem.Icon>
@@ -420,121 +465,196 @@
                 </ContextMenu>
             </RichTextBox.ContextMenu>
         </RichTextBox>
+        <RichTextBox x:Name="Menu2" IsEnabled="False" ContextMenuService.ShowOnDisabled="True" Grid.ColumnSpan="2">
+            <RichTextBox.ContextMenu>
+                <ContextMenu x:Name="contextMenu2">
+                    <MenuItem x:Name="add" Header="Add"/>
+                    <MenuItem x:Name="Copy" Header="Copy"/>
+                    <MenuItem x:Name="Paste" Header="Paste"/>
+                    <MenuItem x:Name="delete" Header="Delete"/>
+                   
+                </ContextMenu>
+            </RichTextBox.ContextMenu>
+        </RichTextBox>
         <Border BorderThickness="1" Grid.ColumnSpan="2" Margin="0,21,0,74">
-        	<Border.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FFB5C0DA" Offset="1"/>
-        			<GradientStop Color="#FF515968" Offset="0.491"/>
-        			<GradientStop Color="#FFB7BECC" Offset="0.987"/>
-        			<GradientStop Color="#FFEFF1F9"/>
-        			<GradientStop Color="#FFD3E1FD"/>
-        		</LinearGradientBrush>
-        	</Border.Background>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB5C0DA" Offset="1"/>
+                    <GradientStop Color="#FF515968" Offset="0.491"/>
+                    <GradientStop Color="#FFB7BECC" Offset="0.987"/>
+                    <GradientStop Color="#FFEFF1F9"/>
+                    <GradientStop Color="#FFD3E1FD"/>
+                </LinearGradientBrush>
+            </Border.Background>
         </Border>
         <Viewbox x:Name="layoutRoot" Stretch="Fill" Grid.ColumnSpan="2">
             <MediaElement x:Name="mediaControl" ScrubbingEnabled="True" LoadedBehavior="Manual" UnloadedBehavior="Play" VerticalAlignment="Top"  MediaOpened="media_MediaOpened" Volume="{Binding Value, ElementName=volumeSlider}" DataContext="{Binding}" MouseMove="mediaControl_MouseMove" AllowDrop="True" Stretch="Fill" MouseDown="mediaControl_MouseDown" IsMuted="False" KeyDown="Check_Key_Event" KeyUp="Check_Key_Event" />
         </Viewbox>
-        <Border Name="border" BorderThickness="1" Height="90" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,-6" MouseMove="Panel_MouseMove" Opacity="0.6">
-        	<Border.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF979AA5" Offset="0"/>
-        			<GradientStop Color="White" Offset="0.086"/>
-        			<GradientStop Color="#FFF7F7FB" Offset="0.263"/>
-        			<GradientStop Color="#FFB3B4B6" Offset="0.302"/>
-        			<GradientStop Color="#FFE7E8E9" Offset="0.431"/>
-        			<GradientStop Color="#FF8C8E9D" Offset="0.116"/>
-        			<GradientStop Color="#FF888F97" Offset="0.651"/>
-        			<GradientStop Color="#FF354258" Offset="0.866"/>
-        			<GradientStop Color="#FF010B10" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Border.Background>
+        <Border x:Name="border" MouseMove="Panel_MouseMove" BorderThickness="1" Height="90" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,-6" Opacity="0.6">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF979AA5" Offset="0"/>
+                    <GradientStop Color="White" Offset="0.056"/>
+                    <GradientStop Color="#FFF7F7FB" Offset="0.224"/>
+                    <GradientStop Color="#FFC5C6C8" Offset="0.25"/>
+                    <GradientStop Color="#FFE7E8E9" Offset="0.815"/>
+                    <GradientStop Color="#FF8C8E9D" Offset="0.086"/>
+                    <GradientStop Color="#FF41556C" Offset="0.914"/>
+                    <GradientStop Color="#FF565A60" Offset="0.31"/>
+                    <GradientStop Color="#FF040404" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
         </Border>
         <Border x:Name="BorderTextBegin" BorderThickness="1" HorizontalAlignment="Left" Height="22" Margin="12,0,0,22" VerticalAlignment="Bottom" Width="58" BorderBrush="Black" Opacity="0.6">
-        	<Border.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-        			<GradientStop Color="#FF3B3B41"/>
-        			<GradientStop Color="#FF7C90C2" Offset="0.207"/>
-        			<GradientStop Color="#FF34353B" Offset="0.022"/>
-        			<GradientStop Color="#FF0D0D0E"/>
-        			<GradientStop Color="#FF202A50" Offset="0.996"/>
-        			<GradientStop Color="#FF020D3D" Offset="0.978"/>
-        		</LinearGradientBrush>
-        	</Border.Background>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF3B3B41"/>
+                    <GradientStop Color="#FF7C90C2" Offset="0.207"/>
+                    <GradientStop Color="#FF34353B" Offset="0.022"/>
+                    <GradientStop Color="#FF0D0D0E"/>
+                    <GradientStop Color="#FF202A50" Offset="0.996"/>
+                    <GradientStop Color="#FF020D3D" Offset="0.978"/>
+                </LinearGradientBrush>
+            </Border.Background>
             <TextBlock x:Name="time" TextWrapping="Wrap" Height="19" Width="57" Text="  --:--" Foreground="#FFFDFBFB" Margin="10,0,0,0" />
         </Border>
         <Border  x:Name="BorderTextEnd" BorderThickness="1" HorizontalAlignment="Right" Height="22" Margin="0,0,12,22" VerticalAlignment="Bottom" Width="58" BorderBrush="Black" Opacity="0.6" Grid.Column="1">
-        	<Border.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-        			<GradientStop Color="#FF3B3B41"/>
-        			<GradientStop Color="#FF7C90C2" Offset="0.207"/>
-        			<GradientStop Color="#FF34353B" Offset="0.022"/>
-        			<GradientStop Color="#FF0D0D0E"/>
-        			<GradientStop Color="#FF202A50" Offset="0.996"/>
-        			<GradientStop Color="#FF020D3D" Offset="0.978"/>
-        		</LinearGradientBrush>
-        	</Border.Background>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF3B3B41"/>
+                    <GradientStop Color="#FF7C90C2" Offset="0.207"/>
+                    <GradientStop Color="#FF34353B" Offset="0.022"/>
+                    <GradientStop Color="#FF0D0D0E"/>
+                    <GradientStop Color="#FF202A50" Offset="0.996"/>
+                    <GradientStop Color="#FF020D3D" Offset="0.978"/>
+                </LinearGradientBrush>
+            </Border.Background>
             <TextBlock x:Name="timeend" TextWrapping="Wrap" Height="22" Width="60" Text="   --:--" Foreground="#FFF7F8FD" Margin="7,0,0,0" />
         </Border>
-        <Slider x:Name="slider2" Height="26" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" VerticalAlignment="Bottom" Margin="12,0,12,54" Grid.ColumnSpan="2" Foreground="#FF918484" BorderBrush="#FF7E3B3B" Template="{DynamicResource SliderControlTemplate}">
-        	<Slider.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="Black" Offset="0"/>
-        			<GradientStop Color="#FF933B3B" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Slider.Background>
-        	<Slider.OpacityMask>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="Black" Offset="0"/>
-        			<GradientStop Color="#FF854A4A" Offset="1"/>
-        		</LinearGradientBrush>
-        	</Slider.OpacityMask>
+        <Slider x:Name="slider2" Height="26" Thumb.DragStarted="seekBar_DragStarted" Thumb.DragCompleted="seekBar_DragCompleted" ValueChanged="slider2_ValueChanged" MouseLeftButtonUp="slider2_MouseLeftButtonUp" IsMoveToPointEnabled="True" VerticalAlignment="Bottom" Margin="12,0,12,58" Grid.ColumnSpan="2" Foreground="#FF918484" BorderBrush="#FF7E3B3B" Template="{DynamicResource SliderControlTemplate}">
+            <Slider.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#FF933B3B" Offset="1"/>
+                </LinearGradientBrush>
+            </Slider.Background>
+            <Slider.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#FF854A4A" Offset="1"/>
+                </LinearGradientBrush>
+            </Slider.OpacityMask>
         </Slider>
         <StackPanel x:Name="Panel" HorizontalAlignment="Center" Width="486" Orientation="Horizontal" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="117,0,113,8" Height="76" OpacityMask="White" MouseMove="Panel_MouseMove" Grid.ColumnSpan="2">
             <Canvas Height="91" x:Name="canvas1" Width="376" Margin="0,5.5">
                 <Button x:Name="visualizer" Width="40" Click="Visualizer_Click" IsCancel="True" Height="27" Canvas.Left="44" Canvas.Top="32" Margin="430,0,0,0">
                     <Grid Height="35" Width="54" Margin="-0,0,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20*" />
-                            <RowDefinition Height="15*" />
+                        	<RowDefinition Height="20*" />
+                        	<RowDefinition Height="15*" />
                         </Grid.RowDefinitions>
                         <Image x:Name="ImageVisualizer" Source="/MediaPlayer;component/Images/visualizer.png" Stretch="Fill" Height="36" VerticalAlignment="Top" Margin="-10,-5,5,0" Grid.RowSpan="2" />
                     </Grid>
                 </Button>
-                <Button x:Name="button" Style="{StaticResource CircleButton}" Width="50" Click="play_Click" IsCancel="True" Height="50" Canvas.Left="52" Canvas.Top="19" Margin="0">
-            		<Grid Height="53" Width="50">
-            			<Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/play.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="-8.667,0,-9,0" Width="50" />
-            		</Grid>
-            	</Button>
-            	<Button x:Name="backward" Style="{StaticResource CircleButton}" Width="50" IsCancel="True" Height="50" Click="Prev" Canvas.Left="106" Canvas.Top="19" Margin="0">
-            		<Grid Height="50" Width="55">
-            			<Image Source="/MediaPlayer;component/Images/backward.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
-            		</Grid>
-            	</Button>
-            	<Button Style="{StaticResource CircleButton}" Height="50" Width="50" Click="stop_Click" Canvas.Left="160" Canvas.Top="19" Margin="0">
-            		<Grid Height="50" Width="55.5">
-            			<Image Source="/MediaPlayer;component/Images/stop.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
-            		</Grid>
-            	</Button>
-            	<Button Style="{StaticResource CircleButton}" Height="50" Width="50" Click="Next" Canvas.Left="214" Canvas.Top="19" Margin="0">
-            		<Grid Height="50" Width="55.667">
-            			<Image Source="/MediaPlayer;component/Images/foreward.png" Stretch="Fill" Height="50" VerticalAlignment="Top" Margin="0,0,6,0" Width="50" />
-            		</Grid>
-            	</Button>
-            	<Button Style="{StaticResource CircleButton}" Height="35" Width="35" Click="load_Click" Canvas.Left="288" Canvas.Top="26">
-            		<Grid Height="39" Width="41">
-            			<Image Source="/MediaPlayer;component/Images/add.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
-            		</Grid>
-            	</Button>
-            	<Button x:Name="sound" Style="{StaticResource CircleButton}" Height="35" Width="35" Click="sound_Click" Canvas.Left="328" Canvas.Top="26">
-            		<Grid Height="39" Width="41">
-            			<Image x:Name="ImageSound" Source="/MediaPlayer;component/Images/soundon.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="0,0,6,0" />
-            		</Grid>
-            	</Button>
+                <Button x:Name="button" Style="{StaticResource CircleButton}" Width="45.75" Click="play_Click" IsCancel="True" Height="43.25" Canvas.Left="52" Canvas.Top="22.25" Margin="0">
+                	<Button.Background>
+                		<RadialGradientBrush>
+                			<GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                			<GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                			<GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                			<GradientStop Color="#7F605A5A" Offset="0.75"/>
+                		</RadialGradientBrush>
+                	</Button.Background>
+                    <Grid Height="42" Width="31.333">
+                        <Image x:Name="ImagePlay" Source="/MediaPlayer;component/Images/play.png" Stretch="Fill" Height="36" VerticalAlignment="Top" Margin="-2.5,3.25,-3.333,0" />
+                    </Grid>
+                </Button>
+                <Button x:Name="backward" Style="{StaticResource CircleButton}" Width="45.5" IsCancel="True" Height="43.25" Click="Prev" Canvas.Left="106" Canvas.Top="22.25" Margin="0">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                            <GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                            <GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                            <GradientStop Color="#7F605A5A" Offset="0.75"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                    <Grid Height="42" Width="31.333">
+                        <Image  Source="/MediaPlayer;component/Images/backward.png" Stretch="Fill" Height="35.25" VerticalAlignment="Top" Margin="-2.5,3.25,-3.333,0" />
+                    </Grid>
+                </Button>
+                <Button Style="{StaticResource CircleButton}" Height="43.25" Width="43.75" Click="stop_Click" Canvas.Left="160" Canvas.Top="22.25" Margin="0">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                            <GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                            <GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                            <GradientStop Color="#7F605A5A" Offset="0.75"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                    <Grid Height="42" Width="31.333">
+                        <Image Source="/MediaPlayer;component/Images/stop.png" Stretch="Fill" Height="35" VerticalAlignment="Top" Margin="-2.5,3.5,-3.083,0" />
+                    </Grid>
+                    
+                </Button>
+                <Button Style="{StaticResource CircleButton}" Height="43.25" Width="43.25" Click="Next" Canvas.Left="214" Canvas.Top="22.25" Margin="0">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                            <GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                            <GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                            <GradientStop Color="#7F605A5A" Offset="0.75"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                    <Grid Height="42" Width="31.333">
+                        <Image  Source="/MediaPlayer;component/Images/foreward.png" Stretch="Fill" Height="34.5" VerticalAlignment="Top" Margin="-2.25,3.5,-2.333,0" />
+                    </Grid>
+                    
+                </Button>
+                <Button Style="{StaticResource CircleButton}" Height="35" Width="35" Click="load_Click" Canvas.Left="271.25" Canvas.Top="28" Margin="0">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                            <GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                            <GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                            <GradientStop Color="#7F605A5A" Offset="0.75"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                    <Grid Height="42" Width="31.333">
+                        <Image Source="/MediaPlayer;component/Images/add.png" Stretch="Fill" Height="29.25" VerticalAlignment="Top" Margin="0,2.5,0,0" />
+                    </Grid>
+                  </Button>
+                <Button x:Name="sound" Style="{StaticResource CircleButton}" Height="35" Width="35" Click="sound_Click" Canvas.Left="341" Canvas.Top="28" Margin="0">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                            <GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                            <GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                            <GradientStop Color="#7F605A5A" Offset="0.75"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                    
+                    <Grid Height="39" Width="41">
+                        <Image x:Name="ImageSound" Source="/MediaPlayer;component/Images/soundon.png" Stretch="Fill" Height="31.25" VerticalAlignment="Top" Margin="2.25,2.25,8,0" />
+                    </Grid>
+                </Button>
+                <Button Style="{StaticResource CircleButton}" Height="35" Width="35" Canvas.Left="8" Canvas.Top="30.5" Margin="-3,-3,0,0"  Click="Minimize_Click">
+                	<Button.Background>
+                		<RadialGradientBrush>
+                			<GradientStop Color="#7FEBE1E1" Offset="0.724"/>
+                			<GradientStop Color="#CCADAAAA" Offset="0.991"/>
+                			<GradientStop Color="#CBE2DCDC" Offset="0.845"/>
+                			<GradientStop Color="#7F605A5A" Offset="0.75"/>
+                		</RadialGradientBrush>
+                	</Button.Background>
+                	<Grid Height="42" Width="31.333">
+                        <Image Source="/MediaPlayer;component/Images/mini.png" Stretch="Fill" Height="29.25" VerticalAlignment="Top" Margin="0,2.5,0,0" />
+                	</Grid>
+                </Button>
             </Canvas>
             <Slider x:Name="volumeSlider" Width="86" Height="42" Minimum="0" Maximum="50" Value="30" ValueChanged="volumeSlider_ValueChanged" Template="{DynamicResource SliderControlTemplate1}" VerticalAlignment="Bottom" />
         </StackPanel>
         <TextBlock x:Name="Subtitle" Height="82" Margin="0,0,0,74" Text="" VerticalAlignment="Bottom" MouseDown="Subtitle_MouseDown" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="12" FontFamily="Arial"/>
-        <DockPanel x:Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65"></DockPanel>
+        <DockPanel x:Name="TopMenuPanel" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="65"/>
         <Menu x:Name="TopMenu" IsMainMenu="True" Opacity="0.8" Grid.ColumnSpan="2" Height="21" VerticalAlignment="Top" MouseMove="Panel_MouseMove">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -603,9 +723,9 @@
             <MenuItem Header="_Help" />
         </Menu>
 
-        <Expander Header="Playlist" Margin="212,-1,0,85" Name="expander1" Expanded="Expanded" Style="{DynamicResource ExpanderStyle1}" Grid.ColumnSpan="2" d:LayoutOverrides="GridBox">
+        <Expander Header="Playlist" Margin="0,21,0,85" x:Name="expander1" MouseMove="mediaControl_MouseMove" Expanded="Expanded" Style="{DynamicResource ExpanderStyle1}" d:LayoutOverrides="GridBox" Grid.ColumnSpan="2">
             <Grid >
-                <my:Playlist x:Name="playlist" Width="500.726" Margin="0,0,0,-1" HorizontalAlignment="Right" Selected="SelectedEvent" MouseMove="Panel_MouseMove"/>
+                <my:Playlist x:Name="playlist" Width="Auto" Margin="8,0,0,-1" MouseRightButtonDown="Library_MouseRightButtonDown" MouseRightButtonUp="Library_MouseRightButtonDown" Selected="SelectedEvent" MouseMove="Panel_MouseMove" Opacity="0.7"/>
             </Grid>
         </Expander>
     </Grid>

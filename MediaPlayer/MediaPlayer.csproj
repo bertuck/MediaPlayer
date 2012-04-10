@@ -92,6 +92,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Library.cs" />
+    <Compile Include="Stuff.cs" />
     <Compile Include="FullScreenBehavior.cs" />
     <Compile Include="Playlist.xaml.cs">
       <DependentUpon>Playlist.xaml</DependentUpon>
@@ -230,6 +232,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\visualizer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="minimiser-icone-8625-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mini.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

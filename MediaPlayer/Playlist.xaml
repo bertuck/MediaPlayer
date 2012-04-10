@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             d:DesignHeight="328" d:DesignWidth="503">
+             d:DesignHeight="328" Width="860">
     <UserControl.Resources>
         <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -227,20 +227,73 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Width="500">
-        <Border BorderBrush="Black" BorderThickness="1" Margin="0,61,0,36" HorizontalAlignment="Right" Width="252">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="18.5"/>
+        </Grid.ColumnDefinitions>
+        <Label Height="80" Foreground="#FF413D3D" VerticalAlignment="Top" Margin="0,24,230.486,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="40.038" d:LayoutOverrides="HorizontalAlignment">
+            <Label.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#009A9AA7" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Label Height="81.75" Foreground="#FF413D3D" VerticalAlignment="Bottom" Margin="0,0,230.486,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="40.038" d:LayoutOverrides="HorizontalAlignment">
+            <Label.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#009A9AA7" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Label Height="80" Foreground="#FF413D3D" VerticalAlignment="Top" Margin="0,24,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="37.364" Grid.Column="1">
+            <Label.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#009A9AA7" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Label Height="81.75" Foreground="#FF413D3D" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="37.364" Grid.Column="1">
+            <Label.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#009A9AA7" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Border BorderThickness="1" Margin="0,55,-0.095,8" HorizontalAlignment="Right" Width="250.595">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF707A9F" Offset="0"/>
-                    <GradientStop Color="#FF33394E" Offset="0.466"/>
-                    <GradientStop Color="#FF6D7AA7" Offset="1"/>
+                    <GradientStop Color="#FF2E3649" Offset="0.448"/>
+                    <GradientStop Color="#FF99ADDE" Offset="1"/>
+                    <GradientStop Color="#FF5B658D"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <ListView x:Name="liste" BorderBrush="{x:Null}" Foreground="White" OpacityMask="#FFFFF9F9" MouseDoubleClick="liste_MouseDoubleClick" MouseRightButtonDown="liste_MouseRightButtonDown" Background="{x:Null}" Margin="249,41,0,41">
+        <ListView x:Name="liste" BorderBrush="#FFFBF1F1" Foreground="White" OpacityMask="#FFFFF9F9" MouseDoubleClick="liste_MouseDoubleClick" MouseRightButtonDown="liste_MouseRightButtonDown" Background="{x:Null}" Margin="0,41,-0.095,41" HorizontalAlignment="Right" Width="250.595" Drop="liste_DragEnter">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="205" Header="Title">
+
+                    <GridViewColumn Width="200" Header="Title">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -254,58 +307,56 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border BorderThickness="1" Height="34" Margin="0,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="252">
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF4A4E64" Offset="0"/>
-                    <GradientStop Color="White" Offset="0.134"/>
-                    <GradientStop Color="#FF545768" Offset="0.224"/>
-                    <GradientStop Color="#FFF5F6FD" Offset="0.828"/>
-                    <GradientStop Color="#FF9AA2CC" Offset="0.897"/>
-                    <GradientStop Color="#FF1F2543" Offset="1"/>
-                    <GradientStop Color="#FFA6A7B1" Offset="0.789"/>
-                    <GradientStop Color="#FFD2D4DC" Offset="0.513"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <Label Content="                  Title                                                        Time" Height="23" Foreground="#FFFDF7F7" FontFamily="Segoe WP Black" FontSize="9.333" Width="251">
-                <Label.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFFDFDFF" Offset="0" />
-                        <GradientStop Color="#FF5F6383" Offset="0.862" />
-                        <GradientStop Color="#FF374478" Offset="0.009" />
-                        <GradientStop Color="#FF6D707E" />
-                        <GradientStop Color="#FF7D7F8F" Offset="0.866" />
-                        <GradientStop Color="#FFF9F9FF" Offset="1" />
-                    </LinearGradientBrush>
-                </Label.Background>
-            </Label>
-        </Border>
-        <Label Height="40" VerticalAlignment="Bottom" Foreground="#FF413D3D" HorizontalAlignment="Right" Width="249" Margin="0,0,2,1">
+        <Label Height="41" VerticalAlignment="Bottom" Foreground="#FF413D3D" Margin="0,0,-0.095,0" HorizontalAlignment="Right" Width="251.095">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF323C4B" Offset="0.017"/>
                     <GradientStop Color="White" Offset="0.121"/>
                     <GradientStop Color="#FF505156" Offset="0.134"/>
-                    <GradientStop Color="#FF142245" Offset="0.974"/>
-                    <GradientStop Color="#FF0F0F10" Offset="0.996"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#FF0F0F10" Offset="1"/>
                     <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
-        <Label Content="" Height="38" VerticalAlignment="Top" Foreground="#FF333131" HorizontalAlignment="Right" Width="251" Margin="0,-1,0,0">
+        <Label Content="" Height="24" VerticalAlignment="Top" Foreground="#FF333131" Margin="0,0,175.25,0" HorizontalAlignment="Right" Width="25.5">
             <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF0A0E4E" Offset="0"/>
-                    <GradientStop Color="#FF404047" Offset="1"/>
-                    <GradientStop Color="#FF222F47" Offset="0.659"/>
-                    <GradientStop Color="#FF3B3C41" Offset="1"/>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF0A0E4E"/>
+                    <GradientStop Color="#FF98989D" Offset="0.944"/>
+                    <GradientStop Color="#FF8E96A7" Offset="0.724"/>
+                    <GradientStop Color="#00FDFDFD" Offset="0.957"/>
                     <GradientStop Color="#FFF7FAFD"/>
-                    <GradientStop Color="#FF7F8187" Offset="0.823"/>
-                    <GradientStop Color="#FFF7F8FD" Offset="0.746"/>
+                    <GradientStop Color="#FFE1E9FF" Offset="0.823"/>
+                    <GradientStop Color="#FF92949F" Offset="0.737"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Label Foreground="#FF413D3D" Margin="0,24,-0.095,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="250.595">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#FF0F0F10" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
-        <Button x:Name="prev" Content="Prev" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Width="53.5" Click="prev_Click" Foreground="#FFF5EDED" BorderBrush="#FF01030A" FontFamily="Segoe WP Black" BorderThickness="1,1,1,5" Margin="0,-1,198,0">
+        <Label Foreground="#FF413D3D" Margin="0,64,0,41" HorizontalAlignment="Right" Width="18.69" Grid.Column="1">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#FF0F0F10" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <Button x:Name="prev" Content="Prev" HorizontalAlignment="Right" Height="20.5" VerticalAlignment="Top" Width="42.5" Click="prev_Click" Foreground="#FFF5EDED" BorderBrush="#FF01030A" FontFamily="Segoe WP Black" BorderThickness="1,1,1,5" Margin="0,30.5,197,0">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FF091366" Offset="0"/>
@@ -316,7 +367,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="next" Content="Next" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Click="next_Click" Foreground="#FFF9F1F1" FontFamily="Segoe WP Black" Margin="0,-1,0,0">
+        <Button x:Name="next" Content="Next" Height="20.5" VerticalAlignment="Top" Click="next_Click" Foreground="#FFF9F1F1" FontFamily="Segoe WP Black" Margin="0,30.5,12.405,0" HorizontalAlignment="Right" Width="42.095">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FF121D74" Offset="0"/>
@@ -327,7 +378,7 @@
             </Button.Background>
         </Button>
 
-        <Button Content="Save" x:Name="save" HorizontalAlignment="Right" Width="51" Height="29" VerticalAlignment="Bottom" Click="save_Click" FontFamily="Segoe WP Black" Foreground="#FFFBF7F7" BorderThickness="1" Margin="0,0,2,1">
+        <Button Content="Save" x:Name="save" Height="29" VerticalAlignment="Bottom" Click="save_Click" FontFamily="Segoe WP Black" Foreground="#FFFBF7F7" BorderThickness="1" Margin="0,0,1.905,1" HorizontalAlignment="Right" Width="50.595">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FF0B2972" Offset="0"/>
@@ -337,50 +388,138 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <TextBlock Height="23" Margin="0,-1,57,0" x:Name="titre" Text="{Binding PlaylistName}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="111"/>
-        <Label x:Name="labelTotal" Content="Label" Height="28" Margin="0,0,56,2" VerticalAlignment="Bottom" Foreground="#FF313131" Opacity="0.9" HorizontalAlignment="Right" Width="196" />
-        <Expander Header="" Margin="0,-1,168,2" Name="expander1" Background="{x:Null}" Style="{DynamicResource ExpanderStyle1}">
+        <TextBlock Height="23" Margin="0,32,60.5,0" x:Name="titre" Text="{Binding PlaylistName}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="111"/>
+        <Label x:Name="labelTotal" Content="Label" Height="28" Margin="0,0,55.5,2" VerticalAlignment="Bottom" Foreground="#FF313131" Opacity="0.9" HorizontalAlignment="Right" Width="196" />
+        <Label Foreground="#FF413D3D" Margin="0,64,250.5,41" HorizontalAlignment="Right" Width="20.024" d:LayoutOverrides="HorizontalAlignment">
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                    <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                    <GradientStop Color="White" Offset="0.121"/>
+                    <GradientStop Color="#FF505156" Offset="0.134"/>
+                    <GradientStop Color="#FF142245" Offset="1"/>
+                    <GradientStop Color="#FF0F0F10" Offset="1"/>
+                    <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <Expander Header="" Margin="8,0,171.5,0" x:Name="expander1" Background="{x:Null}" Style="{DynamicResource ExpanderStyle1}">
             <Grid >
-                <Border BorderBrush="Black" BorderThickness="1" Height="8" Margin="0,0,81.5,0" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="44"/>
+                    <ColumnDefinition Width="0.188*"/>
+                    <ColumnDefinition Width="0.275*"/>
+                    <ColumnDefinition Width="0.28*"/>
+                    <ColumnDefinition Width="0.258*"/>
+                    <ColumnDefinition Width="Auto" MinWidth="80"/>
+                </Grid.ColumnDefinitions>
+                <Label Height="80" Foreground="#FF413D3D" VerticalAlignment="Bottom" Margin="19.643,0,-24.347,0" RenderTransformOrigin="0.5,0.5">
+                    <Label.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                            <GradientStop Color="White" Offset="0.121"/>
+                            <GradientStop Color="#FF505156" Offset="0.134"/>
+                            <GradientStop Color="#FF142245" Offset="1"/>
+                            <GradientStop Color="#009A9AA7" Offset="1"/>
+                            <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                        </RadialGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Label Height="80" Foreground="#FF413D3D" VerticalAlignment="Top" Margin="0,0,-24.347,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="48.704">
+                    <Label.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                            <GradientStop Color="White" Offset="0.121"/>
+                            <GradientStop Color="#FF505156" Offset="0.134"/>
+                            <GradientStop Color="#FF142245" Offset="1"/>
+                            <GradientStop Color="#009A9AA7" Offset="1"/>
+                            <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                        </RadialGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Border BorderThickness="1" Margin="0,31,-0.5,8" Grid.ColumnSpan="4" Grid.Column="1">
                     <Border.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF10243B" Offset="1"/>
-                            <GradientStop Color="#FFF9FBFD" Offset="0.401"/>
-                            <GradientStop Color="#FF424549" Offset="0.315"/>
-                            <GradientStop Color="#FFB8B8B8"/>
+                            <GradientStop Color="#FF2E3649" Offset="0.448"/>
+                            <GradientStop Color="#FF99ADDE" Offset="1"/>
+                            <GradientStop Color="#FF5B658D"/>
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
-                <ListView x:Name="Selection" Margin="0,17,81.5,8">
-                    <ListView.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF3A3D41" Offset="0"/>
-                            <GradientStop Color="#FFA1A9B6" Offset="1"/>
-                        </LinearGradientBrush>
-                    </ListView.Background>
+                <ListView x:Name="Selection" MouseDoubleClick="PlaylistChanged" Drop="PlaylistDrop"  Background="{x:Null}" BorderBrush="#FFF4F6F9" Foreground="#FFF7F8FB" Margin="0,13,-0.001,40" Grid.Column="1">
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Width="205" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Width="40" Header="Time" DisplayMemberBinding="{Binding Time}" />
+                            <GridViewColumn Width="45" Header="Time" DisplayMemberBinding="{Binding Time}" />
+                            <GridViewColumn  Header="Name" DisplayMemberBinding="{Binding Name}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,81.5,0" Height="40" VerticalAlignment="Top">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF071F35" Offset="0"/>
-                            <GradientStop Color="White" Offset="0.216"/>
-                            <GradientStop Color="#FF898A91" Offset="0.25"/>
-                            <GradientStop Color="#FFC5C6CC" Offset="0.302"/>
-                            <GradientStop Color="#FF97989B" Offset="0.711"/>
-                            <GradientStop Color="#FF747476" Offset="0.858"/>
-                            <GradientStop Color="#FFE4E4E5" Offset="0.75"/>
-                            <GradientStop Color="#FF091D3D" Offset="1"/>
+                <ListView x:Name="Musique" MouseDoubleClick="MusicClick" Background="{x:Null}" BorderBrush="White" Foreground="White" Margin="0,13,0,40" Grid.Column="2" Drop="Musique_Drop">
+                      <ListView.View>
+                        <GridView>
+
+                            <GridViewColumn Width="45" Header="Time" DisplayMemberBinding="{Binding Duration}" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Title}" />
+                        </GridView>
+                    </ListView.View>  
+                </ListView>
+                <ListView x:Name="Video" Margin="0,13,0,40" MouseDoubleClick="VideoClick" Background="{x:Null}" BorderBrush="#FFFBFCFD" Foreground="#FFFBFBFD" Grid.Column="3" Drop="Video_Drop" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="45" Header="Time" DisplayMemberBinding="{Binding Duration}" />
+                            <GridViewColumn  Header="Name" DisplayMemberBinding="{Binding Title}" />
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+                <ListView x:Name="Image" MouseDoubleClick="ImageClick" Margin="0,13,-0.5,40" Background="{x:Null}" BorderBrush="White" Grid.Column="4" Drop="Image_Drop" Foreground="#FFF9FAFD">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="45" Header="Time" DisplayMemberBinding="{Binding Duration}" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Title}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label Height="40" Foreground="#FF413D3D" VerticalAlignment="Top" Margin="0,0,-7.999,0" Grid.ColumnSpan="4" Grid.Column="1">
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                            <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                            <GradientStop Color="White" Offset="0.121"/>
+                            <GradientStop Color="#FF505156" Offset="0.134"/>
+                            <GradientStop Color="#FF142245" Offset="1"/>
+                            <GradientStop Color="#FF0F0F10" Offset="1"/>
+                            <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
                         </LinearGradientBrush>
-                    </Border.Background>
-                    <Label Content="Selections" Margin="92.003,7,84.503,7" Foreground="#FF353333"/>
-                </Border>
+                    </Label.Background>
+                </Label>
+                <Label Content="Images" Margin="47.954,8,39.454,0" Height="23" VerticalAlignment="Top" RenderTransformOrigin="-0.194,0.562" Grid.Column="4" HorizontalAlignment="Center"/>
+                <Label Content="Musiques" Height="23" Margin="42.541,8,42,0" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Center"/>
+                <Label Content="Videos" Height="23" Margin="56.772,8,47.609,0" VerticalAlignment="Top" Grid.Column="3" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
+                <Label Height="40" Foreground="#FF413D3D" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Grid.Column="1" Margin="0,0,-0.5,0">
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                            <GradientStop Color="White" Offset="0.121"/>
+                            <GradientStop Color="#FF505156" Offset="0.134"/>
+                            <GradientStop Color="#FF142245" Offset="1"/>
+                            <GradientStop Color="#FF0F0F10" Offset="1"/>
+                            <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Label Foreground="#FF413D3D" Margin="0,40" HorizontalAlignment="Right" Width="24.357">
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FF323C4B" Offset="0.017"/>
+                            <GradientStop Color="White" Offset="0.121"/>
+                            <GradientStop Color="#FF505156" Offset="0.134"/>
+                            <GradientStop Color="#FF142245" Offset="1"/>
+                            <GradientStop Color="#FF0F0F10" Offset="1"/>
+                            <GradientStop Color="#FFF5F8FB" Offset="0.315"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Label Content="Playlist" Height="24" Margin="8.855,8,8,0" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
         </Expander>
     </Grid>

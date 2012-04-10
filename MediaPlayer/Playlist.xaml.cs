@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Data;
 
 namespace MediaPlayer
 {
@@ -24,16 +26,28 @@ namespace MediaPlayer
         ObservableCollection<PlaylistInfo> PlaylistCollection =
         new ObservableCollection<PlaylistInfo>();
 
+        ObservableCollection<Media> ImageCollection =
+        new ObservableCollection<Media>();
+        ObservableCollection<Media> MusicCollection =
+             new ObservableCollection<Media>();
+        ObservableCollection<Media> VideoCollection =
+             new ObservableCollection<Media>();
+
+     
+
         string _total;
         TagLib.File tagFile;
         bool play = false;
         int idPlaylist;
+       
+
         int curPlaylist;
         int curPlay;
         public string PlaylistName { get; set; }
         public static readonly RoutedEvent SelectedEvent =
         EventManager.RegisterRoutedEvent("Selected", RoutingStrategy.Bubble,
         typeof(RoutedEventHandler), typeof(Playlist));
+        Library lib = new Library();
 
         public Playlist()
         {
@@ -42,21 +56,26 @@ namespace MediaPlayer
             curPlay = 0;
             InitializeComponent();
 
-            PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = "Current list", id = 0, cur = 0, timeInit = 0 });
+            PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = "Current list", id = 0, cur = 0 });
             idPlaylist++;
             titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
             labelTotal.Content = Total();
             liste.ItemsSource = SoundCollection;
             Selection.ItemsSource = PlaylistCollection;
-            // SearchSelections();
+            Video.ItemsSource = VideoCollection;
+            Musique.ItemsSource = MusicCollection;
+            Image.ItemsSource = ImageCollection;
+            SearchSelections();
+            init_Library();
 
         }
-        /*
+
         ~Playlist()
         {
             SaveSelections();
+            lib.save_To_File();
         }
-        */
+
         public string Total()
         {
             _total = "Total: ";
@@ -108,19 +127,38 @@ namespace MediaPlayer
         }
         public void SearchPlaylist(string sPath)
         {
-
-            PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = System.IO.Path.GetFileNameWithoutExtension(sPath), path = sPath, id = 0, cur = 0, timeInit = 0 });
-            PlaylistInfo p = PlaylistCollection.ElementAt(idPlaylist);
-            curPlaylist = idPlaylist;
-            idPlaylist++;
-            string[] lines = System.IO.File.ReadAllLines(System.IO.Path.GetFullPath(sPath));
-            foreach (string line in lines)
+            PlaylistInfo p = null;
+            foreach (PlaylistInfo tmp in PlaylistCollection)
             {
-                AddSound(line);
+                if (tmp.path == sPath)
+                {
+                    p = tmp;
+                    break;
+                }
             }
-            titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
-            liste.ItemsSource = SoundCollection;
-            labelTotal.Content = Total();
+
+            if (p != null)
+            {
+                curPlaylist = PlaylistCollection.IndexOf(p);
+                titre.Text = p.Name;
+                liste.ItemsSource = SoundCollection;
+                labelTotal.Content = Total();
+            }
+            else
+            {
+                PlaylistCollection.Insert(idPlaylist, new PlaylistInfo { Name = System.IO.Path.GetFileNameWithoutExtension(sPath), path = sPath, id = 0, cur = 0 });
+                p = PlaylistCollection.ElementAt(idPlaylist);
+                curPlaylist = idPlaylist;
+                idPlaylist++;
+                string[] lines = System.IO.File.ReadAllLines(System.IO.Path.GetFullPath(sPath));
+                foreach (string line in lines)
+                {
+                    AddSound(line);
+                }
+                titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
+                liste.ItemsSource = SoundCollection;
+                labelTotal.Content = Total();
+            }
         }
         public event RoutedEventHandler Selected
         {
@@ -139,30 +177,87 @@ namespace MediaPlayer
 
         public void AddUrl(string filename)
         {
-            SoundInfo s = new SoundInfo
+            SoundInfo s;
+            if ((s = isInList(filename)) != null)
             {
-                SoundName = filename,
-                FileName = filename,
+                if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                {
+                    SoundInfo p1 = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    p1.Icone = "";
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p1);
+                    (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                }
+                curPlay = curPlaylist;
+                if (play)
+                    s.Icone = "/MediaPlayer;component/Images/playing.png";
+                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                liste.SelectedItem = s;
+                RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                RaiseEvent(newEventArgs);
+            }
+            else
+            {
+                s = new SoundInfo
+                {
+                    SoundName = filename,
+                    FileName = filename,
 
-            };
-            s.media = new MediaElement();
-            s.media.LoadedBehavior = MediaState.Manual;
-            s.media.UnloadedBehavior = MediaState.Manual;
-            s.media.Source = new Uri(filename, UriKind.Absolute);
-            s.media.Pause();
-            s.media.MediaOpened += new RoutedEventHandler(Opened);
+                };
+                s.media = new MediaElement();
+                s.media.LoadedBehavior = MediaState.Manual;
+                s.media.UnloadedBehavior = MediaState.Manual;
+                s.media.Source = new Uri(filename, UriKind.Absolute);
+                s.media.Pause();
+                s.media.MediaOpened += new RoutedEventHandler(Opened);
 
-            if ((PlaylistCollection.ElementAt(curPlaylist)).id == (PlaylistCollection.ElementAt(curPlaylist)).cur && play)
-                s.Icone = "/MediaPlayer;component/Images/playing.png";
-            SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).id, s);
-            (PlaylistCollection.ElementAt(curPlaylist)).id++;
+                if ((PlaylistCollection.ElementAt(curPlaylist)).id == (PlaylistCollection.ElementAt(curPlaylist)).cur && play)
+                    s.Icone = "/MediaPlayer;component/Images/playing.png";
+                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).id, s);
+                (PlaylistCollection.ElementAt(curPlaylist)).id++;
+            }
+        }
+
+        public SoundInfo isInList(string filename)
+        {
+            SoundInfo ret = null;
+            foreach (SoundInfo s in SoundCollection)
+            {
+                if (s.FileName == filename)
+                {
+                    ret = s;
+                    break;
+                }
+            }
+            return ret;
         }
 
         public void AddSound(string filename)
         {
-            if (System.IO.Path.GetExtension(filename) == ".m3u")
+            SoundInfo s;
+            if (System.IO.Path.GetExtension(filename) == ".m3u" && System.IO.File.Exists(filename))
                 SearchPlaylist(filename);
-            else
+            else if (System.IO.File.Exists(filename) && (s = isInList(filename)) != null)
+            {
+                if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                {
+                    SoundInfo p1 = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    p1.Icone = "";
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p1);
+                    (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                }
+                curPlay = curPlaylist;
+                if (play)
+                    s.Icone = "/MediaPlayer;component/Images/playing.png";
+                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                liste.SelectedItem = s;
+                RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                RaiseEvent(newEventArgs);
+            }
+            else if (System.IO.File.Exists(filename))
             {
                 tagFile = TagLib.File.Create(filename);
 
@@ -172,7 +267,7 @@ namespace MediaPlayer
                     name = System.IO.Path.GetFileNameWithoutExtension(filename);
 
                 }
-                SoundInfo s = new SoundInfo
+                s = new SoundInfo
                 {
                     SoundName = name,
                     FileName = filename,
@@ -191,27 +286,135 @@ namespace MediaPlayer
                 SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).id, s);
                 (PlaylistCollection.ElementAt(curPlaylist)).id++;
             }
+            else
+            {
+                string messageBoxText = "Can't find file " + System.IO.Path.GetFileName(filename);
+                string caption = "Word Processor";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show(messageBoxText, caption, button, icon);
+            }
         }
         private void Opened(object sender, RoutedEventArgs e)
         {
             if (((MediaElement)sender).NaturalDuration.HasTimeSpan)
             {
                 TimeSpan ts = ((MediaElement)sender).NaturalDuration.TimeSpan;
-                Debug.WriteLine((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
-                Debug.WriteLine(curPlaylist);
+                
+                SoundInfo s = null;
+                foreach (SoundInfo med in SoundCollection)
+                {
+                    if (med.media == (MediaElement)sender)
+                    {
+                        s = med;
+                        int index = SoundCollection.IndexOf(s);
+                        SoundCollection.RemoveAt(index);
+                        s.S = ts.Seconds;
+                        s.M = ts.Minutes;
+                        s.H = ts.Hours;
+                        Debug.WriteLine("Time: " + ts.TotalSeconds);
+                        Debug.WriteLine("filename: " + s.FileName);
+                        
+                        SoundCollection.Insert(index, s);
 
-                SoundInfo s = SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
-                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).timeInit);
-                s.S = ts.Seconds;
-                s.M = ts.Minutes;
-                s.H = ts.Hours;
-                Debug.WriteLine("Time: " + ts.TotalSeconds);
-                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).timeInit, s);
+                        break;
+                    }
+                }
             }
-            (PlaylistCollection.ElementAt(curPlaylist)).timeInit++;
+   
             labelTotal.Content = Total();
         }
 
+        private void MediaOpened(object sender, RoutedEventArgs e)
+        {
+            string time = "";
+            MediaElement elem = (MediaElement)sender;
+            if (elem.NaturalDuration.HasTimeSpan)
+            {
+                TimeSpan ts = elem.NaturalDuration.TimeSpan;
+                
+                double h = ts.Hours;
+                double m = ts.Minutes;
+                double sec = ts.Seconds;
+
+                if (h == 0 && m == 0 && sec == 0)
+                {
+                    time += "--:--";
+                }
+                if (h > 0)
+                {
+                    if (h < 10)
+                    {
+                        time += "0";
+                    }
+                    time += h + ":";
+
+                }
+                if (m < 10)
+                {
+                    time += "0";
+                }
+                time += m + ":";
+                if (sec < 10)
+                {
+                    time += "0";
+                }
+                time += sec;
+
+            }
+                Media s = null;
+                foreach (Media med in VideoCollection)
+                {
+                    if (med.media == elem)
+                    {
+                        s = med;
+                        int index = VideoCollection.IndexOf(s);
+                        VideoCollection.RemoveAt(index);
+                        s.Duration = time;
+                        VideoCollection.Insert(index, s);
+                  
+                        break;
+                    }
+                }
+                if (s == null)
+                {
+                    foreach (Media med in MusicCollection)
+                    {
+                        if (med.media == elem)
+                        {
+                            s = med;
+
+                            int index = MusicCollection.IndexOf(s);
+                            MusicCollection.RemoveAt(index);
+                            s.Duration = time;
+                            MusicCollection.Insert(index, s);
+                        
+                            break;
+
+                        }
+                    }
+
+                }
+                if (s == null)
+                {
+                    foreach (Media med in ImageCollection)
+                    {
+                        if (med.media == elem)
+                        {
+                            s = med;
+                            int index = ImageCollection.IndexOf(s);
+                            ImageCollection.RemoveAt(index);
+                            s.Duration = time;
+                            ImageCollection.Insert(index, s);
+                           
+                            break;
+
+                        }
+                    }
+
+                }
+            
+        }
         public void NextSound()
         {
             if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
@@ -293,22 +496,56 @@ namespace MediaPlayer
         {
 
             SoundInfo s = (SoundInfo)liste.SelectedItem;
-            if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+            if (s != null)
             {
-                SoundInfo p = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
-                p.Icone = "";
-                (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
-                (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p);
-                (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                {
+                    SoundInfo p = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    p.Icone = "";
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                    (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p);
+                    (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                }
+                curPlay = curPlaylist;
+                if (play)
+                    s.Icone = "/MediaPlayer;component/Images/playing.png";
+                SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                liste.SelectedItem = s;
+                RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                RaiseEvent(newEventArgs);
             }
-            curPlay = curPlaylist;
-            if (play)
-                s.Icone = "/MediaPlayer;component/Images/playing.png";
-            SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
-            SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
-            liste.SelectedItem = s;
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
-            RaiseEvent(newEventArgs);
+        }
+        private void PlaylistChanged(object sender, MouseButtonEventArgs e)
+        {
+            PlaylistInfo p = (PlaylistInfo)Selection.SelectedItem;
+            if (p != null)
+            {
+                curPlaylist = PlaylistCollection.IndexOf(p);
+                titre.Text = PlaylistCollection.ElementAt(curPlaylist).Name;
+                liste.ItemsSource = SoundCollection;
+                labelTotal.Content = Total();
+                if ((PlaylistCollection.ElementAt(curPlaylist)).SoundCollection.Count > 0)
+                {
+                    if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                    {
+                        SoundInfo s = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        s.Icone = "";
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, s);
+                        (PlaylistCollection.ElementAt(curPlaylist)).cur = 0;
+                    }
+                    curPlay = curPlaylist;
+                    SoundInfo curS = (PlaylistCollection.ElementAt(curPlaylist)).SoundCollection.ElementAt(0);
+                    if (play)
+                        curS.Icone = "/MediaPlayer;component/Images/playing.png";
+                    SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                    SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, curS);
+                    liste.SelectedItem = curS;
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                    RaiseEvent(newEventArgs);
+                }
+            }
         }
 
         public void refreshIcon(string filename)
@@ -368,7 +605,8 @@ namespace MediaPlayer
             string text = "";
             foreach (PlaylistInfo p in PlaylistCollection)
             {
-                text += p.path + "\n";
+                if (p.Name != "Current list")
+                    text += p.path + "\n";
             }
             System.IO.File.WriteAllText("Playlist.plt", text);
 
@@ -424,7 +662,259 @@ namespace MediaPlayer
 
         }
 
+        public class ListViewData
+        {
+            public ListViewData()
+            {
+                // default constructor
+            }
 
+            public ListViewData(string col1, string col2)
+            {
+                Col1 = col1;
+                Col2 = col2;
+            }
+
+            public string Col1 { get; set; }
+            public string Col2 { get; set; }
+        }
+        private void init_Library()
+        {
+            if (System.IO.File.Exists("Library.xml"))
+            {
+                if (lib.list_media != null)
+                    foreach (Media m in lib.list_media)
+                    {
+                        if (System.IO.File.Exists(m.Path))
+                        {
+                            m.media = new MediaElement();
+                            m.media.LoadedBehavior = MediaState.Manual;
+                            m.media.UnloadedBehavior = MediaState.Manual;
+                            m.media.Source = new Uri(m.Path);
+                            m.media.MediaOpened += new RoutedEventHandler(MediaOpened);
+                            m.media.Pause();
+                            add_To_Lib(m);
+                        }
+                    }
+            }
+        }
+
+        private Media set_File_Info(String filename, String type)
+        {
+            Console.WriteLine("Filename = "+ filename);
+            Media m = new Media();
+            m.Path = filename;
+            m.Type = type;
+            Console.WriteLine("Path = "+ m.Path);
+            tagFile = TagLib.File.Create(filename);
+
+            m.Title = tagFile.Tag.Title;
+            if (tagFile.Tag.Title == null)
+            {
+                m.Title = System.IO.Path.GetFileNameWithoutExtension(filename);
+            }
+            
+            m.media = new MediaElement();
+            m.media.LoadedBehavior = MediaState.Manual;
+            m.media.UnloadedBehavior = MediaState.Manual;
+            m.media.Source = new Uri(filename);
+            if (type == "music" || type == "video" || type == "image")
+                m.media.MediaOpened += new RoutedEventHandler(MediaOpened);         
+            m.media.Pause();
+            
+            //TimeSpan ts = s.media.NaturalDuration.TimeSpan;
+            //if (ts.Seconds < 10 && ts.Minutes < 10)
+            //    m.Duration = ts.Hours + ":0" + ts.Minutes + ":0" + ts.Seconds;
+            //else if (ts.Seconds < 10 && ts.Minutes >= 10)
+            //    m.Duration = ts.Hours + ":" + ts.Minutes + ":0" + ts.Seconds;
+            //else if (ts.Seconds >= 10 && ts.Minutes < 10)
+            //    m.Duration = ts.Hours + ":0" + ts.Minutes + ":" + ts.Seconds;
+            //else if (ts.Seconds >= 10 && ts.Minutes >= 10)
+            //    m.Duration = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
+            Console.WriteLine("HELLO");
+            Console.WriteLine("Title = " + m.Title);
+            Console.WriteLine("Duration = "+ m.Duration);
+            
+            return m;
+        }
+
+        private void add_To_Lib(Media m)
+        {
+            if (m.Type == "video")
+                VideoCollection.Add(m);
+            else if (m.Type == "music")
+                MusicCollection.Add(m);
+            else if (m.Type == "image")
+                ImageCollection.Add(m);
+        }
+
+        private void PlaylistDrop(object sender, DragEventArgs e)
+        {
+            String[] FileName = (String[])e.Data.GetData(System.Windows.DataFormats.FileDrop, true);
+            foreach (string file in FileName)
+            {
+                if (System.IO.Path.GetExtension(file) == ".m3u")
+                    SearchPlaylist(file);
+            }
+        }
+        private void Musique_Drop(object sender, DragEventArgs e)
+        {
+            String[] FileName = (String[])e.Data.GetData(System.Windows.DataFormats.FileDrop, true);
+            if (lib.init == false)
+                lib.init_Elements();
+            foreach (string file in FileName)
+            {
+                add_To_Lib(lib.add_Media(set_File_Info(file, "music")));
+            }
+        }
+
+        private void Video_Drop(object sender, DragEventArgs e)
+        {
+            String[] FileName = (String[])e.Data.GetData(System.Windows.DataFormats.FileDrop, true);
+            if (lib.init == false)
+                lib.init_Elements();
+            foreach (string file in FileName)
+            {
+                add_To_Lib(lib.add_Media(set_File_Info(file, "video")));
+            }
+        }
+
+        private void Image_Drop(object sender, DragEventArgs e)
+        {
+            String[] FileName = (String[])e.Data.GetData(System.Windows.DataFormats.FileDrop, true);
+            if (lib.init == false)
+                lib.init_Elements();
+            foreach (string file in FileName)
+            {
+                add_To_Lib(lib.add_Media(set_File_Info(file, "image")));
+            }
+
+        }
+
+        private void liste_DragEnter(object sender, DragEventArgs e)
+        {
+            string filename;
+            for (int i = 0; i < ((System.Windows.DataObject)e.Data).GetFileDropList().Count; i++)
+            {
+                filename = (string)((System.Windows.DataObject)e.Data).GetFileDropList()[i];
+                AddSound(filename);
+            }
+        }
+
+        private void VideoClick(object sender, MouseButtonEventArgs e)
+        {
+
+            Media p = (Media)Video.SelectedItem;
+            if (p != null)
+            {
+                AddSound(p.Path);
+                SoundInfo s = null;
+                foreach (SoundInfo tmp in SoundCollection)
+                {
+                    if (tmp.FileName == p.Path)
+                    {
+                        s = tmp;
+                        break;
+                    }
+                }
+                if (s != null)
+                {
+                    if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                    {
+                        SoundInfo p1 = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        p1.Icone = "";
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p1);
+                        (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                    }
+                    curPlay = curPlaylist;
+                    if (play)
+                        s.Icone = "/MediaPlayer;component/Images/playing.png";
+                    SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                    SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                    liste.SelectedItem = s;
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                    RaiseEvent(newEventArgs);
+                }
+            }
+        }
+        private void MusicClick(object sender, MouseButtonEventArgs e)
+        {
+            
+            Media p = (Media)Musique.SelectedItem;
+            if (p != null)
+            {
+                AddSound(p.Path);
+                SoundInfo s = null;
+                foreach (SoundInfo tmp in SoundCollection)
+                {
+                    if (tmp.FileName == p.Path)
+                    {
+                        s = tmp;
+                        break;
+                    }
+                }
+                if (s != null)
+                {
+                    if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                    {
+                        SoundInfo p1 = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        p1.Icone = "";
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p1);
+                        (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                    }
+                    curPlay = curPlaylist;
+                    if (play)
+                        s.Icone = "/MediaPlayer;component/Images/playing.png";
+                    SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                    SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                    liste.SelectedItem = s;
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                    RaiseEvent(newEventArgs);
+                }
+            }
+        }
+//            Console.WriteLine(p.Path);
+        private void ImageClick(object sender, MouseButtonEventArgs e)
+        {
+
+            Media p = (Media)Image.SelectedItem;
+            if (p != null)
+            {
+                AddSound(p.Path);
+                SoundInfo s = null;
+                foreach (SoundInfo tmp in SoundCollection)
+                {
+                    if (tmp.FileName == p.Path)
+                    {
+                        s = tmp;
+                        break;
+                    }
+                }
+                if (s != null)
+                {
+                    if ((PlaylistCollection.ElementAt(curPlay)).SoundCollection.Count > 0)
+                    {
+                        SoundInfo p1 = (PlaylistCollection.ElementAt(curPlay)).SoundCollection.ElementAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        p1.Icone = "";
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlay)).cur);
+                        (PlaylistCollection.ElementAt(curPlay)).SoundCollection.Insert((PlaylistCollection.ElementAt(curPlay)).cur, p1);
+                        (PlaylistCollection.ElementAt(curPlaylist)).cur = SoundCollection.IndexOf(s);
+                    }
+                    curPlay = curPlaylist;
+                    if (play)
+                        s.Icone = "/MediaPlayer;component/Images/playing.png";
+                    SoundCollection.RemoveAt((PlaylistCollection.ElementAt(curPlaylist)).cur);
+                    SoundCollection.Insert((PlaylistCollection.ElementAt(curPlaylist)).cur, s);
+                    liste.SelectedItem = s;
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent);
+                    RaiseEvent(newEventArgs);
+                }
+            }
+        }
+
+           
     }
 
     public class PlaylistInfo
@@ -435,9 +925,61 @@ namespace MediaPlayer
         { get { return _SoundCollection; } }
         public string Name { get; set; }
         public string path { get; set; }
+        public string Time
+        {
+            get
+            {
+                string ret = "";
+                double h = 0;
+                double m = 0;
+                double sec = 0;
+                foreach (SoundInfo s in _SoundCollection)
+                {
+                    h += s.H;
+                    m += s.M;
+                    sec += s.S;
+                }
+                while (sec >= 60)
+                {
+                    m++;
+                    sec -= 60;
+                }
+                while (m >= 60)
+                {
+                    h++;
+                    m -= 60;
+                }
+                if (h == 0 && m == 0 && sec == 0)
+                {
+                    ret += "--:--";
+                    return ret;
+                }
+                if (h > 0)
+                {
+                    if (h < 10)
+                    {
+                        ret += "0";
+                    }
+                    ret += h + ":";
+
+                }
+                if (m < 10)
+                {
+                    ret += "0";
+                }
+                ret += m + ":";
+                if (sec < 10)
+                {
+                    ret += "0";
+                }
+                ret += sec;
+
+                return ret;
+            }
+        }
         public int id;
         public int cur;
-        public int timeInit;
+      
 
     }
     public class SoundInfo
